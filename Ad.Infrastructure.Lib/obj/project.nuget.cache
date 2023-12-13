@@ -1,8 +1,19 @@
 {
   "version": 2,
-  "dgSpecHash": "BLRKt8g17KV0ERNLG3KOaxcG3veNFnuStSRlQPCac5Hszx+YMz3LX1jlZBXLimd8OU6Xjd3F7O74CmQft+FNFw==",
+  "dgSpecHash": "6yGEE538NS136dalj+BrO5rPskh3SDplA6QXUMnv/PZj97WLr5GnjxshsTWNV5Fbi5DQm+cBjAAv1BQ4kMaG5Q==",
   "success": true,
-  "projectFilePath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tyurmina\\.nuget\\packages\\communitytoolkit.highperformance\\8.2.2\\communitytoolkit.highperformance.8.2.2.nupkg.sha512",
+    "C:\\Users\\tyurmina\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
+    "C:\\Users\\tyurmina\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\tyurmina\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",
+    "C:\\Users\\tyurmina\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\tyurmina\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
+    "C:\\Users\\tyurmina\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "C:\\Users\\tyurmina\\.nuget\\packages\\minio\\6.0.1\\minio.6.0.1.nupkg.sha512",
+    "C:\\Users\\tyurmina\\.nuget\\packages\\system.io.hashing\\7.0.0\\system.io.hashing.7.0.0.nupkg.sha512",
+    "C:\\Users\\tyurmina\\.nuget\\packages\\system.reactive\\6.0.0\\system.reactive.6.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

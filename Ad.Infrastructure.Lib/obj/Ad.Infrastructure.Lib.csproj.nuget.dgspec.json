@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj": {}
+    "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj": {}
   },
   "projects": {
-    "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj": {
+    "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj",
+        "projectUniqueName": "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj",
         "projectName": "Ad.Application.Lib",
-        "projectPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj",
-        "packagesPath": "C:\\Users\\mrale\\.nuget\\packages\\",
-        "outputPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Application.Lib\\obj\\",
+        "projectPath": "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj",
+        "packagesPath": "C:\\Users\\tyurmina\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Application.Lib\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mrale\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\tyurmina\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -26,8 +26,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj": {
-                "projectPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj"
+              "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj": {
+                "projectPath": "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj"
               }
             }
           }
@@ -41,6 +41,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Minio": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -61,17 +67,17 @@
         }
       }
     },
-    "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj": {
+    "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj",
+        "projectUniqueName": "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj",
         "projectName": "Ad.Domain.Core",
-        "projectPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj",
-        "packagesPath": "C:\\Users\\mrale\\.nuget\\packages\\",
-        "outputPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\obj\\",
+        "projectPath": "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj",
+        "packagesPath": "C:\\Users\\tyurmina\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Domain.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mrale\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\tyurmina\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -94,6 +100,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Minio": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -114,17 +126,17 @@
         }
       }
     },
-    "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj": {
+    "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj",
+        "projectUniqueName": "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj",
         "projectName": "Ad.Infrastructure.Lib",
-        "projectPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj",
-        "packagesPath": "C:\\Users\\mrale\\.nuget\\packages\\",
-        "outputPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\obj\\",
+        "projectPath": "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj",
+        "packagesPath": "C:\\Users\\tyurmina\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mrale\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\tyurmina\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -136,8 +148,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj": {
-                "projectPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj"
+              "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj": {
+                "projectPath": "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj"
               }
             }
           }
@@ -151,6 +163,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Minio": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

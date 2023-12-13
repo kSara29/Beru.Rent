@@ -15,4 +15,8 @@
       <ProjectReference Include="..\Ad.Domain.Core\Ad.Domain.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Minio" Version="6.0.1" />
+    </ItemGroup>
+
 </Project>
