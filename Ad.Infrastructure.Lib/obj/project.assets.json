@@ -45,32 +45,34 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\mrale\\.nuget\\packages\\": {}
+    "C:\\Users\\kuand\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj",
+      "projectUniqueName": "C:\\Users\\kuand\\OneDrive\\Рабочий стол\\study\\attractor_school\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj",
       "projectName": "Ad.Infrastructure.Lib",
-      "projectPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj",
-      "packagesPath": "C:\\Users\\mrale\\.nuget\\packages\\",
-      "outputPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\obj\\",
+      "projectPath": "C:\\Users\\kuand\\OneDrive\\Рабочий стол\\study\\attractor_school\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj",
+      "packagesPath": "C:\\Users\\kuand\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\kuand\\OneDrive\\Рабочий стол\\study\\attractor_school\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\mrale\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\kuand\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj": {
-              "projectPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj"
+            "C:\\Users\\kuand\\OneDrive\\Рабочий стол\\study\\attractor_school\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj": {
+              "projectPath": "C:\\Users\\kuand\\OneDrive\\Рабочий стол\\study\\attractor_school\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj"
             }
           }
         }

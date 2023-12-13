@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj": {}
+    "C:\\Users\\kuand\\OneDrive\\Рабочий стол\\study\\attractor_school\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj": {}
   },
   "projects": {
-    "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj": {
+    "C:\\Users\\kuand\\OneDrive\\Рабочий стол\\study\\attractor_school\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj",
+        "projectUniqueName": "C:\\Users\\kuand\\OneDrive\\Рабочий стол\\study\\attractor_school\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj",
         "projectName": "Ad.Domain.Core",
-        "projectPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj",
-        "packagesPath": "C:\\Users\\mrale\\.nuget\\packages\\",
-        "outputPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\obj\\",
+        "projectPath": "C:\\Users\\kuand\\OneDrive\\Рабочий стол\\study\\attractor_school\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj",
+        "packagesPath": "C:\\Users\\kuand\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kuand\\OneDrive\\Рабочий стол\\study\\attractor_school\\acsharp-12-team-1-backend\\Ad.Domain.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mrale\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\kuand\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
