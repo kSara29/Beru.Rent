@@ -1,0 +1,89 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0": {
+      "Ad.Domain.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Ad.Domain.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Ad.Domain.Core.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Ad.Domain.Core/1.0.0": {
+      "type": "project",
+      "path": "../Ad.Domain.Core/Ad.Domain.Core.csproj",
+      "msbuildProject": "../Ad.Domain.Core/Ad.Domain.Core.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "Ad.Domain.Core >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\mrale\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj",
+      "projectName": "Ad.Application.Lib",
+      "projectPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Application.Lib\\Ad.Application.Lib.csproj",
+      "packagesPath": "C:\\Users\\mrale\\.nuget\\packages\\",
+      "outputPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Application.Lib\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\mrale\\AppData\\Roaming\\NuGet\\NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "projectReferences": {
+            "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj": {
+              "projectPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net8.0": {
+        "targetAlias": "net8.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
