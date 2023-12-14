@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "6yGEE538NS136dalj+BrO5rPskh3SDplA6QXUMnv/PZj97WLr5GnjxshsTWNV5Fbi5DQm+cBjAAv1BQ4kMaG5Q==",
+  "dgSpecHash": "oR3+YmjGtrcqbyLqLmaJ7U9Zb51fBKObrjHmA4EZZ2CTxajAnFM9sgInboBeE47nqQUuvQa5VeHtLC6hoG8w3Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\tyurmina\\Desktop\\С# курс Аттрактор\\ESDP_1\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tyurmina\\.nuget\\packages\\communitytoolkit.highperformance\\8.2.2\\communitytoolkit.highperformance.8.2.2.nupkg.sha512",
     "C:\\Users\\tyurmina\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
-    "C:\\Users\\tyurmina\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\tyurmina\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\tyurmina\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",
     "C:\\Users\\tyurmina\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\tyurmina\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",

@@ -4,6 +4,7 @@ namespace Ad.Infrastructure.Lib.Database;
 
 public class PictureRepository : IPictureRepository
 {
+    
     public bool SavePictureAnync()
     {
         throw new NotImplementedException();
