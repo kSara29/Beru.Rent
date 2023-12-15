@@ -6,6 +6,7 @@ using Ad.Infrastructure.Lib;
 using Ad.Infrastructure.Lib.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Ad.Application.Lib.Contracts.Tag;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+
 builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureService();
 builder.Services.AddDbContext<AdContext>(options =>
@@ -34,3 +38,8 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+
+record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+{
+    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+}
