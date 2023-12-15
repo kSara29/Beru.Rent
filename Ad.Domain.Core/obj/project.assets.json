@@ -8,24 +8,32 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\mrale\\.nuget\\packages\\": {}
+    "C:\\Users\\Мансур\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj",
+      "projectUniqueName": "C:\\Users\\Мансур\\Documents\\Attractor\\ESDP\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj",
       "projectName": "Ad.Domain.Core",
-      "projectPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj",
-      "packagesPath": "C:\\Users\\mrale\\.nuget\\packages\\",
-      "outputPath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\obj\\",
+      "projectPath": "C:\\Users\\Мансур\\Documents\\Attractor\\ESDP\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj",
+      "packagesPath": "C:\\Users\\Мансур\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Мансур\\Documents\\Attractor\\ESDP\\acsharp-12-team-1-backend\\Ad.Domain.Core\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\mrale\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Мансур\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

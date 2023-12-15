@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "EXi8/bF+/In72/wNBcjHF69IMSQ4HeOxjikqGh0BwRGwFbKDbMZGm66+UrQpJFiyuwjCful9JS+ta+nQIGfSpA==",
+  "dgSpecHash": "5r6aO2VmuZPAe+dhnTGNJQLfomGC0n+luLFoZ1mbSnpH4nPR9Z+3wEF4sWTLC1B3rJ2EAHltYk6TDWb5q5etLA==",
   "success": true,
-  "projectFilePath": "E:\\C#\\ESDP_Project_Back\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj",
+  "projectFilePath": "C:\\Users\\Мансур\\Documents\\Attractor\\ESDP\\acsharp-12-team-1-backend\\Ad.Domain.Core\\Ad.Domain.Core.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
