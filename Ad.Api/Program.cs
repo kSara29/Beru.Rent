@@ -19,7 +19,7 @@ builder.Services.AddDbContext<AdContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"));
 });
-
+builder.Services.AddControllers();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,9 +31,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/tarif",  async ([FromBody] CreateTarifDto createTarifDto, ITarifService tarifService) =>
-{
-    await tarifService.CreateTarifAsync(createTarifDto.ToDomain());
-    return Results.Ok();
-});
+app.MapControllers();
+
 app.Run();

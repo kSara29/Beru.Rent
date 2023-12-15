@@ -17,4 +17,10 @@ public class TarifService : ITarifService
     {
         var result = await _tarifRepository.CreateTarifAsync(tariff);
     }
+
+    public async Task<bool> DeleteTarifAsync(Guid id)
+    {
+        var result = await _tarifRepository.DeleteTarifAsync(id);
+        return result;
+    }
 }
