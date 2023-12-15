@@ -39,7 +39,7 @@ app.UseHttpsRedirection();
 
 
 
-app.MapPost("/ad/picture", ([FromBody] PictureDto dto, IPictureService service) =>
+app.MapPost("/addpicture", ([FromBody] PictureDto dto, IPictureService service) =>
 {
     service.SavePictureAnync(dto.PictureToModel());
     
