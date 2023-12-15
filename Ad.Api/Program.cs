@@ -15,6 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -48,11 +49,12 @@ app.MapGet("/weatherforecast", () =>
     .WithOpenApi();
 
 
+/*
 app.MapPost("/crm/tag/add", async ([FromBody] TagDto tag, ITagService tagService) =>
 {
     var result = await tagService.CreateTagAsync(tag.ToDomain());
     return result ? Results.Ok() : Results.BadRequest();
-});
+});*/
 
 app.Run();
 
