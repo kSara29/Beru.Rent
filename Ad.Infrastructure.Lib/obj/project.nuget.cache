@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "vc6dhX30bkc2WCkm4I08KGeEJFMsAhHLNwga2mkquFFhYh3P+ArvF1nt4pq3WM9uB0a4U+ZUofYJRDgss9mEQg==",
+  "dgSpecHash": "QD96/uw7Eg18LTkSXRU0Sy+fl2q1d0NonsP01pyw3UWM0DP3uAV0xx5mnuAwskoBS/BcBolJXu9/LAkW/TRz3g==",
   "success": true,
   "projectFilePath": "C:\\Users\\kuand\\OneDrive\\Рабочий стол\\study\\attractor_school\\acsharp-12-team-1-backend\\Ad.Infrastructure.Lib\\Ad.Infrastructure.Lib.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\kuand\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
