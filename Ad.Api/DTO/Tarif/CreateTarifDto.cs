@@ -1,8 +1,6 @@
-﻿using Ad.Domain.Core.Models.Common;
+﻿namespace Ad.Api.DTO.Tarif;
 
-namespace Ad.Domain.Core.Models;
-
-public class Tariff : Entity
+public class CreateTarifDto
 {
     public string Name { get; set; }
     public decimal Price { get; set; }
