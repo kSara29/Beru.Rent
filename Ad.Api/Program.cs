@@ -3,6 +3,7 @@ using Ad.Application.Lib.DTO;
 using Ad.Application.Lib.Services;
 using Ad.Infrastructure.Lib;
 using Ad.Infrastructure.Lib.Database;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Minio;
 
@@ -38,6 +39,10 @@ app.UseHttpsRedirection();
 
 
 
-app.MapPost("/ad/picture", ([FromBody] PictureDto dto, IPictureRepository service) => { });
+app.MapPost("/ad/picture", ([FromBody] PictureDto dto, IPictureService service) =>
+{
+    service.SavePictureAnync(dto.PictureToModel());
+    
+});
 app.Run();
 
