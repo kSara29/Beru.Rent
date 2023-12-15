@@ -1,8 +1,11 @@
-﻿namespace Ad.Application.Lib.Services;
+﻿using Ad.Domain.Core.Models;
+using Minio.DataModel.Result;
+
+namespace Ad.Application.Lib.Services;
 
 public interface IPictureRepository
 {
-    public bool SavePictureAnync();
-    public bool DeletePictureAnync(Guid id);
-    public string GetPictureAsync(Guid id);
+    public  Task<HttpResponseMessage> SavePictureAnync(PictureInGallery pictureInGallery);
+    public Task<ResponseResult> DeletePictureAnync(Guid id);
+    public PictureInGallery GetPictureAsync(Guid id);
 }

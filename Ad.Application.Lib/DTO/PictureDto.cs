@@ -1,4 +1,6 @@
-﻿namespace Ad.Api.DTO;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Ad.Application.Lib.DTO;
 
 public class PictureDto
 {
