@@ -14,7 +14,6 @@ public static class PictureMapper
             AdId = dto.AdId,
             PictureBytes = dto.PictureFile.FileToBytes()
         };
-        
     }
 
     public static byte[] FileToBytes(this IFormFile file)

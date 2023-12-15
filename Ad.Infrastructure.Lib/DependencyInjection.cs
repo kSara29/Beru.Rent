@@ -8,7 +8,8 @@ public static class DependencyInjection
 { 
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
-                services.AddSingleton<IPictureRepository, PictureRepository>();
+                services.AddScoped<IPictureRepository, PictureRepository>();
+                services.AddScoped<PictureDbContext>();
                 return services;
         }
     

@@ -1,6 +1,7 @@
 ﻿using Ad.Application.Lib.Services;
 using Ad.Domain.Core.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Minio;
 using Minio.DataModel.Args;
 using Minio.DataModel.Result;
@@ -16,7 +17,6 @@ public class PictureRepository : IPictureRepository
     {
         _context = context;
     }
-    
     public async Task<HttpResponseMessage> SavePictureAnync(PictureInGallery pictureInGallery)
     {
         await _context.Pictures.AddAsync(pictureInGallery);
