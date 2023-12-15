@@ -1,8 +1,6 @@
-﻿using Ad.Domain.Core.Models.Common;
+﻿namespace Ad.Api.DTO;
 
-namespace Ad.Domain.Core.Models;
-
-public class PictureInGallery: Entity
+public class PictureDto
 {
     public string UserId { get; set; }
     public byte[] PictureBytes { get; set; }

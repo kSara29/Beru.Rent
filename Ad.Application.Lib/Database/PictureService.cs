@@ -1,4 +1,7 @@
-﻿namespace Ad.Application.Lib.Services;
+﻿using Ad.Domain.Core.Models;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Ad.Application.Lib.Services;
 
 public class PictureService
 {
@@ -8,8 +11,8 @@ public class PictureService
    {
       _repository = repository;
    }
-
-   public async Task SavePic()
+   
+   public async Task SavePic([FromBody] PictureInGallery dto)
    {
       _repository.SavePictureAnync();
    }
