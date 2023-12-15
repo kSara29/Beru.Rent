@@ -25,7 +25,7 @@ public class PictureController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<ActionResult> SavePicture([FromBody] PictureDto dto)
+    public async Task<ActionResult> SavePicture([FromBody] PictureDto dto, IFormFile file)
     {
         var model = dto.PictureToModel();
          _pictureService.SavePictureAnync(model);

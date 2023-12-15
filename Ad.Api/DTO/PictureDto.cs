@@ -8,7 +8,7 @@ public class PictureDto
     public string UserId { get; set; }
     [property: JsonPropertyName("pictureFile")]
 
-    public IFormFile PictureFile { get; set; }
+    public IFormFile? PictureFile { get; set; }
     [property: JsonPropertyName("adId")]
     public Guid AdId { get; set; }
 }
