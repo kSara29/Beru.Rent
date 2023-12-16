@@ -8,13 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Ad.Application.Lib.Contracts.Tag;
 
-using Ad.Application.Lib;
+
 using Ad.Application.Lib.DTO;
 using Ad.Application.Lib.Services;
-using Ad.Infrastructure.Lib;
 using Ad.Infrastructure.Lib.Database;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Minio;
 
 var endpoint = "play.min.io";
@@ -36,7 +34,6 @@ builder.Services.AddMinio(accessKey, secretKey);
 
 
 builder.Services.AddApplicationService();
-builder.Services.AddInfrastructureService();
 builder.Services.AddDbContext<AdContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"));

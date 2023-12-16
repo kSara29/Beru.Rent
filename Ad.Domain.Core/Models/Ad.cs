@@ -20,4 +20,29 @@ public class Ad : Entity
     public ContractType ContractType { get; set; }
     public string AddressExtraId { get; set; }
     public AddressExtra AddressExtra { get; set; }
+
+    public Ad(string userId, 
+              string title, 
+              string description, 
+              string? extraConditions, 
+              bool deposit, 
+              decimal? minDeposit, 
+              decimal price, 
+              string categoryId, 
+              string timeUnitId, 
+              string contractTypeId,  
+              string addressExtraId)
+    {
+        UserId = userId;
+        Title = title;
+        Description = description;
+        ExtraConditions = extraConditions;
+        Deposit = deposit;
+        MinDeposit = minDeposit;
+        Price = price;
+        CategoryId = categoryId;
+        TimeUnitId = timeUnitId;
+        ContractTypeId = contractTypeId;
+        AddressExtraId = addressExtraId;
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Ad.Api.DTO;
 
+[Serializable]
 public record CreateAdDto(
     [property: JsonPropertyName("userId")]string UserId,
     [property: JsonPropertyName("title")]string Title,
