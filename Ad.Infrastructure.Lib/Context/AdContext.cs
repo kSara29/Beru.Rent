@@ -6,6 +6,7 @@ namespace Ad.Infrastructure.Lib.Context;
 public class AdContext : DbContext
 {
     public DbSet<Tariff> Tariffs { get; set; }
+    public DbSet<Domain.Core.Models.Ad> Ads { get; set; }
     
     public AdContext(DbContextOptions options) : base(options)
     {

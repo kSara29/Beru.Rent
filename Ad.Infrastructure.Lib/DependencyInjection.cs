@@ -1,3 +1,4 @@
+using Ad.Application.Lib.Contracts.Ad;
 using Ad.Application.Lib.Contracts.Tarif;
 using Ad.Infrastructure.Lib.EfCoreDatabase;
 using Ad.Application.Lib.Contracts.Tag;
@@ -12,6 +13,7 @@ public static class DependencyInjection
     {
         services.AddScoped<ITarifRepository, EfCoreRepository>();
         services.AddSingleton<ITagRepository, TagRepository>();
+        services.AddSingleton<IAdRepository, IAdRepository>();
         return services;
     }
 }

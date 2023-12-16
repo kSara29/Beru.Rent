@@ -1,3 +1,4 @@
+using Ad.Application.Lib.Contracts.Ad;
 using Ad.Application.Lib.Contracts.Tarif;
 using Ad.Application.Lib.Contracts.Tag;
 using Ad.Application.Lib.Services;
@@ -11,6 +12,7 @@ public static class DependencyInjection
     {
         services.AddScoped<ITarifService, TarifService>();
         services.AddSingleton<ITagService, TagService>();
+        services.AddSingleton<IAdService, AdService>();
         return services;
     }
 }

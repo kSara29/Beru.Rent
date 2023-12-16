@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Ad.Domain.Core
-build_property.ProjectDir = C:\Users\Mi\Desktop\ESDP\acsharp-12-team-1-backend\Ad.Domain.Core\
+build_property.ProjectDir = D:\Attractor\C#\ESDP\Project\acsharp-12-team-1-backend\Ad.Domain.Core\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
