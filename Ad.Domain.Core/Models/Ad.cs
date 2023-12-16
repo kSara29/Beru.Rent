@@ -1,4 +1,5 @@
-﻿using Ad.Domain.Core.Models.Common;
+﻿using Ad.Domain.Core.Enums;
+using Ad.Domain.Core.Models.Common;
 
 namespace Ad.Domain.Core.Models;
 
@@ -10,6 +11,7 @@ public class Ad : Entity
     public string? ExtraConditions { get; set; }
     public bool Deposit { get; set; }
     public decimal? MinDeposit { get; set; }
+    public AdState State { get; set; }
     public decimal Price { get; set; }
     public DateTime UpdatedAt { get; set; }
     public string CategoryId { get; set; }
