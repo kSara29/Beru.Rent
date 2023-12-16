@@ -11,6 +11,7 @@ public static class DependencyInjection
     {
         services.AddScoped<ITarifService, TarifService>();
         services.AddSingleton<ITagService, TagService>();
+        services.AddScoped<IPictureService, PictureService>();
         return services;
     }
 }
