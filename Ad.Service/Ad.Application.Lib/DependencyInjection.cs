@@ -1,3 +1,4 @@
+using Ad.Application.Lib.Contracts.Ad;
 using Ad.Application.Lib.Contracts.Tarif;
 using Ad.Application.Lib.Contracts.Tag;
 using Ad.Application.Lib.Services;

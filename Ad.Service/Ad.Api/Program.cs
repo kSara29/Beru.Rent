@@ -1,18 +1,11 @@
-using Ad.Api.DTO.Tarif;
-using Ad.Api.Mapper;
 using Ad.Application.Lib;
-using Ad.Application.Lib.Contracts.Tarif;
 using Ad.Infrastructure.Lib;
 using Ad.Infrastructure.Lib.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Ad.Application.Lib.Contracts.Tag;
-
-
 using Ad.Application.Lib.DTO;
 using Ad.Application.Lib.Services;
 using Ad.Infrastructure.Lib.Database;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Minio;
 
 var endpoint = "play.min.io";
@@ -26,12 +19,8 @@ builder.Services.AddDbContext<PictureDbContext>();
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddInfrastructureServices()
-    .AddApplicationServices();
-// Add Minio using the default endpoint
+builder.Services.AddInfrastructureServices();
 builder.Services.AddMinio(accessKey, secretKey);
-
-
 
 builder.Services.AddApplicationService();
 builder.Services.AddDbContext<AdContext>(options =>
@@ -53,9 +42,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapControllers();
-
-
-
 
 app.MapPost("/addpicture", ([FromBody] PictureDto dto, IPictureService service) =>
 {
