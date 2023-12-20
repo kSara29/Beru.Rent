@@ -4,5 +4,5 @@ namespace User.Application.Contracts;
 
 public interface IUserService
 {
-    Task<Domain.Models.User> CreateUserAsync(Domain.Models.User model);
+    Task<Domain.Models.User> CreateUserAsync(CreateUserDto model, string password);
 }

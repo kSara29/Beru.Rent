@@ -1,6 +1,10 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using User.Application;
+using User.Application.Contracts;
+using User.Application.DTO;
 using User.Infrastructure;
 using User.Infrastructure.Context;
 
@@ -18,7 +22,10 @@ builder.Services.AddInfrastructureService();
 builder.Services.AddDbContext<UserContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"));
-});
+}).AddIdentity<User.Domain.Models.User, IdentityRole>(opt =>
+    {
+        opt.Password.RequiredLength = 6;
+    }).AddEntityFrameworkStores<UserContext>();;
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,9 +37,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/weatherforecast", () =>
+app.MapPost("/createUser", async ([FromBody] CreateUserDto model, IUserService service) =>
 {
-
+    var result = await service.CreateUserAsync(model, model.Password);
+    return new ActionResult<User.Domain.Models.User>(result);
 });
 
 app.Run();
