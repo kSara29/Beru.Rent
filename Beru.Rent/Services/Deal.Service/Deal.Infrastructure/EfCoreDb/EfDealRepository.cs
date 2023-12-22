@@ -1,4 +1,5 @@
 ﻿using Deal.Application.Contracts.Deal;
+using Deal.Domain.Enums;
 using Deal.Infrastructure.Persistance;
 
 namespace Deal.Infrastructure.EfCoreDb;
@@ -16,6 +17,7 @@ public class EfDealRepository: IDealRepository
     {
         try
         {
+            deal.DealState = DealState.Open.ToString();
             await _db.Deals.AddAsync(deal);
             await _db.SaveChangesAsync();
             return true; 
