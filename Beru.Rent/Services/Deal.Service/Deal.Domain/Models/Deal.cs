@@ -1,5 +1,4 @@
 ﻿using Deal.Domain.Common;
-using Deal.Domain.Enums;
 
 namespace Deal.Domain.Models;
 
@@ -9,4 +8,23 @@ public class Deal: DealEntity
      public string DealState { get; set; }
      public decimal Deposit { get; set; }
      public string ChatId { get; set; }
+
+     public Deal(
+          string adId,
+          string tenantId,
+          decimal cost,
+          string ownerId,
+          string dealState,
+          decimal deposit
+     )
+     {
+         AdId = adId;
+         TenantId = tenantId;
+         Cost = cost;
+         OwnerId = ownerId;
+         DealState = dealState;
+         Deposit = deposit;
+     }
+     
+     private Deal(){}
 }

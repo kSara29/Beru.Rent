@@ -1,5 +1,4 @@
 ﻿using Deal.Domain.Common;
-using Deal.Domain.Enums;
 
 namespace Deal.Domain.Models;
 
