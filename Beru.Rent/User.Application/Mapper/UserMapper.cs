@@ -18,6 +18,22 @@ public static class UserMapper
                 UserName = model.UserName
             };
     }
+    
+    public static UserDto? ToUserDto(this Domain.Models.User? model)
+    {
+        return model is null
+            ? null
+            : new UserDto
+            {
+                UserId = model.Id,
+                FirstName = model.FirstName,
+                Mail = model.Email,
+                IIN = model.IIN,
+                LastName = model.LastName,
+                Phone = model.PhoneNumber,
+                UserName = model.UserName
+            };
+    }
 
     public static Domain.Models.User UpdateUser(this Domain.Models.User user, UpdateUserDto model)
     {

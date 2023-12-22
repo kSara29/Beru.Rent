@@ -47,7 +47,7 @@ app.MapPost("/createUser",
         return new ActionResult<User.Domain.Models.User>(results); 
     });
 
-app.MapPost("/editUser", 
+app.MapPut("/editUser", 
     async ([Microsoft.AspNetCore.Mvc.FromBody] UpdateUserDto? model, IUserService service) =>
 {
     if (model is null) return new BadRequestResult();
@@ -58,5 +58,24 @@ app.MapPost("/editUser",
     return new ActionResult<User.Domain.Models.User>(result);
 });
 
+app.MapDelete("/deleteUser",
+    async ([Microsoft.AspNetCore.Mvc.FromBody] string userId, IUserService service) =>
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+            return new BadRequestResult();
+
+        var result = await service.DeleteUserAsync(userId);
+        return new ActionResult<UserDto>(result);
+    });
+
+app.MapPost("/getUserById",
+    async ([Microsoft.AspNetCore.Mvc.FromBody] string userId, IUserService service) =>
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+            return new BadRequestResult();
+
+        var result = await service.GetUserByIdAsync(userId);
+        return new ActionResult<UserDto>(result);
+    });
 app.Run();
 

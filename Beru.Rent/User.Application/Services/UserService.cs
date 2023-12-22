@@ -28,4 +28,16 @@ public class UserService : IUserService
 
         return user;
     }
+
+    public async Task<UserDto> GetUserByIdAsync(string userId)
+    {
+        var user = await _userRepository.GetUserByIdAsync(userId);
+        return user.ToUserDto();
+    }
+
+    public async Task<UserDto> DeleteUserAsync(string userId)
+    {
+        var result = await _userRepository.DeleteUserAsync(userId);
+        return result.ToUserDto();
+    }
 }

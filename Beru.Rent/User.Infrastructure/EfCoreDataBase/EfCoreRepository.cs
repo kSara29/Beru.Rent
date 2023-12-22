@@ -31,4 +31,11 @@ public class EfCoreRepository : IUserRepository
         await _userManager.UpdateAsync(user);
         return user;
     }
+
+    public async Task<Domain.Models.User> DeleteUserAsync(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        await _userManager.DeleteAsync(user);
+        return user;
+    }
 }
