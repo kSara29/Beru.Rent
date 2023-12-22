@@ -30,4 +30,6 @@
       <ProjectReference Include="..\Deal.Infrastructure\Deal.Infrastructure.csproj" />
     </ItemGroup>
 
+
+
 </Project>

@@ -3,11 +3,11 @@ using Deal.Infrastructure.Persistance;
 
 namespace Deal.Infrastructure.EfCoreDb;
 
-public class EfCoreRepository: IDealRepository
+public class EfDealRepository: IDealRepository
 {
     private readonly DealContext _db;
     
-    public EfCoreRepository(DealContext db)
+    public EfDealRepository(DealContext db)
     {
         _db = db;
     }
