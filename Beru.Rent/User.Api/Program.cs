@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using User.Application;
 using User.Application.Contracts;
 using User.Application.DTO;
+using User.Application.Extencions;
 using User.Infrastructure;
 using User.Infrastructure.Context;
 
@@ -27,6 +28,20 @@ builder.Services.AddDbContext<UserContext>(options =>
         opt.Password.RequiredLength = 6;
     }).AddEntityFrameworkStores<UserContext>();;
 var app = builder.Build();
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+try
+{
+    var userManager = services.GetRequiredService<UserManager<User.Domain.Models.User>>();
+    var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    await Adminitializer.SeedAdminUserAsync(rolesManager, userManager);
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occurred while seeding the database.");
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
