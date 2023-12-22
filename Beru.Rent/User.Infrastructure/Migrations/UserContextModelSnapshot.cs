@@ -154,7 +154,7 @@ namespace User.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("User.Domain.Models.Image", b =>
+            modelBuilder.Entity("UserValidation.Domain.Models.Image", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -175,7 +175,7 @@ namespace User.Infrastructure.Migrations
                     b.ToTable("Images");
                 });
 
-            modelBuilder.Entity("User.Domain.Models.User", b =>
+            modelBuilder.Entity("UserValidation.Domain.Models.UserValidation", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -262,7 +262,7 @@ namespace User.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("User.Domain.Models.User", null)
+                    b.HasOne("UserValidation.Domain.Models.UserValidation", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -271,7 +271,7 @@ namespace User.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("User.Domain.Models.User", null)
+                    b.HasOne("UserValidation.Domain.Models.UserValidation", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -286,7 +286,7 @@ namespace User.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("User.Domain.Models.User", null)
+                    b.HasOne("UserValidation.Domain.Models.UserValidation", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -295,25 +295,25 @@ namespace User.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("User.Domain.Models.User", null)
+                    b.HasOne("UserValidation.Domain.Models.UserValidation", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("User.Domain.Models.Image", b =>
+            modelBuilder.Entity("UserValidation.Domain.Models.Image", b =>
                 {
-                    b.HasOne("User.Domain.Models.User", "User")
+                    b.HasOne("UserValidation.Domain.Models.UserValidation", "UserValidation")
                         .WithOne("UserAvatar")
-                        .HasForeignKey("User.Domain.Models.Image", "UserId")
+                        .HasForeignKey("UserValidation.Domain.Models.Image", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("UserValidation");
                 });
 
-            modelBuilder.Entity("User.Domain.Models.User", b =>
+            modelBuilder.Entity("UserValidation.Domain.Models.UserValidation", b =>
                 {
                     b.Navigation("UserAvatar")
                         .IsRequired();

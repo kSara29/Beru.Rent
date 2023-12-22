@@ -1,10 +1,11 @@
+using FastEndpoints;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using User.Application;
 using User.Application.Contracts;
 using User.Application.DTO;
+using User.Application.Extencions.Validation;
 using User.Infrastructure;
 using User.Infrastructure.Context;
 
@@ -37,9 +38,23 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/createUser", async ([FromBody] CreateUserDto model, IUserService service) =>
+app.MapPost("/createUser", 
+    async ([Microsoft.AspNetCore.Mvc.FromBody] CreateUserDto model, IUserService service) =>
+    {
+        var result = model.CreateUserValidate();
+        if (result.Count > 0) return new JsonResult(result);
+        var results = await service.CreateUserAsync(model, model.Password);
+        return new ActionResult<User.Domain.Models.User>(results); 
+    });
+
+app.MapPost("/editUser", 
+    async ([Microsoft.AspNetCore.Mvc.FromBody] UpdateUserDto? model, IUserService service) =>
 {
-    var result = await service.CreateUserAsync(model, model.Password);
+    if (model is null) return new BadRequestResult();
+    var validateResult = model.UpdateUserValidate();
+    if (validateResult.Count > 0) return new JsonResult(validateResult);
+    
+    var result = await service.UpdateUserAsync(model);
     return new ActionResult<User.Domain.Models.User>(result);
 });
 

@@ -1,5 +1,3 @@
-using User.Domain.Models;
-
 namespace User.Application.DTO;
 
 public class CreateUserDto
