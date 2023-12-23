@@ -10,6 +10,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
+        <PackageReference Include="Minio" Version="6.0.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
@@ -17,6 +18,12 @@
       <Content Include="..\..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Deal.Application\Deal.Application.csproj" />
+      <ProjectReference Include="..\Deal.Domain\Deal.Domain.csproj" />
+      <ProjectReference Include="..\Deal.Infrastructure\Deal.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
