@@ -29,6 +29,8 @@ builder.Services.AddDbContext<UserContext>(options =>
     }).AddEntityFrameworkStores<UserContext>();;
 var app = builder.Build();
 
+app.UseFastEndpoints();
+
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 try
