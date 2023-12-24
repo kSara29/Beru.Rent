@@ -17,8 +17,12 @@ public static class UserValidation
         return errors;
     }
     
-    public static List<string>? UpdateUserValidate(this UpdateUserDto model)
+    public static List<string>? UpdateUserValidate(this UpdateUserDto? model)
     {
+        if (model is null)
+        {
+            return null;
+        }
         var errors = new List<string>();
         if (string.IsNullOrWhiteSpace(model.UserId)) errors.Add(nameof(model.UserId));
         if (string.IsNullOrWhiteSpace(model.FirstName)) errors.Add(nameof(model.FirstName));
