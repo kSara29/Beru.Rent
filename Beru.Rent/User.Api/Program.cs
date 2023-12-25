@@ -8,6 +8,7 @@ using User.Application.DTO;
 using User.Application.Extencions;
 using User.Infrastructure;
 using User.Infrastructure.Context;
+using FastEndpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureService();
+builder.Services.AddFastEndpoints();
 
 builder.Services.AddDbContext<UserContext>(options =>
 {
@@ -26,7 +28,7 @@ builder.Services.AddDbContext<UserContext>(options =>
 }).AddIdentity<User.Domain.Models.User, IdentityRole>(opt =>
     {
         opt.Password.RequiredLength = 6;
-    }).AddEntityFrameworkStores<UserContext>();;
+    }).AddEntityFrameworkStores<UserContext>();
 var app = builder.Build();
 
 app.UseFastEndpoints();
@@ -54,11 +56,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/createUser", async ([FromBody] CreateUserDto model, IUserService service) =>
-{
-    var result = await service.CreateUserAsync(model, model.Password);
-    return new ActionResult<User.Domain.Models.User>(result);
-});
 
 app.Run();
 
