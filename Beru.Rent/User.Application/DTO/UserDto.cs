@@ -6,7 +6,7 @@ public class UserDto
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? UserName { get; set; }
-    public string? IIN { get; set; }
+    public string? Iin { get; set; }
     public string? Mail { get; set; }
     public string? Phone { get; set; }
 }
