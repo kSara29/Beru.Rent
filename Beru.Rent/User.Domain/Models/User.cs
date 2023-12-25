@@ -1,15 +1,11 @@
-using User.Domain.Models.Common;
+using Microsoft.AspNetCore.Identity;
 
 namespace User.Domain.Models;
 
-public class User: Entity
+public class User : IdentityUser
 {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string IIN { get; set; }
-    public string Mail { get; set; }
-    public bool IsMailConfirm { get; set; }
-    public string Phone { get; set; }
-    public bool IsPhoneConfirm { get; set; }
-    public Image UserAvatar { get; set; }
+    public required string FirstName { get; set; }
+    public required string LastName { get; set; }
+    public required string Iin { get; set; }
+    public Image? UserAvatar { get; set; }
 }
