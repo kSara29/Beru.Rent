@@ -1,7 +1,7 @@
+using Deal.Api.DTO;
 using Deal.Application.Contracts.Booking;
 using Microsoft.AspNetCore.Mvc;
 using Minio;
-using Minio.DataModel.Args;
 
 namespace Deal.Api.Controller;
 
@@ -9,10 +9,15 @@ namespace Deal.Api.Controller;
 [Route("api/[controller]")]
 public class BookingController : ControllerBase
 {
-    private readonly IBookingService _bookingService;
- 
+    private IBookingRepository _repository;
+    private IBookingService _service;
+    private readonly IMinioClient _minioClient;
 
-
+    public BookingController(IBookingRepository repository, IBookingService service, IMinioClient minioClient)
+    {
+        _repository = repository;
+        _service = service;
+        _minioClient = minioClient;
+    }
     
-      
 }
