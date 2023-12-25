@@ -18,6 +18,8 @@ public class Booking: DealEntity
         CreatedAt = DateTime.UtcNow;
         Dbeg = DateTime.UtcNow;
     }
-    
-    private Booking(){}
+
+    public Booking()
+    {
+    }
 }

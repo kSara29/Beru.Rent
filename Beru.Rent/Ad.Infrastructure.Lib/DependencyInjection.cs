@@ -16,7 +16,7 @@ public static class DependencyInjection
                 services.AddScoped<PictureDbContext>();
                 services.AddScoped<ITarifRepository, EfCoreRepository>();
                 services.AddSingleton<ITagRepository, TagRepository>();
-                services.AddSingleton<IAdRepository, IAdRepository>();
+                services.AddSingleton<IAdRepository, AdRepository>();
                 return services;
         }
 }

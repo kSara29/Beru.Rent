@@ -28,4 +28,9 @@ public class EfBookingRepository: IBookingRepository
             return false;
         }
     }
+
+    public Task<bool> CreateBookingAsync(Booking booking)
+    {
+        throw new NotImplementedException();
+    }
 }
