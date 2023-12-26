@@ -13,7 +13,7 @@ public static class UserValidation
         if (string.IsNullOrWhiteSpace(model.Phone)) errors.Add(nameof(model.Phone));
         if (string.IsNullOrWhiteSpace(model.LastName)) errors.Add(nameof(model.LastName));
         if (string.IsNullOrWhiteSpace(model.UserName)) errors.Add(nameof(model.UserName));
-        if (string.IsNullOrWhiteSpace(model.IIN)) errors.Add(nameof(model.IIN));
+        if (string.IsNullOrWhiteSpace(model.Iin)) errors.Add(nameof(model.Iin));
         return errors;
     }
     
@@ -30,7 +30,7 @@ public static class UserValidation
         if (string.IsNullOrWhiteSpace(model.Phone)) errors.Add(nameof(model.Phone));
         if (string.IsNullOrWhiteSpace(model.LastName)) errors.Add(nameof(model.LastName));
         if (string.IsNullOrWhiteSpace(model.UserName)) errors.Add(nameof(model.UserName));
-        if (string.IsNullOrWhiteSpace(model.IIN)) errors.Add(nameof(model.IIN));
+        if (string.IsNullOrWhiteSpace(model.Iin)) errors.Add(nameof(model.Iin));
         return errors;
     }
 }

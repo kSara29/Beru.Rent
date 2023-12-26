@@ -12,7 +12,7 @@ public static class UserMapper
             {
                 FirstName = model.FirstName,
                 Email = model.Mail,
-                Iin = model.IIN,
+                Iin = model.Iin,
                 LastName = model.LastName,
                 PhoneNumber = model.Phone,
                 UserName = model.UserName
@@ -28,7 +28,7 @@ public static class UserMapper
                 UserId = model.Id,
                 FirstName = model.FirstName,
                 Mail = model.Email,
-                IIN = model.Iin,
+                Iin = model.Iin,
                 LastName = model.LastName,
                 Phone = model.PhoneNumber,
                 UserName = model.UserName
@@ -49,8 +49,8 @@ public static class UserMapper
         if (!string.IsNullOrWhiteSpace(model.LastName))
             user.LastName = model.LastName;
 
-        if (!string.IsNullOrWhiteSpace(model.IIN))
-            user.Iin = model.IIN;
+        if (!string.IsNullOrWhiteSpace(model.Iin))
+            user.Iin = model.Iin;
 
         return user;
     }
