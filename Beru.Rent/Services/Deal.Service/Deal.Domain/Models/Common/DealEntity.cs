@@ -6,5 +6,6 @@ public class DealEntity: BaseEntity
     public string TenantId { get; set; }
     public DateTime Dbeg { get; set; }
     public DateTime Dend { get; set; }
-    public decimal Cost { get; set; }
+    public DateTime? CancelAt { get; set; }
+    public decimal? Cost { get; set; }
 }
