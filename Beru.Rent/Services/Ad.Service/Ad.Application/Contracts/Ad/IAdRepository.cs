@@ -1,4 +1,6 @@
 
+using Ad.Domain.Models;
+
 public interface IAdRepository
 {
     Task<bool> ArchiveAsync(Advertisement ad);

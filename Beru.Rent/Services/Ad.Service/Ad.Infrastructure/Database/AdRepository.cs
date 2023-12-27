@@ -1,4 +1,6 @@
 
+using Ad.Domain.Models;
+
 namespace Ad.Infrastructure;
 
 public class AdRepository : IAdRepository

@@ -1,4 +1,6 @@
 ﻿
+using Ad.Domain.Models;
+
 public interface ITagRepository
 {
     Task<bool> CreateTagAsync(Tag tag);

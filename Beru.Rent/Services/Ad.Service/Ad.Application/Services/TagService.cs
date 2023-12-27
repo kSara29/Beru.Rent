@@ -1,6 +1,7 @@
 ﻿using Ad.Api.DTO;
 using Ad.Application.Contracts.Tag;
 using Ad.Application.Responses;
+using Ad.Domain.Models;
 
 namespace Ad.Application.Services;
 

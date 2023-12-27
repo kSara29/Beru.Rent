@@ -1,4 +1,5 @@
 ﻿using Ad.Application.Contracts.Tag;
+using Ad.Domain.Models;
 
 namespace Ad.Infrastructure.Database;
 

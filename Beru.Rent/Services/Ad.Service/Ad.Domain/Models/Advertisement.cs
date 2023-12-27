@@ -1,4 +1,6 @@
 ﻿
+namespace Ad.Domain.Models;
+
 public class Advertisement  : Entity
 {
     public string UserId { get; set; }
@@ -10,26 +12,25 @@ public class Advertisement  : Entity
     public AdState State { get; set; }
     public decimal Price { get; set; }
     public DateTime UpdatedAt { get; set; }
-    public string CategoryId { get; set; }
+    public Guid CategoryId { get; set; }
     public Category Category { get; set; }
-    public string TimeUnitId { get; set; }
+    public Guid TimeUnitId { get; set; }
     public TimeUnit TimeUnit { get; set; }
-    public string ContractTypeId { get; set; }
     public ContractType ContractType { get; set; }
-    public string AddressExtraId { get; set; }
+    public Guid AddressExtraId { get; set; }
     public AddressExtra AddressExtra { get; set; }
 
-    public Advertisement (string userId, 
-              string title, 
-              string description, 
-              string? extraConditions, 
-              bool neededDeposit, 
-              decimal? minDeposit, 
-              decimal price, 
-              string categoryId, 
-              string timeUnitId, 
-              string contractTypeId,  
-              string addressExtraId)
+    public Advertisement(string userId,
+        string title,
+        string description,
+        string? extraConditions,
+        bool neededDeposit,
+        decimal? minDeposit,
+        decimal price,
+        string id,
+        Guid categoryId,
+        Guid timeUnitId,
+        Guid addressExtraId)
     {
         UserId = userId;
         Title = title;
@@ -40,7 +41,11 @@ public class Advertisement  : Entity
         Price = price;
         CategoryId = categoryId;
         TimeUnitId = timeUnitId;
-        ContractTypeId = contractTypeId;
         AddressExtraId = addressExtraId;
+       
+    }
+
+    public Advertisement()
+    {
     }
 }

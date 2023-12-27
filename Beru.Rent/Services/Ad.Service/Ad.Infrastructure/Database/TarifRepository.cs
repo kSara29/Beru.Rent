@@ -1,5 +1,6 @@
 ﻿
 
+using Ad.Domain.Models;
 using Ad.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,11 +15,11 @@ public class TarifRepository : ITarifRepository
         _adContext = adContext;
     }
 
-    public async Task<bool> CreateTarifAsync(Tariff tariff)
+    public async Task<Guid> CreateTarifAsync(Tariff tariff)
     {
         await _adContext.Tariffs.AddAsync(tariff);
         await _adContext.SaveChangesAsync();
-        return true;
+        return tariff.Id;
     }
 
     public async Task<bool> DeleteTarifAsync(Guid tarifId)

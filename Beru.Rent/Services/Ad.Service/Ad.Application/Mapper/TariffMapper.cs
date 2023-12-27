@@ -1,4 +1,5 @@
 ﻿using Ad.Api.DTO.Tarif;
+using Ad.Domain.Models;
 
 namespace Ad.Api.Mapper;
 
@@ -13,7 +14,7 @@ public static class TariffMapper
                 CreatedAt = DateTime.Now,
                 Duration = model.Duration,
                 Id = Guid.NewGuid(),
-                Name = model.Name,
+                Title = model.Name,
                 Price = model.Price
             };
     }

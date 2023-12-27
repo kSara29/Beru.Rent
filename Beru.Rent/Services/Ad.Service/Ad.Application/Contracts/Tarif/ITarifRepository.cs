@@ -1,7 +1,9 @@
 ﻿
 
+using Ad.Domain.Models;
+
 public interface ITarifRepository
 {
-    Task<bool> CreateTarifAsync(Tariff tariff);
+    Task<Guid> CreateTarifAsync(Tariff tariff);
     Task<bool> DeleteTarifAsync(Guid tarifId);
 }

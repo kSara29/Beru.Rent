@@ -1,17 +1,22 @@
 ﻿
 
+namespace Ad.Domain.Models;
+
 public class Tag: Entity
 {
     public string Name { get; set; }
-    public string AdvertisementId { get; set; }
+    public Guid AdvertisementId { get; set; }
     public Advertisement? Ad { get; set; }
 
 
-    public Tag(string name, string advertisementId)
+    public Tag(string name, Guid advertisementId)
     {
         Name = name;
         AdvertisementId = advertisementId;
     }
-    
-    private Tag(){}
+
+    public Tag()
+    {
+       
+    }
 }

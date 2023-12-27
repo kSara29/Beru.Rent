@@ -1,8 +1,10 @@
 ﻿
 
+namespace Ad.Domain.Models;
+
 public class Tariff : Entity
 {
-    public string Name { get; set; }
-    public decimal Price { get; set; }
-    public ushort Duration { get; set; }
+    public required string Title { get; set; }
+    public required decimal Price { get; set; }
+    public required TimeSpan Duration { get; set; }
 }

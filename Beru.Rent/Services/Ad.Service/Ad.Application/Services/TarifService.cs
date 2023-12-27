@@ -17,7 +17,8 @@ public class TarifService : ITarifService
     public async Task<BaseApiResponse<Guid>> CreateTarifAsync(CreateTarifDto dto)
     {
         var result = await _tarifRepository.CreateTarifAsync(dto.ToDomain());
-        
+        return new BaseApiResponse<Guid>(result);
+
     }
 
     public async Task<BaseApiResponse<bool>> DeleteTarifAsync(Guid id)
