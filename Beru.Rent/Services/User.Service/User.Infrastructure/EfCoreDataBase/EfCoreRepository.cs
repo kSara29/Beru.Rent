@@ -16,7 +16,10 @@ public class EfCoreRepository : IUserRepository
     
     public async Task<Domain.Models.User> CreateUserAsync(Domain.Models.User model, string password)
     {
-        await _userManager.CreateAsync(model, password);
+        var result = await _userManager.CreateAsync(model, password);
+        if (result.Succeeded)
+            await _userManager.AddToRoleAsync(model, "user");
+        
         return model;
     }
 
