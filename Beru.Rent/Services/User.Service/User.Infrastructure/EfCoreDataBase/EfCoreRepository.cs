@@ -28,7 +28,19 @@ public class EfCoreRepository : IUserRepository
         var user = await _userManager.FindByIdAsync(id);
         return user;
     }
+    
+    public async Task<Domain.Models.User> GetUserByMailAsync(string mail)
+    {
+        var user = await _userManager.FindByEmailAsync(mail);
+        return user;
+    }
 
+    public async Task<Domain.Models.User> GetUserByNameAsync(string userName)
+    {
+        var user = await _userManager.FindByNameAsync(userName);
+        return user;
+    }
+    
     public async Task<Domain.Models.User> UpdateUserAsync(Domain.Models.User user)
     {
         await _userManager.UpdateAsync(user);

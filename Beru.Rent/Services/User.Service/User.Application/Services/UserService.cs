@@ -34,6 +34,18 @@ public class UserService : IUserService
         var user = await _userRepository.GetUserByIdAsync(userId);
         return user.ToUserDto();
     }
+    
+    public async Task<UserDto> GetUserByMailAsync(string mail)
+    {
+        var user = await _userRepository.GetUserByMailAsync(mail);
+        return user.ToUserDto();
+    }
+    
+    public async Task<UserDto> GetUserByNameAsync(string userName)
+    {
+        var user = await _userRepository.GetUserByNameAsync(userName);
+        return user.ToUserDto();
+    }
 
     public async Task<UserDto> DeleteUserAsync(string userId)
     {

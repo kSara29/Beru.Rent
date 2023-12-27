@@ -8,7 +8,7 @@ public class GetUserById(IUserService service): Endpoint<UserDto>
 {
     public override void Configure()
     {
-        Post("/api/user/get");
+        Post("/api/user/getById");
         AllowAnonymous();
     }
     public override async Task HandleAsync
