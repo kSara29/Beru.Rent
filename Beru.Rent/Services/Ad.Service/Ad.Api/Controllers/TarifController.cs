@@ -1,6 +1,6 @@
-﻿using Ad.Api.DTO.Tarif;
-using Ad.Api.Mapper;
-using Ad.Application.Lib.Contracts.Tarif;
+﻿
+
+using Ad.Api.DTO.Tarif;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ad.Api.Controllers;
@@ -19,7 +19,7 @@ public class TarifController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> CreateTarifPost([FromBody] CreateTarifDto createTarifDto)
     {
-        await _tarifService.CreateTarifAsync(createTarifDto.ToDomain());
+        await _tarifService.CreateTarifAsync(createTarifDto);
         return Ok();
     }
 
