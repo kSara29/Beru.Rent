@@ -2,11 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ad.Api", "Services\Ad.Service\Ad.Api\Ad.Api.csproj", "{78BB67B8-B0C8-4E44-AA86-C9B035F359C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ad.Application.Lib", "Services\Ad.Service\Ad.Application.Lib\Ad.Application.Lib.csproj", "{06EFC1C6-484B-4341-9B5E-8DCF15F88530}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ad.Application", "Services\Ad.Service\Ad.Application\Ad.Application.csproj", "{06EFC1C6-484B-4341-9B5E-8DCF15F88530}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ad.Domain.Core", "Services\Ad.Service\Ad.Domain.Core\Ad.Domain.Core.csproj", "{F51A3C99-58C1-489C-85A3-E4DA1106EA03}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ad.Domain", "Services\Ad.Service\Ad.Domain\Ad.Domain.csproj", "{F51A3C99-58C1-489C-85A3-E4DA1106EA03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ad.Infrastructure.Lib", "Services\Ad.Service\Ad.Infrastructure.Lib\Ad.Infrastructure.Lib.csproj", "{2A075170-5D77-47CC-A52A-C6C7F4CA0056}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ad.Infrastructure", "Services\Ad.Service\Ad.Infrastructure\Ad.Infrastructure.csproj", "{2A075170-5D77-47CC-A52A-C6C7F4CA0056}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ad.Service", "Ad.Service", "{5A2E075F-4A5A-4420-9285-E406290FA9E6}"
 EndProject
