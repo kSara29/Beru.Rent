@@ -11,7 +11,7 @@ public static class FileMap
         {
             OriginFileName = dto.File.FileName,
             CreatedAt = DateTime.Now,
-            AdId = dto.AdId.ToString(),
+            AdId = dto.AdId,
         };
     }
 }

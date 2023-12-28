@@ -15,11 +15,22 @@ public class AdContext : DbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<FileModel> Files { get; set; }
 
-    public AdContext(DbContextOptions options) : base(options)
+    public AdContext(DbContextOptions<AdContext> options) : base(options)
     {
         //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
        // AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
     }
     
+    protected override void OnModelCreating(ModelBuilder modelBuilder){
+        modelBuilder.Entity<FileModel>()
+            .HasOne<Advertisement>(b => b.Ad)
+            .WithMany(a => a.Files)
+            .HasForeignKey(p=>p.AdId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        
+        base.OnModelCreating(modelBuilder);
+    }
     
 }
