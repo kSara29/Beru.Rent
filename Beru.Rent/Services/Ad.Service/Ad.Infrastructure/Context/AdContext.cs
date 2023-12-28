@@ -13,6 +13,7 @@ public class AdContext : DbContext
     public DbSet<Tag> Tags { get; set; }
     public DbSet<TimeUnit> TimeUnits { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<FileModel> Files { get; set; }
 
     public AdContext(DbContextOptions options) : base(options)
     {
