@@ -1,4 +1,6 @@
 ﻿
+using Ad.Domain.Models.Common;
+
 namespace Ad.Domain.Models;
 
 public class Advertisement  : Entity

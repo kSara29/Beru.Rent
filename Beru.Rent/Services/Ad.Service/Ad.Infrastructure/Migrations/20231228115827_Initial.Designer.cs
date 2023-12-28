@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ad.Infrastructure.Migrations
 {
     [DbContext(typeof(AdContext))]
-    [Migration("20231227121006_NewTables")]
-    partial class NewTables
+    [Migration("20231228115827_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -175,6 +175,35 @@ namespace Ad.Infrastructure.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Ad.Domain.Models.FileModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AdId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("BucketName")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("MinioFileName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OriginFileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdId");
+
+                    b.ToTable("Files");
+                });
+
             modelBuilder.Entity("Ad.Domain.Models.Tag", b =>
                 {
                     b.Property<Guid>("Id")
@@ -281,6 +310,17 @@ namespace Ad.Infrastructure.Migrations
                     b.Navigation("TimeUnit");
                 });
 
+            modelBuilder.Entity("Ad.Domain.Models.FileModel", b =>
+                {
+                    b.HasOne("Ad.Domain.Models.Advertisement", "Ad")
+                        .WithMany("Files")
+                        .HasForeignKey("AdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ad");
+                });
+
             modelBuilder.Entity("Ad.Domain.Models.Tag", b =>
                 {
                     b.HasOne("Ad.Domain.Models.Advertisement", "Ad")
@@ -290,6 +330,11 @@ namespace Ad.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Ad");
+                });
+
+            modelBuilder.Entity("Ad.Domain.Models.Advertisement", b =>
+                {
+                    b.Navigation("Files");
                 });
 #pragma warning restore 612, 618
         }

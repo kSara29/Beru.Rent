@@ -182,14 +182,12 @@ namespace Ad.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("BucketName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("MinioFileName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("OriginFileName")

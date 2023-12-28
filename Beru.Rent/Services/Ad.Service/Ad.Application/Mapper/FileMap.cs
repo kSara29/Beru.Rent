@@ -12,6 +12,7 @@ public static class FileMap
             OriginFileName = dto.File.FileName,
             CreatedAt = DateTime.Now,
             AdId = dto.AdId,
+            BucketName = dto.AdId.ToString()
         };
     }
 }

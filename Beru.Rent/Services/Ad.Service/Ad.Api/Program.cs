@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 #region подключаю DbContext для ADService
 
-var connectionString = builder.Configuration.GetConnectionString("Postgres");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AdContext>(options => options.UseNpgsql(connectionString));
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
@@ -24,11 +24,9 @@ builder.Services.AddInfrastructureServices();
 
 
 #region Подключаю Minio
-var minioConfig = builder.Configuration.GetSection("ConnectionStrings:Minio");
-
-var endpoint = minioConfig["Endpoint"];
-var accessKey = minioConfig["AccessKey"];
-var secretKey = minioConfig["SecretKey"];
+var endpoint = "play.min.io";
+var accessKey = "Q3AM3UQ867SPQQA43P2F";
+var secretKey = "zuf+tfteSlswRu7BJ86wtrueekitnifILbZam1KYY3TG";
 
 // Add Minio using the custom endpoint and configure additional settings for default MinioClient initialization
 builder.Services.AddMinio(configureClient => configureClient

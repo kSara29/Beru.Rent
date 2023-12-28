@@ -13,13 +13,25 @@ public class FileRepository:IFileRepository
 {
  private readonly AdContext _context;
  private readonly IMinioClient _client;
-   
+ private string endpoint = "play.min.io";
+ private string accessKey = "Q3AM3UQ867SPQQA43P2F";
+ private string secretKey = "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG";
 
-    public FileRepository(AdContext context, IMinioClient client)
-    {
-        _context = context;
-        _client = client;
-    }
+ public FileRepository(AdContext context, IMinioClient client)
+ {
+        
+     #region Задаем тестовые эндпоинты куда стучаться и создаем минио клиент для связи с сервером минио
+        
+     // Initialize Minio client
+     var minio = new MinioClient()
+         .WithEndpoint(endpoint)
+         .WithCredentials(accessKey, secretKey)
+         .WithSSL()
+         .Build();
+     #endregion
+     _context = context;
+     _client = minio;
+ }
 
     public static async Task PutObjectsToMinioAsync(IMinioClient minio,
         string bucketName,
