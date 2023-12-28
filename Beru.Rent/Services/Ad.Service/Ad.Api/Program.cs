@@ -24,16 +24,17 @@ builder.Services.AddInfrastructureServices();
 
 
 #region Подключаю Minio
-var endpoint = "play.min.io";
-var accessKey = "Q3AM3UQ867SPQQA43P2F";
-var secretKey = "zuf+tfteSlswRu7BJ86wtrueekitnifILbZam1KYY3TG";
+var minioConfig = builder.Configuration.GetSection("ConnectionStrings:Minio");
 
-builder.Services.AddMinio(accessKey, secretKey);
+var endpoint = minioConfig["Endpoint"];
+var accessKey = minioConfig["AccessKey"];
+var secretKey = minioConfig["SecretKey"];
 
 // Add Minio using the custom endpoint and configure additional settings for default MinioClient initialization
 builder.Services.AddMinio(configureClient => configureClient
     .WithEndpoint(endpoint)
     .WithCredentials(accessKey, secretKey));
+builder.Services.AddMinio(accessKey, secretKey);
 
 // NOTE: SSL and Build are called by the build-in services already.
 #endregion
