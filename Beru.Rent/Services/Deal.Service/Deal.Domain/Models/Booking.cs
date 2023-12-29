@@ -6,17 +6,22 @@ public class Booking: DealEntity
 { 
     public string BookingState { get; set; }
 
+    
+    
     public Booking(
         string adId,
         string tenantId,
-        decimal cost)
+        decimal cost,
+        DateTime dbeg,
+        DateTime dend)
     {
         AdId = adId;
         TenantId = tenantId;
         Cost = cost;
+        Dbeg = dbeg;
+        Dend = dend;
         BookingState = Enums.BookingState.InQueue.ToString();
         CreatedAt = DateTime.UtcNow;
-        Dbeg = DateTime.UtcNow;
     }
 
     public Booking()

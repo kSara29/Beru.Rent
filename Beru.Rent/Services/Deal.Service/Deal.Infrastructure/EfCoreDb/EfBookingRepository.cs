@@ -18,7 +18,7 @@ public class EfBookingRepository: IBookingRepository
         try
         {
             booking.BookingState = BookingState.Decline.ToString();
-            booking.Dend = DateTime.UtcNow;
+            booking.CancelAt = DateTime.UtcNow;
             _db.Bookings.Update(booking);
             await _db.SaveChangesAsync();
             return true; 
@@ -29,8 +29,17 @@ public class EfBookingRepository: IBookingRepository
         }
     }
 
-    public Task<bool> CreateBookingAsync(Booking booking)
+    public async Task<bool> CreateBookingAsync(Booking booking)
     {
-        throw new NotImplementedException();
+        try
+        {
+            _db.Bookings.Add(booking);
+            await _db.SaveChangesAsync();
+            return true; 
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
     }
 }

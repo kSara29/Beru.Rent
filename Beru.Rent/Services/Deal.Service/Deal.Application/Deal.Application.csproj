@@ -24,8 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="DTO\" />
-      <Folder Include="Responses\" />
+      <Folder Include="Validation\" />
     </ItemGroup>
 
 </Project>
