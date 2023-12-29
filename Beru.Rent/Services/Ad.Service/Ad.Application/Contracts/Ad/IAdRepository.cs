@@ -5,8 +5,8 @@ namespace Ad.Application.Contracts.Ad;
 
 public interface IAdRepository
 {
-    Task<bool> ArchiveAsync(Advertisement ad);
-    Task<bool> ActivateAsync(Advertisement ad);
+    Task<bool> ArchiveAsync(Guid id);
+    Task<bool> ActivateAsync(Guid id);
     Task<Guid> CreateAdAsync(Advertisement ad);
-    Task<Advertisement> GetAdAsync(Guid id);
+    Task<Advertisement?> GetAdAsync(Guid id);
 }

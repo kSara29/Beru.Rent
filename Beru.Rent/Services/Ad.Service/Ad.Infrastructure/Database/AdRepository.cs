@@ -2,39 +2,44 @@
 
 using Ad.Application.Contracts.Ad;
 using Ad.Domain.Models;
+using Ad.Infrastructure.Context;
 
 namespace Ad.Infrastructure;
 
 public class AdRepository : IAdRepository
 {
-   // Task<bool> ArchiveAsync(Domain.Core.Models.Ad ad)
-   //  {
-   //      ad.State = AdState.Archive;
-   //      return ad;
-   //  }
-   //
-   // Task<> ActivateAsync(Domain.Core.Models.Ad ad)
-   //  {
-   //      ad.State = AdState.Active;
-   //      return ad;
-   //  }
-   public async Task<bool> ArchiveAsync(Advertisement ad)
+   private readonly AdContext _context;
+
+   public AdRepository(AdContext context)
    {
-      throw new NotImplementedException();
+      _context = context;
    }
 
-   public async Task<bool> ActivateAsync(Advertisement ad)
+   public async Task<bool> ArchiveAsync(Guid id)
    {
-      throw new NotImplementedException();
+      var ad = await _context.Ads.FindAsync(id);
+      ad.State = AdState.Archive;
+      return true;
+   }
+
+   public async Task<bool> ActivateAsync(Guid id)
+   {
+      var ad = await _context.Ads.FindAsync(id);
+      ad.State = AdState.Active;
+      return true;   
    }
 
    public async Task<Guid> CreateAdAsync(Advertisement ad)
-   {
-      throw new NotImplementedException();
+   { 
+      await _context.Ads.AddAsync(ad); 
+      await _context.SaveChangesAsync(); 
+      return ad.Id;
    }
 
-   public async Task<Advertisement> GetAdAsync(Guid id)
+   public async Task<Advertisement?> GetAdAsync(Guid id)
    {
-      throw new NotImplementedException();
+      var ad = await _context.Ads.FindAsync(id);
+      return ad;
+
    }
 }

@@ -2,6 +2,10 @@
 using Ad.Domain.Models;
 using Ad.Infrastructure.Context;
 using Microsoft.AspNetCore.Http;
+using Minio;
+using Minio.DataModel;
+using Minio.DataModel.Args;
+using Minio.DataModel.Encryption;
 
 
 namespace Ad.Infrastructure.Database;

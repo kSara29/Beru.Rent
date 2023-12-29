@@ -2,7 +2,9 @@
 using Ad.Api.DTO;
 using Ad.Application.Contracts.Ad;
 using Ad.Application.DTO.GetDtos;
+using Ad.Application.Mapper;
 using Ad.Application.Responses;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Ad.Application.Services;
 
@@ -16,11 +18,18 @@ public class AdService : IAdService
     }
     public async Task<BaseApiResponse<Guid>> CreateAdAsync(CreateAdDto ad)
     {
-        throw new NotImplementedException();
+       var result =await _repository.CreateAdAsync(ad.ToDomain());
+       return new BaseApiResponse<Guid>(result);
     }
 
     public async Task<BaseApiResponse<AdDto>> GetAdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var result = await _repository.GetAdAsync(id);
+        if (result != null)
+        {
+              var data = result.ToDto(); 
+              return new BaseApiResponse<AdDto>(data); 
+        }
+        return new BaseApiResponse<AdDto>(null, "Некорректный id");
     }
 }

@@ -26,6 +26,7 @@ public class AdController:ControllerBase
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAdAsync([FromRoute] Guid id)
     {
-        return Ok();
+        var result = await _service.GetAdAsync(id);
+        return Ok(result);
     }
 }

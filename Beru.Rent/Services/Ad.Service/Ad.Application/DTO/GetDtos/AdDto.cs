@@ -22,6 +22,7 @@ public class AdDto
     public ContractType? ContractType { get; set; }
     public Guid? AddressExtraId { get; set; }
     public AddressExtra? AddressExtra { get; set; }
+    public Category? Category { get; set; }
     public List<IFormFile>? Files { get; set; }
 }
 
