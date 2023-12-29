@@ -1,4 +1,7 @@
 ﻿
+using Deal.Api.DTO;
+using Deal.Api.DTO.Booking;
+using Deal.Api.Mapper;
 using Deal.Application.Contracts.Booking;
 using Deal.Domain.Models;
 
@@ -12,13 +15,14 @@ public class BookingService: IBookingService
         _bookingRepository = bookingRepository;
     }
 
-    public Task<bool> CancelReservationAsync(Booking booking)
+    public async Task<bool> CancelReservationAsync(Booking booking)
     {
-        return (_bookingRepository.CancelReservationAsync(booking));
+        return await (_bookingRepository.CancelReservationAsync(booking));
     }
 
-    public Task<bool> CreateBookingAsync(Booking booking)
+    public async Task<bool> CreateBookingAsync(CreateBookingDto dto)
     {
-        return _bookingRepository.CreateBookingAsync(booking);
+        return await _bookingRepository.CreateBookingAsync(dto.ToDomain());
     }
+    
 }
