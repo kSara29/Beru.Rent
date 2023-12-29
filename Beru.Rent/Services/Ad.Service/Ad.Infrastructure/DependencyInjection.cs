@@ -14,8 +14,8 @@ public static class DependencyInjection
    
                 services.AddScoped<ITarifRepository, TarifRepository>();
                 services.AddScoped<IFileRepository, FileRepository>();
-                services.AddSingleton<ITagRepository, TagRepository>();
-                services.AddSingleton<IAdRepository, AdRepository>();
+                services.AddScoped<ITagRepository, TagRepository>();
+                services.AddScoped<IAdRepository, AdRepository>();
                 return services;
         }
 }

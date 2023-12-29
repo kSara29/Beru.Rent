@@ -41,13 +41,13 @@ public static class AdMap
             Price = model.Price,
             UpdatedAt = model.UpdatedAt,
             CategoryId = model.CategoryId,
-            Category = model.Category,
+          //  Category = model.Category,
             TimeUnitId = model.TimeUnitId,
-            TimeUnit = model.TimeUnit,
+          //  TimeUnit = model.TimeUnit,
             ContractType = model.ContractType,
-            AddressExtraId = model.AddressExtraId,
-            AddressExtra = model.AddressExtra,
-            AddressMain = model.AddressExtra.AddressMain
+            AddressExtraId = model.AddressExtraId
+          //  AddressExtra = model.AddressExtra,
+            //AddressMain = model.AddressExtra.AddressMain
         };
     }
 }
