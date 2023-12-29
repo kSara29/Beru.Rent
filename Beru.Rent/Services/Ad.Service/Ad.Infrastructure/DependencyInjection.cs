@@ -1,4 +1,5 @@
 
+using Ad.Application.Contracts.Ad;
 using Ad.Application.Contracts.File;
 using Ad.Infrastructure.Database;
 using Ad.Infrastructure.EfCoreDatabase;

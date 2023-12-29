@@ -1,4 +1,5 @@
 ﻿using Ad.Domain.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Ad.Application.Contracts.File;
 

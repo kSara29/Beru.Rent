@@ -1,5 +1,6 @@
 
 
+using Ad.Application.Contracts.Ad;
 using Ad.Domain.Models;
 
 namespace Ad.Infrastructure;
@@ -17,17 +18,22 @@ public class AdRepository : IAdRepository
    //      ad.State = AdState.Active;
    //      return ad;
    //  }
-   public Task<bool> ArchiveAsync(Advertisement ad)
+   public async Task<bool> ArchiveAsync(Advertisement ad)
    {
       throw new NotImplementedException();
    }
 
-   public Task<bool> ActivateAsync(Advertisement ad)
+   public async Task<bool> ActivateAsync(Advertisement ad)
    {
       throw new NotImplementedException();
    }
 
-   public Task<Guid> CreateAdAsync(Advertisement ad)
+   public async Task<Guid> CreateAdAsync(Advertisement ad)
+   {
+      throw new NotImplementedException();
+   }
+
+   public async Task<Advertisement> GetAdAsync(Guid id)
    {
       throw new NotImplementedException();
    }

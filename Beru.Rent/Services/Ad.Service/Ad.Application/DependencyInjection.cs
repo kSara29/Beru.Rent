@@ -1,6 +1,7 @@
 using Ad.Application.Contracts.File;
 using Ad.Application.Contracts.Tag;
 using Ad.Application.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Ad.Application;
 

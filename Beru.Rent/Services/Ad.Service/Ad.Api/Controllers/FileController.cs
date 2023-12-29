@@ -1,4 +1,4 @@
-﻿#region Общение в базой Minio
+﻿
 
 using Ad.Application.Contracts.File;
 using Ad.Application.DTO;
@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Minio;
 using Minio.DataModel.Args;
 
+
 [ApiController]
 public class FileController : ControllerBase
 {
+    #region Общение в базой Minio
     private readonly IMinioClient minioClient;
     private readonly IFileService _service;
 
@@ -77,6 +79,5 @@ private (string FileName, string FileExtension) GetFileNameAndExtension(byte[] f
     return ("file", ".jpg");
 }
 
+#endregion
 }
-
-    #endregion

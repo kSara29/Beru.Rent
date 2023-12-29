@@ -22,11 +22,10 @@ public class AdController:ControllerBase
        return Ok(result);
     }
     
-    [HttpGet("/api/ad/create")]
+    [HttpGet("/api/ad/get/{id}")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> CreateAdAsync()
+    public async Task<IActionResult> GetAdAsync([FromRoute] Guid id)
     {
-       
         return Ok();
     }
 }
