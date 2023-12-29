@@ -8,11 +8,11 @@ public record CreateAdDto(
     [property: JsonPropertyName("title")]string Title,
     [property: JsonPropertyName("description")]string Description,
     [property: JsonPropertyName("extraConditions")]string ExtraConditions,
-    [property: JsonPropertyName("deposit")]bool Deposit,
+    [property: JsonPropertyName("deposit")]bool NeededDeposit,
     [property: JsonPropertyName("minDeposit")]decimal MinDeposit,
     [property: JsonPropertyName("price")]decimal Price,
-    [property: JsonPropertyName("categoryId")]string CategoryId,
-    [property: JsonPropertyName("timeUnitId")]string TimeUnitId,
-    [property: JsonPropertyName("contractTypeId")]string ContractTypeId,
-    [property: JsonPropertyName("addressExtraId")]string AddressExtraId
+    [property: JsonPropertyName("categoryId")]Guid CategoryId,
+    [property: JsonPropertyName("timeUnitId")]Guid TimeUnitId,
+    [property: JsonPropertyName("contractTypeId")]int ContractType,
+    [property: JsonPropertyName("addressExtraId")]Guid AddressExtraId
     );

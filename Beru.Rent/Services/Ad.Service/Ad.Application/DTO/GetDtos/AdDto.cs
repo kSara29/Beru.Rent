@@ -7,7 +7,7 @@ public class AdDto
 {
     public Guid? Id { get; set; }
     public DateTime? CreatedAt { get; set; }
-    public string? UserId { get; set; }
+    public Guid? UserId { get; set; }
     public string? Title { get; set; }
     public string? Description { get; set; }
     public string? ExtraConditions { get; set; }
@@ -22,7 +22,8 @@ public class AdDto
     public ContractType? ContractType { get; set; }
     public Guid? AddressExtraId { get; set; }
     public AddressExtra? AddressExtra { get; set; }
+    public AddressMain? AddressMain { get; set; }
     public Category? Category { get; set; }
-    public List<IFormFile>? Files { get; set; }
+    public List<MemoryStream>? Files { get; set; }
 }
 
