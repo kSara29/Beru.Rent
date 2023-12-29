@@ -5,18 +5,23 @@ using User.Application.Extencions;
 
 namespace User.Api.Endpoints;
 
-public class DeleteUser(IUserService service): Endpoint<UserDto>
+public class DeleteUser(IUserService service): Endpoint<DeleteUserRequest, UserDto>
 {
     public override void Configure()
     {
         Post("/api/user/delete");
-        AllowAnonymous();
+        Roles("admin");
     }
     public override async Task HandleAsync
-        (UserDto? model, CancellationToken ct)
+        (DeleteUserRequest request, CancellationToken ct)
     {
-        if (model is null) await SendAsync(null!, cancellation: ct);
-        var result = await service.DeleteUserAsync(model.UserId);
+        if (request is null) await SendAsync(null!, cancellation: ct);
+        var result = await service.DeleteUserAsync(request.Id);
         await SendAsync(result, cancellation: ct);
     }
+}
+
+public record DeleteUserRequest
+{
+    [QueryParam] public required string Id { get; set; }
 }

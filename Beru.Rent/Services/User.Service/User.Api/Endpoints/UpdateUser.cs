@@ -1,4 +1,5 @@
 ﻿using FastEndpoints;
+using FluentValidation.Results;
 using User.Application.Contracts;
 using User.Application.DTO;
 using User.Application.Extencions.Validation;
@@ -16,11 +17,11 @@ public class UpdateUser(IUserService service) : Endpoint<UpdateUserDto, object>
     public override async Task HandleAsync
         (UpdateUserDto? model, CancellationToken ct)
     {
-        if (model is null) await SendAsync(null!, cancellation: ct);
-        var validateResult = model.UpdateUserValidate();
-        if (validateResult!.Count > 0) await SendAsync(validateResult, cancellation: ct);
-
-        var result = await service.UpdateUserAsync(model!);
-        await SendAsync(result, cancellation: ct);
+        UpdateUserValidation updateUserValidation = new UpdateUserValidation();
+        ValidationResult result = updateUserValidation.Validate(model);
+        // var validateResult = model.UpdateUserValidate();
+        if (!result.IsValid) await SendAsync(result, cancellation: ct);
+        var results = await service.UpdateUserAsync(model!);
+        await SendAsync(results, cancellation: ct);
     }
 }

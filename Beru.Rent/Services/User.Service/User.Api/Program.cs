@@ -26,9 +26,13 @@ builder.Services.AddDbContext<UserContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"));
 }).AddIdentity<User.Domain.Models.User, IdentityRole>(opt =>
-    {
-        opt.Password.RequiredLength = 6;
-    }).AddEntityFrameworkStores<UserContext>();
+{
+    opt.Password.RequiredLength = 8;
+    opt.Password.RequireLowercase = false;
+    opt.Password.RequireDigit = false;
+    opt.Password.RequireUppercase = false;
+    opt.Password.RequireNonAlphanumeric = false;
+}).AddEntityFrameworkStores<UserContext>();
 var app = builder.Build();
 
 app.UseFastEndpoints();
