@@ -1,4 +1,5 @@
 
+
 using Ad.Domain.Models;
 
 namespace Ad.Infrastructure;
