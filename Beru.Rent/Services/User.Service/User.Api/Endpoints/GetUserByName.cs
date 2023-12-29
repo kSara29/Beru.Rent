@@ -8,7 +8,7 @@ public class GetUserByName(IUserService service): Endpoint<UserDto>
 {
     public override void Configure()
     {
-        Post("/api/user/getByName");
+        Get("/api/user/getByName");
         AllowAnonymous();
     }
     public override async Task HandleAsync
