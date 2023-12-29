@@ -24,7 +24,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Responses\" />
       <Folder Include="Validation\" />
     </ItemGroup>
 
