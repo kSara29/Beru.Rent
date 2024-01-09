@@ -57,18 +57,8 @@ public class FileController : ControllerBase
     public async Task<IActionResult> GetFile([FromRoute] Guid id)
     {
         var response = await _service.GetFileAsync(id); // Assuming GetFileAsync returns byte[]
+        return Ok(response);
 
-        if (response == null || response.Data.Length == 0)
-        {
-            return NotFound();
-        }
-
-        var fileContentResult = new FileContentResult(response.Data, "application/octet-stream")
-        {
-            FileDownloadName = "d.jpg" // Set the file name here
-        };
-
-        return fileContentResult;
     }
 
 private (string FileName, string FileExtension) GetFileNameAndExtension(byte[] fileBytes)

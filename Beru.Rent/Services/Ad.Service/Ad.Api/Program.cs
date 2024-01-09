@@ -45,6 +45,20 @@ builder.Services.AddApplicationService();
 builder.Services.AddControllers();
 // Add Minio using the custom endpoint and configure additional settings for default MinioClient initialization
 
+#region CORS политики
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("mypolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
+#endregion
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
