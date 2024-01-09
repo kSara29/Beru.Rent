@@ -25,7 +25,7 @@ public class AddressExtraService:IAddressService<CreateAddressExtraDto,AddressEx
     }
 
 
-    public async  Task<BaseApiResponse<string>> RemoveAddressMainAsync(Guid id )
+    public async  Task<BaseApiResponse<string>> RemoveAsync(Guid id )
     {
         var result = await _repository.RemoveAsync(id);
         return new BaseApiResponse<string>(result);
@@ -58,7 +58,7 @@ public class AddressMainService:IAddressService<CreateAddressMainDto,AddressMain
     }
 
   
-    public async  Task<BaseApiResponse<string>> RemoveAddressMainAsync(Guid id )
+    public async  Task<BaseApiResponse<string>> RemoveAsync(Guid id )
     {
         var result = await _repository.RemoveAsync(id);
         return new BaseApiResponse<string>(result);

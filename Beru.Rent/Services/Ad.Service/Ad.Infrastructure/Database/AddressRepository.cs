@@ -43,8 +43,9 @@ public class AddressMainRepository : IAddressRepository<AddressMain>
         var entity = await _context.AddressMains.FindAsync(id);
         return entity;
     }
+}
 
-    #endregion
+#endregion
 
     #region работа с Extra Address
 
@@ -86,7 +87,7 @@ public class AddressMainRepository : IAddressRepository<AddressMain>
             
         }
     }
-}
+
 
 
 #endregion
