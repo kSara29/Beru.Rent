@@ -32,4 +32,10 @@ public class AdService : IAdService
         }
         return new BaseApiResponse<AdDto>(null, "Некорректный id");
     }
+
+    public async Task<BaseApiResponse<List<AdMainPageDto>>> GetAllAdAsync()
+    {
+        var result = await _repository.GetAllAdAsync();
+        return new BaseApiResponse<List<AdMainPageDto>>(result.Select(ad => ad.ToMainPageDto()).ToList());
+    }
 }

@@ -41,13 +41,27 @@ public static class AdMap
             Price = model.Price,
             UpdatedAt = model.UpdatedAt,
             CategoryId = model.CategoryId,
-          //  Category = model.Category,
             TimeUnitId = model.TimeUnitId,
-          //  TimeUnit = model.TimeUnit,
             ContractType = model.ContractType,
             AddressExtraId = model.AddressExtraId
-          //  AddressExtra = model.AddressExtra,
-            //AddressMain = model.AddressExtra.AddressMain
+        };
+    }
+
+    public static AdMainPageDto ToMainPageDto(this Advertisement model)
+    {
+        return new AdMainPageDto
+        {
+            Id = model.Id,
+            CreatedAt = model.CreatedAt,
+            UserId = model.Id,
+            Title = model.Title,
+            Description = model.Description,
+            State = model.State,
+            Price = model.Price,
+            CategoryId = model.CategoryId,
+            TimeUnitId = model.TimeUnitId,
+            Street = model.AddressExtra.Street,
+            Category = model.Category.Title
         };
     }
 }

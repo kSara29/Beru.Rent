@@ -29,4 +29,11 @@ public class AdController:ControllerBase
         var result = await _service.GetAdAsync(id);
         return Ok(result);
     }
+    [HttpGet("/api/ad/get/")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAdAsync()
+    {
+        var result = await _service.GetAllAdAsync();
+        return Ok(result);
+    }
 }

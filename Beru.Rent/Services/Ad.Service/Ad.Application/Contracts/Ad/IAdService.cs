@@ -8,4 +8,5 @@ public interface IAdService
 {
     Task<BaseApiResponse<Guid>> CreateAdAsync(CreateAdDto ad);
     Task<BaseApiResponse<AdDto>> GetAdAsync(Guid id);
+    Task<BaseApiResponse<List<AdMainPageDto>>> GetAllAdAsync();
 }

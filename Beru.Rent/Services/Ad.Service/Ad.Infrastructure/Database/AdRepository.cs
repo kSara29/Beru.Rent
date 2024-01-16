@@ -3,6 +3,7 @@
 using Ad.Application.Contracts.Ad;
 using Ad.Domain.Models;
 using Ad.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ad.Infrastructure;
 
@@ -41,5 +42,14 @@ public class AdRepository : IAdRepository
       var ad = await _context.Ads.FindAsync(id);
       return ad;
 
+   }
+
+   public  async Task<List<Advertisement>?> GetAllAdAsync()
+   {
+      var result = _context.Ads
+         .Include(a=>a.Category)
+         .Include(a=>a.AddressExtra)
+         .ToList();
+      return result;
    }
 }
