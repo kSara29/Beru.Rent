@@ -61,6 +61,7 @@ public static class AdMap
             CategoryId = model.CategoryId,
             TimeUnitId = model.TimeUnitId,
             Street = model.AddressExtra.Street,
+            City = model.AddressExtra.City,
             Category = model.Category.Title
         };
     }

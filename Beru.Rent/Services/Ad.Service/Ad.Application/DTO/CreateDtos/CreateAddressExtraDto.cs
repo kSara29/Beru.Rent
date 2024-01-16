@@ -8,5 +8,8 @@ public class CreateAddressExtraDto
     public string? House { get; set; }
     public byte? Floor { get; set; }
     public string? Apartment { get; set; }
-    public Guid AddressMainId { get; set; }
+    public required string Country { get; set; }
+    public required string City { get; set; }
+    public required string Region { get; set; }
+    public string? PostIndex { get; set; }
 }

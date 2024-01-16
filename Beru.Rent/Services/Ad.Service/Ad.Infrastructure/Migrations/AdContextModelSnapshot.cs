@@ -28,10 +28,13 @@ namespace Ad.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AddressMainId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Apartment")
+                        .HasColumnType("text");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Country")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
@@ -49,13 +52,17 @@ namespace Ad.Infrastructure.Migrations
                     b.Property<string>("Longitude")
                         .HasColumnType("text");
 
+                    b.Property<string>("PostIndex")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Region")
+                        .HasColumnType("text");
+
                     b.Property<string>("Street")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressMainId");
 
                     b.ToTable("AddressExtras");
                 });
@@ -267,17 +274,6 @@ namespace Ad.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TimeUnits");
-                });
-
-            modelBuilder.Entity("Ad.Domain.Models.AddressExtra", b =>
-                {
-                    b.HasOne("Ad.Domain.Models.AddressMain", "AddressMain")
-                        .WithMany()
-                        .HasForeignKey("AddressMainId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AddressMain");
                 });
 
             modelBuilder.Entity("Ad.Domain.Models.Advertisement", b =>

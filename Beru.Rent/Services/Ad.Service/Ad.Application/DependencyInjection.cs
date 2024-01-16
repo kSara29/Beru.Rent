@@ -19,7 +19,6 @@ public static class DependencyInjection
         services.AddScoped<ITagService, TagService>();
         services.AddScoped<IAdService, AdService>();
         services.AddScoped<ICategoryService, CategoryService>();
-        services.AddScoped<IAddressService<CreateAddressMainDto,AddressMainDto>, AddressMainService>();
         services.AddScoped<IAddressService<CreateAddressExtraDto,AddressExtraDto>, AddressExtraService>();
         return services;
     }
