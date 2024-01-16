@@ -31,9 +31,13 @@ public class AdController:ControllerBase
     }
     [HttpGet("/api/ad/get/")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAdAsync()
+    public async Task<IActionResult> GetAdAsync(
+        [FromQuery] int page = 0,
+        [FromQuery] string sortdate = "fromnew",
+        [FromQuery] string sortprice = "fromlow",
+        [FromQuery] string cat = "all")
     {
-        var result = await _service.GetAllAdAsync();
+        var result = await _service.GetAllAdAsync(page, sortdate, sortprice, cat);
         return Ok(result);
     }
 }

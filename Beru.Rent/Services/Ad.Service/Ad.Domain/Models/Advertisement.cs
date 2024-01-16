@@ -19,7 +19,7 @@ public class Advertisement  : Entity
     public Guid TimeUnitId { get; set; }
     public TimeUnit TimeUnit { get; set; }
     public ContractType ContractType { get; set; }
-    public Guid AddressExtraId { get; set; }
+    public Guid? AddressExtraId { get; set; }
     public AddressExtra AddressExtra { get; set; }
     public List<FileModel> Files { get; set; }
 

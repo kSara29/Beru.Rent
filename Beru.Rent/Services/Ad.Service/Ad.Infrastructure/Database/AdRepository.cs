@@ -44,12 +44,58 @@ public class AdRepository : IAdRepository
 
    }
 
-   public  async Task<List<Advertisement>?> GetAllAdAsync()
+   public  async Task<List<Advertisement>?> GetAllAdAsync(int page, string sortdate, string sortprice, string cat)
    {
-      var result = _context.Ads
-         .Include(a=>a.Category)
-         .Include(a=>a.AddressExtra)
-         .ToList();
+      IQueryable<Advertisement> query = _context.Ads
+         .Include(a => a.Category)
+         .Include(a => a.AddressExtra);
+
+      #region Сортировка по категории
+      if (cat != "all")
+      {
+         query = query.Where(a => a.Category.Title == cat);
+      }
+      #endregion
+
+      #region Сортировка по дате
+      switch (sortdate.ToLower())
+      {
+         case "fromnew":
+            query = query.OrderByDescending(a => a.CreatedAt);
+            break;
+         case "fromold":
+            query = query.OrderBy(a => a.CreatedAt);
+            break;
+         default:
+            query = query.OrderByDescending(a => a.CreatedAt);
+            break;
+      }
+      #endregion
+      
+      #region Сортировка по цене
+      switch (sortprice.ToLower())
+      {
+         case "fromhigh":
+            query = query.OrderByDescending(a => a.Price); 
+            break;
+         case "fromlow":
+            query = query.OrderBy(a => a.Price);
+            break;
+         default:
+            query = query.OrderByDescending(a => a.Price);
+            break;
+      }
+      #endregion
+
+      #region Пагинация
+      const int pageSize = 9;
+      int skip = (page - 1) * pageSize;
+      query = query.Skip(skip).Take(pageSize);
+      #endregion
+      
+      var result = await query.ToListAsync();
+
+      
       return result;
    }
 }

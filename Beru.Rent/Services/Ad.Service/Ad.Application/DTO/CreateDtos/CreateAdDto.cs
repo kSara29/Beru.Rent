@@ -14,5 +14,7 @@ public record CreateAdDto(
     [property: JsonPropertyName("categoryId")]Guid CategoryId,
     [property: JsonPropertyName("timeUnitId")]Guid TimeUnitId,
     [property: JsonPropertyName("contractTypeId")]int ContractType,
-    [property: JsonPropertyName("addressExtraId")]Guid AddressExtraId
+    [property: JsonPropertyName("addressExtraId")]Guid? AddressExtraId,
+    [property: JsonPropertyName("addressExtraId")]string Address,
+    [property: JsonPropertyName("tags")]string Tags
     );

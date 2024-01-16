@@ -9,5 +9,5 @@ public interface IAdRepository
     Task<bool> ActivateAsync(Guid id);
     Task<Guid> CreateAdAsync(Advertisement ad);
     Task<Advertisement?> GetAdAsync(Guid id);
-    Task<List<Advertisement>?> GetAllAdAsync();
+    Task<List<Advertisement>?> GetAllAdAsync(int page, string sortdate, string sortprice, string cat);
 }
