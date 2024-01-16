@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ using User.Application.Extencions;
 using User.Infrastructure;
 using User.Infrastructure.Context;
 using FastEndpoints;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +25,23 @@ builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureService();
 builder.Services.AddFastEndpoints();
 
+// builder.Services.AddAuthentication(config =>
+//     {
+//         config.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//         config.DefaultChallengeScheme = "oidc";
+//     })
+//     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+//     .AddOpenIdConnect("oidc", config =>
+//     {
+//         config.Authority = "https://localhost:7114";
+//         config.ClientId = "client_id_mvc";
+//         config.ClientSecret = "client_secret_mvc";
+//         config.SaveTokens = true;
+//         config.ResponseType = "code";
+//         config.GetClaimsFromUserInfoEndpoint = true;
+//         config.Scope.Add("User.Api");
+//     });
+
 builder.Services.AddDbContext<UserContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"));
@@ -33,12 +53,15 @@ builder.Services.AddDbContext<UserContext>(options =>
     opt.Password.RequireUppercase = false;
     opt.Password.RequireNonAlphanumeric = false;
 }).AddEntityFrameworkStores<UserContext>();
+
 var app = builder.Build();
 
 app.UseFastEndpoints();
 
 using var scope = app.Services.CreateScope();
+
 var services = scope.ServiceProvider;
+
 try
 {
     var userManager = services.GetRequiredService<UserManager<User.Domain.Models.User>>();

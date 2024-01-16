@@ -1,0 +1,36 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Auth.ViewModels.LoginViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Вход в приложение</h2>
+<h5 class="text-danger">@ViewBag.Error</h5>
+<form method="post" asp-controller="Auth" asp-action="Login">
+    <div asp-validation-summary="ModelOnly"></div>
+    
+    <input type="hidden" asp-for="ReturnUrl">
+    <div>
+        <label asp-for="UserName"></label><br />
+        <input asp-for="UserName" />
+        <span asp-validation-for="UserName"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label><br />
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    
+    <div>
+        <input type="submit" value="Вход" />
+    </div>
+</form>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

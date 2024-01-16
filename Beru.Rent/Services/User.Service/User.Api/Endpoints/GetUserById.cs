@@ -13,7 +13,7 @@ public class GetUserById(IUserService service): Endpoint<GetUserByIdRequest, Use
     }
     public override async Task HandleAsync
         (GetUserByIdRequest request, CancellationToken ct)
-    { 
+    {
         if (request is null) await SendAsync(null!, cancellation: ct);
         var result = await service.GetUserByIdAsync(request.Id);
         await SendAsync(result, cancellation: ct);
