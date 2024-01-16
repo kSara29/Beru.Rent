@@ -1,6 +1,7 @@
 
 using Ad.Application.Contracts.Ad;
 using Ad.Application.Contracts.Address;
+using Ad.Application.Contracts.Category;
 using Ad.Application.Contracts.File;
 using Ad.Domain.Models;
 using Ad.Infrastructure.Database;
@@ -20,6 +21,7 @@ public static class DependencyInjection
                 services.AddScoped<IAdRepository, AdRepository>();
                 services.AddScoped<IAddressRepository<AddressMain>, AddressMainRepository>();
                 services.AddScoped<IAddressRepository<AddressExtra>, AddressExtraRepository>();
+                services.AddScoped<ICategoryRepository, CategoryRepository>();
                 return services;
         }
 }

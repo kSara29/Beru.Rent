@@ -1,4 +1,5 @@
 using Ad.Application.Contracts.Address;
+using Ad.Application.Contracts.Category;
 using Ad.Application.Contracts.File;
 using Ad.Application.Contracts.Tag;
 using Ad.Application.DTO.CreateDtos;
@@ -17,6 +18,7 @@ public static class DependencyInjection
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<ITagService, TagService>();
         services.AddScoped<IAdService, AdService>();
+        services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IAddressService<CreateAddressMainDto,AddressMainDto>, AddressMainService>();
         services.AddScoped<IAddressService<CreateAddressExtraDto,AddressExtraDto>, AddressExtraService>();
         return services;

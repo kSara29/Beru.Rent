@@ -20,7 +20,8 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddInfrastructureServices();
+builder.Services.AddSwaggerGen();
+
 
 
 #region Подключаю Minio
@@ -38,11 +39,14 @@ builder.Services.AddMinio(accessKey, secretKey);
 #endregion
 
 builder.Services.AddApplicationService();
+builder.Services.AddInfrastructureServices();
+builder.Services.AddControllers();
+
+
 // builder.Services.AddDbContext<AdContext>(options =>
 // {
 //     options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"));
 // });
-builder.Services.AddControllers();
 // Add Minio using the custom endpoint and configure additional settings for default MinioClient initialization
 
 #region CORS политики
@@ -63,11 +67,15 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
 app.MapControllers();
+app.UseCors("mypolicy");
+
 
 app.UseRouting();
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
