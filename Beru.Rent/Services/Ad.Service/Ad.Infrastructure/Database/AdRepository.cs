@@ -88,9 +88,14 @@ public class AdRepository : IAdRepository
       #endregion
 
       #region Пагинация
-      const int pageSize = 9;
-      int skip = (page - 1) * pageSize;
-      query = query.Skip(skip).Take(pageSize);
+
+      if (page > 0)
+      {
+         const int pageSize = 9;
+         int skip = (page - 1) * pageSize;
+         query = query.Skip(skip).Take(pageSize);
+      }
+      
       #endregion
       
       var result = await query.ToListAsync();
