@@ -1,30 +1,29 @@
-﻿using Ad.Application.Contracts.Category;
+﻿using Ad.Application.Contracts.TimeUnit;
 using Ad.Application.DTO.CreateDtos;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ad.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CategoryController:ControllerBase
+public class TimeUnitController:ControllerBase
 {
-    private readonly ICategoryService _service;
+    private readonly ITimeUnitService _service;
 
-    public CategoryController(ICategoryService service)
+    public TimeUnitController(ITimeUnitService service)
     {
         _service = service;
     }
     
-    [HttpPost("/api/category/post/")]
+    [HttpPost("/api/timeunit/post/")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAsync([FromBody] CreateCategoryDto dto)
+    public async Task<IActionResult> GetAsync([FromBody] CreateTimeUnitDto dto)
     {
         var result = await _service.CreateAsync(dto);
         return Ok(result);
     }
     
-    [HttpGet("/api/category/get/{id}")]
+    [HttpGet("/api/timeunit/get/{id}")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAsync([FromRoute] Guid id)
     {
@@ -32,7 +31,7 @@ public class CategoryController:ControllerBase
         return Ok(result);
     }
     
-    [HttpGet("/api/category/get/")]
+    [HttpGet("/api/timeunit/get/")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllAsync()
     {
