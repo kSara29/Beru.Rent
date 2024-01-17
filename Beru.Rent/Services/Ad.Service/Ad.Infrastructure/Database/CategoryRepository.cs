@@ -1,6 +1,7 @@
 ﻿using Ad.Application.Contracts.Category;
 using Ad.Domain.Models;
 using Ad.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ad.Infrastructure.Database;
 
@@ -37,8 +38,9 @@ public class CategoryRepository:ICategoryRepository
         return entity;
     }
 
-    public Task<List<Category?>> GetAllAsync()
+    public async Task<List<Category?>?> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var result = await _context.Categories.ToListAsync();
+        return result;
     }
 }

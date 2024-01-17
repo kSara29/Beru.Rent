@@ -30,7 +30,7 @@ public class CategoryService:ICategoryService
     public async Task<BaseApiResponse<List<CategoryDto?>>> GetAllAsync()
     {
         var result = await _repository.GetAllAsync();
-       // return new BaseApiResponse<List<CategoryDto?>>(result.Select(c=>c.ToDto())
-       throw new Exception();
+        return new BaseApiResponse<List<CategoryDto?>>(result.Select(c => c.ToDto()).ToList());
+
     }
 }
