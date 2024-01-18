@@ -13,7 +13,7 @@ public class BookingService: IBookingService
     public BookingService(IBookingRepository bookingRepository)
     {
         _bookingRepository = bookingRepository;
-    }
+    }   
 
     public async Task<bool> CancelReservationAsync(Booking booking)
     {
