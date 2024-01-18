@@ -33,11 +33,11 @@ public class AdController:ControllerBase
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAdAsync(
         [FromQuery] int page = 0,
-        [FromQuery] string sortdate = "fromnew",
-        [FromQuery] string sortprice = "fromlow",
-        [FromQuery] string cat = "all")
+        [FromQuery] string sortdate = "",
+        [FromQuery] string sortprice = "",
+        [FromQuery] string cat = "")
     {
         var result = await _service.GetAllAdAsync(page, sortdate, sortprice, cat);
-        return Ok(result);
+        return Ok(new {result.Data.MainPageDto, result.Data.TotalPage});
     }
 }

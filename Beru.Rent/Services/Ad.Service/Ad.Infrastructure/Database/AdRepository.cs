@@ -1,6 +1,8 @@
 
 
 using Ad.Application.Contracts.Ad;
+using Ad.Application.Mapper;
+using Ad.Application.DTO.GetDtos;
 using Ad.Domain.Models;
 using Ad.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +51,7 @@ public class AdRepository : IAdRepository
 
    }
 
-   public  async Task<List<Advertisement>?> GetAllAdAsync(int page, string sortdate, string sortprice, string cat)
+   public  async Task<GetMainPageDto<Advertisement>?> GetAllAdAsync(int page, string sortdate, string sortprice, string cat)
    {
       IQueryable<Advertisement> query = _context.Ads
          .Include(a => a.Category)
@@ -72,9 +74,6 @@ public class AdRepository : IAdRepository
          case "fromold":
             query = query.OrderBy(a => a.CreatedAt);
             break;
-         default:
-            query = query.OrderByDescending(a => a.CreatedAt);
-            break;
       }
       #endregion
       
@@ -87,26 +86,26 @@ public class AdRepository : IAdRepository
          case "fromlow":
             query = query.OrderBy(a => a.Price);
             break;
-         default:
-            query = query.OrderByDescending(a => a.Price);
-            break;
       }
       #endregion
 
       #region Пагинация
-
+      int totalItems = await query.CountAsync();
+      int totalPages = 0;
       if (page > 0)
       {
          const int pageSize = 9;
          int skip = (page - 1) * pageSize;
          query = query.Skip(skip).Take(pageSize);
+         totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
       }
       
       #endregion
       
+      
       var result = await query.ToListAsync();
 
-      
-      return result;
+
+      return new GetMainPageDto<Advertisement>(result, totalPages);
    }
 }
