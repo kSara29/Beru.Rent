@@ -22,7 +22,6 @@ public class AdDto
     public ContractType? ContractType { get; set; }
     public Guid? AddressExtraId { get; set; }
     public AddressExtra? AddressExtra { get; set; }
-    public AddressMain? AddressMain { get; set; }
     public Category? Category { get; set; }
     public List<MemoryStream>? Files { get; set; }
 }

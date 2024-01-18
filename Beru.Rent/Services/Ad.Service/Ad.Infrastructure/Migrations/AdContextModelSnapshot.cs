@@ -67,42 +67,13 @@ namespace Ad.Infrastructure.Migrations
                     b.ToTable("AddressExtras");
                 });
 
-            modelBuilder.Entity("Ad.Domain.Models.AddressMain", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("PostIndex")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Region")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AddressMains");
-                });
-
             modelBuilder.Entity("Ad.Domain.Models.Advertisement", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AddressExtraId")
+                    b.Property<Guid?>("AddressExtraId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("CategoryId")
@@ -268,7 +239,6 @@ namespace Ad.Infrastructure.Migrations
                         .HasColumnType("interval");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -280,9 +250,7 @@ namespace Ad.Infrastructure.Migrations
                 {
                     b.HasOne("Ad.Domain.Models.AddressExtra", "AddressExtra")
                         .WithMany()
-                        .HasForeignKey("AddressExtraId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AddressExtraId");
 
                     b.HasOne("Ad.Domain.Models.Category", "Category")
                         .WithMany()

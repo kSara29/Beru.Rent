@@ -43,7 +43,10 @@ public static class AdMap
             CategoryId = model.CategoryId,
             TimeUnitId = model.TimeUnitId,
             ContractType = model.ContractType,
-            AddressExtraId = model.AddressExtraId
+            AddressExtraId = model.AddressExtraId,
+            Category = model.Category,
+            AddressExtra = model.AddressExtra,
+            TimeUnit = model.TimeUnit
         };
     }
 

@@ -39,7 +39,12 @@ public class AdRepository : IAdRepository
 
    public async Task<Advertisement?> GetAdAsync(Guid id)
    {
-      var ad = await _context.Ads.FindAsync(id);
+      var ad = await _context.Ads
+         .Include(a => a.Category)
+         .Include(a => a.AddressExtra)
+         .Include(a => a.TimeUnit)
+         .Include(a=>a.Files)
+         .FirstOrDefaultAsync(a=>a.Id==id);
       return ad;
 
    }
@@ -48,7 +53,8 @@ public class AdRepository : IAdRepository
    {
       IQueryable<Advertisement> query = _context.Ads
          .Include(a => a.Category)
-         .Include(a => a.AddressExtra);
+         .Include(a => a.AddressExtra)
+         .Include(a => a.TimeUnit);
 
       #region Сортировка по категории
       if (cat != "all")
