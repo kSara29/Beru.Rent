@@ -1,4 +1,4 @@
-﻿namespace Auth.ViewModels;
+﻿namespace User.Api.Models;
 
 public class LoginViewModel
 {

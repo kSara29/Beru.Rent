@@ -1,46 +1,25 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using User.Application;
-using User.Application.Contracts;
-using User.Application.DTO;
 using User.Application.Extencions;
 using User.Infrastructure;
 using User.Infrastructure.Context;
 using FastEndpoints;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using User.Api;
+using User.Api.IdentityConfiguration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureService();
 builder.Services.AddFastEndpoints();
-
-// builder.Services.AddAuthentication(config =>
-//     {
-//         config.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-//         config.DefaultChallengeScheme = "oidc";
-//     })
-//     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-//     .AddOpenIdConnect("oidc", config =>
-//     {
-//         config.Authority = "https://localhost:7114";
-//         config.ClientId = "client_id_mvc";
-//         config.ClientSecret = "client_secret_mvc";
-//         config.SaveTokens = true;
-//         config.ResponseType = "code";
-//         config.GetClaimsFromUserInfoEndpoint = true;
-//         config.Scope.Add("User.Api");
-//     });
+builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<UserContext>(options =>
 {
@@ -53,6 +32,29 @@ builder.Services.AddDbContext<UserContext>(options =>
     opt.Password.RequireUppercase = false;
     opt.Password.RequireNonAlphanumeric = false;
 }).AddEntityFrameworkStores<UserContext>();
+
+// Add services to the container.
+builder.Services.AddIdentityServer(config =>
+    {
+        config.UserInteraction.LoginUrl = "/Auth/Login";
+    })
+    .AddAspNetIdentity<IdentityUser>()
+    .AddInMemoryClients(Configuration.GetClients())
+    .AddInMemoryApiResources(Configuration.GetApiResources())
+    .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
+    .AddInMemoryApiScopes(Configuration.GetScopes())
+    // .AddProfileService<ProfileService>()
+    .AddDeveloperSigningCredential();
+
+builder.Services.AddCors(config =>
+{
+    config.AddPolicy("DefaultPolicy", b =>
+    {
+        b.AllowAnyOrigin();
+        b.AllowAnyMethod();
+        b.AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -82,7 +84,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
 
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
 

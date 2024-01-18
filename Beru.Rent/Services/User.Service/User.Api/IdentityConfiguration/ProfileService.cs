@@ -2,7 +2,7 @@
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 
-namespace Auth.Extensions;
+namespace User.Api.IdentityConfiguration;
 
 public class ProfileService : IProfileService
 {
