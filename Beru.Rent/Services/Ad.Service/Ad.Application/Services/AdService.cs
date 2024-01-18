@@ -1,6 +1,7 @@
 
 using Ad.Api.DTO;
 using Ad.Application.Contracts.Ad;
+using Ad.Application.Contracts.File;
 using Ad.Application.DTO.GetDtos;
 using Ad.Application.Mapper;
 using Ad.Application.Responses;
@@ -11,10 +12,12 @@ namespace Ad.Application.Services;
 public class AdService : IAdService
 {
     private readonly IAdRepository _repository;
+    private readonly IFileRepository _fileRepository;
 
-    public AdService(IAdRepository repository)
+    public AdService(IAdRepository repository,IFileRepository fileRepository)
     {
         _repository = repository;
+        _fileRepository = fileRepository;
     }
     public async Task<BaseApiResponse<Guid>> CreateAdAsync(CreateAdDto ad)
     {
@@ -27,7 +30,9 @@ public class AdService : IAdService
         var result = await _repository.GetAdAsync(id);
         if (result != null)
         {
-              var data = result.ToDto(); 
+              var data = result.ToDto();
+              var files = await _fileRepository.GetAllFilesAsync(id);
+              data.Files = files;
               return new BaseApiResponse<AdDto>(data); 
         }
         return new BaseApiResponse<AdDto>(null, "Некорректный id");

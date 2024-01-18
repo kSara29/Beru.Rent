@@ -8,4 +8,5 @@ public interface IFileRepository
     Task<Guid> UploadFileAsync(FileModel entity, IFormFile file);
     Task<string> RemoveFileAsync(Guid id);
     Task<byte[]> GetFileAsync(Guid id);
+    Task<List<byte[]>> GetAllFilesAsync(Guid bucketId);
 }

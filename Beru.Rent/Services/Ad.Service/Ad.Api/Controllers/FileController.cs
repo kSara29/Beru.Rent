@@ -43,7 +43,7 @@ public class FileController : ControllerBase
 
     [HttpDelete("api/delete/{id}")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> UploadFile([FromRoute] Guid id)
+    public async Task<IActionResult> DeleteFile([FromRoute] Guid id)
     {
         await _service.RemoveFileAsync(id);
         return Ok("Файл удален");
@@ -61,13 +61,7 @@ public class FileController : ControllerBase
 
     }
 
-private (string FileName, string FileExtension) GetFileNameAndExtension(byte[] fileBytes)
-{
-    // Your logic to determine file name and extension
-    // This might involve file signature analysis, content type detection, etc.
-    // For simplicity, you can use a placeholder or default values
-    return ("file", ".jpg");
-}
+
 
 #endregion
 }

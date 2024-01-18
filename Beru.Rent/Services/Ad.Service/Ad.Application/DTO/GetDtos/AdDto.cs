@@ -23,6 +23,6 @@ public class AdDto
     public Guid? AddressExtraId { get; set; }
     public AddressExtra? AddressExtra { get; set; }
     public Category? Category { get; set; }
-    public List<MemoryStream>? Files { get; set; }
+    public List<byte[]>? Files { get; set; }
 }
 
