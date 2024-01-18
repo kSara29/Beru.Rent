@@ -4,7 +4,7 @@ using User.Application.DTO;
 
 namespace User.Api.Endpoints;
 
-public class GetUserByMail(IUserService service): Endpoint<UserDto>
+public class GetUserByMail(IUserService service): Endpoint<GetUserByEmailRequest, UserDto>
 {
     public override void Configure()
     {
@@ -12,10 +12,15 @@ public class GetUserByMail(IUserService service): Endpoint<UserDto>
         AllowAnonymous();
     }
     public override async Task HandleAsync
-        (UserDto? model, CancellationToken ct)
+        (GetUserByEmailRequest? request, CancellationToken ct)
     { 
-        if (model is null) await SendAsync(null!, cancellation: ct);
-        var result = await service.GetUserByMailAsync(model.Mail);
+        if (request is null) await SendAsync(null!, cancellation: ct);
+        var result = await service.GetUserByMailAsync(request!.Email);
         await SendAsync(result, cancellation: ct);
     }
+}
+
+public abstract record GetUserByEmailRequest
+{
+    [QueryParam] public required string Email { get; init; }
 }

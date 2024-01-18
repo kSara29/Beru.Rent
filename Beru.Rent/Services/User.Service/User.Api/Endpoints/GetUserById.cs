@@ -12,15 +12,15 @@ public class GetUserById(IUserService service): Endpoint<GetUserByIdRequest, Use
         AllowAnonymous();
     }
     public override async Task HandleAsync
-        (GetUserByIdRequest request, CancellationToken ct)
+        (GetUserByIdRequest? request, CancellationToken ct)
     {
         if (request is null) await SendAsync(null!, cancellation: ct);
-        var result = await service.GetUserByIdAsync(request.Id);
+        var result = await service.GetUserByIdAsync(request!.Id);
         await SendAsync(result, cancellation: ct);
     }
 }
 
-public record GetUserByIdRequest
+public abstract record GetUserByIdRequest
 {
-    [QueryParam] public required string Id { get; set; }
+    [QueryParam] public required string Id { get; init; }
 }

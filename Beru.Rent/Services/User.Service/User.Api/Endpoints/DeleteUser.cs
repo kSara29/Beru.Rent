@@ -1,7 +1,6 @@
 using FastEndpoints;
 using User.Application.Contracts;
 using User.Application.DTO;
-using User.Application.Extencions;
 
 namespace User.Api.Endpoints;
 
@@ -13,15 +12,15 @@ public class DeleteUser(IUserService service): Endpoint<DeleteUserRequest, UserD
         Roles("admin");
     }
     public override async Task HandleAsync
-        (DeleteUserRequest request, CancellationToken ct)
+        (DeleteUserRequest? request, CancellationToken ct)
     {
         if (request is null) await SendAsync(null!, cancellation: ct);
-        var result = await service.DeleteUserAsync(request.Id);
+        var result = await service.DeleteUserAsync(request!.UserId);
         await SendAsync(result, cancellation: ct);
     }
 }
 
-public record DeleteUserRequest
+public abstract record DeleteUserRequest
 {
-    [QueryParam] public required string Id { get; set; }
+    [QueryParam] public required string UserId { get; set; }
 }
