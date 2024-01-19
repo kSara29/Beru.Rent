@@ -12,13 +12,7 @@ using Minio;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddFastEndpoints();
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddInfrastructureServices();
-builder.Services.AddApplicationService();
-builder.Services.AddSwaggerGen();
+
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -36,6 +30,13 @@ builder.Services.AddMinio(configureClient => configureClient
     .WithCredentials(accessKey, secretKey));
 #endregion
 
+builder.Services.AddFastEndpoints();
+// Add services to the container.
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddInfrastructureServices();
+builder.Services.AddApplicationService();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
