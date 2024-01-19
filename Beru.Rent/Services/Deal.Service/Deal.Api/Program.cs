@@ -12,18 +12,12 @@ using Minio;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddFastEndpoints();
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddInfrastructureServices();
-builder.Services.AddApplicationService();
-builder.Services.AddSwaggerGen();
+
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<DealContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString), ServiceLifetime.Scoped);
 
 #region Подключаю Minio
 var endpoint = "play.min.io";
@@ -36,6 +30,13 @@ builder.Services.AddMinio(configureClient => configureClient
     .WithCredentials(accessKey, secretKey));
 #endregion
 
+builder.Services.AddFastEndpoints();
+// Add services to the container.
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddInfrastructureServices();
+builder.Services.AddApplicationService();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 

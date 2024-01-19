@@ -17,7 +17,7 @@ namespace Deal.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -28,15 +28,17 @@ namespace Deal.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("AdId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("AdId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("BookingState")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("Cost")
+                    b.Property<DateTime?>("CancelAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<decimal?>("Cost")
                         .HasColumnType("numeric");
 
                     b.Property<DateTime>("CreatedAt")
@@ -48,9 +50,8 @@ namespace Deal.Infrastructure.Migrations
                     b.Property<DateTime>("Dend")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("TenantId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -93,15 +94,17 @@ namespace Deal.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("AdId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("AdId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CancelAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("ChatId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("Cost")
+                    b.Property<decimal?>("Cost")
                         .HasColumnType("numeric");
 
                     b.Property<DateTime>("CreatedAt")
@@ -120,13 +123,11 @@ namespace Deal.Infrastructure.Migrations
                     b.Property<decimal>("Deposit")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("OwnerId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("TenantId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 

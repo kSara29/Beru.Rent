@@ -2,10 +2,10 @@
 
 [Serializable]
 public record CreateDealDto(
-    string AdId,
-    string TenantId,
+    Guid AdId,
+    Guid TenantId,
     decimal Cost,
-    string OwnerId,
+    Guid OwnerId,
     string DealState,
     decimal Deposit
     );

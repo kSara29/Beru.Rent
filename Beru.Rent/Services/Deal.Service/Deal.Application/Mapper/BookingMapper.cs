@@ -1,5 +1,6 @@
 ﻿using Deal.Api.DTO;
 using Deal.Api.DTO.Booking;
+using Deal.Application.DTO.Booking;
 using Deal.Domain.Models;
 
 namespace Deal.Api.Mapper;
@@ -19,4 +20,8 @@ public static class BookingMapper
             dto.Cost,
             dto.Dbeg,
             dto.Dend);
+    public static Booking ToDomain(this GetAllBookingDto dto)
+        => new(
+            dto.AdId
+            );
 }

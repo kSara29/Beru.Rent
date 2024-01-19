@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Deal.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddDataSeeding : Migration
+    public partial class NewInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,11 +18,12 @@ namespace Deal.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     BookingState = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    AdId = table.Column<string>(type: "text", nullable: false),
-                    TenantId = table.Column<string>(type: "text", nullable: false),
+                    AdId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uuid", nullable: false),
                     Dbeg = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Dend = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Cost = table.Column<decimal>(type: "numeric", nullable: false)
+                    CancelAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    Cost = table.Column<decimal>(type: "numeric", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -50,16 +51,17 @@ namespace Deal.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    OwnerId = table.Column<string>(type: "text", nullable: false),
+                    OwnerId = table.Column<Guid>(type: "uuid", nullable: false),
                     DealState = table.Column<string>(type: "text", nullable: false),
                     Deposit = table.Column<decimal>(type: "numeric", nullable: false),
                     ChatId = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    AdId = table.Column<string>(type: "text", nullable: false),
-                    TenantId = table.Column<string>(type: "text", nullable: false),
+                    AdId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uuid", nullable: false),
                     Dbeg = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Dend = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Cost = table.Column<decimal>(type: "numeric", nullable: false)
+                    CancelAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    Cost = table.Column<decimal>(type: "numeric", nullable: true)
                 },
                 constraints: table =>
                 {
