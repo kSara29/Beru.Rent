@@ -33,6 +33,25 @@
         {
             try
             {
+                List<Booking> bookings = _db.Bookings.ToList();
+                
+                if (booking.Dbeg < DateTime.UtcNow.AddMinutes(-1))
+                    return false;
+                
+                foreach (var book in bookings)
+                {
+                    if (booking.AdId == book.AdId && book.BookingState == BookingState.Accept.ToString())
+                    {
+                        if (booking.Dbeg > book.Dbeg && booking.Dbeg < book.Dend || 
+                            booking.Dend > book.Dbeg && booking.Dend < book.Dend ||
+                            booking.Dbeg < book.Dbeg && booking.Dend > book.Dend 
+                            )
+                        {
+                            return false;
+                        }
+                    }
+                }
+                
                 _db.Bookings.Add(booking);
                 await _db.SaveChangesAsync();
                 return true; 
