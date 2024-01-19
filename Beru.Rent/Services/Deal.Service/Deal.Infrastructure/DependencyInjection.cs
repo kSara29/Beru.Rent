@@ -8,7 +8,7 @@ public static class DependencyInjection
 {
    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
    {
-      services.AddSingleton<IBookingRepository, EfBookingRepository>();
+      services.AddScoped<IBookingRepository, EfBookingRepository>();
       return services;
    }
 }

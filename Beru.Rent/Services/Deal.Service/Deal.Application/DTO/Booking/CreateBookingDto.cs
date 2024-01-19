@@ -4,8 +4,8 @@ namespace Deal.Api.DTO.Booking;
 
 [Serializable]
 public record CreateBookingDto(
-    string AdId,
-    string TenantId,
+    Guid AdId,
+    Guid TenantId,
     decimal Cost,
     DateTime Dbeg,
     DateTime Dend

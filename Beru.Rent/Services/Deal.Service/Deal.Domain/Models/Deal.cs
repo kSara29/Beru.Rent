@@ -5,16 +5,16 @@ namespace Deal.Domain.Models;
 
 public class Deal: DealEntity
 {
-     public string OwnerId { get; set; }
+     public Guid OwnerId { get; set; }
      public string DealState { get; set; }
      public decimal Deposit { get; set; }
      public string ChatId { get; set; }
 
      public Deal(
-          string adId,
-          string tenantId,
+          Guid adId,
+          Guid tenantId,
           decimal cost,
-          string ownerId,
+          Guid ownerId,
           string dealState,
           decimal deposit
      )

@@ -3,6 +3,7 @@ using Deal.Api.DTO;
 using Deal.Api.DTO.Booking;
 using Deal.Api.Mapper;
 using Deal.Application.Contracts.Booking;
+using Deal.Application.DTO.Booking;
 using Deal.Domain.Models;
 
 namespace Deal.Application.Services;
@@ -24,5 +25,9 @@ public class BookingService: IBookingService
     {
         return await _bookingRepository.CreateBookingAsync(dto.ToDomain());
     }
-    
+
+    public async Task<DateTime[,]> GetAllBookingsAsync(Guid id)
+    {
+        return await _bookingRepository.GetAllBookingsAsync(id);
+    }
 }
