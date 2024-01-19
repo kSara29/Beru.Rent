@@ -56,7 +56,8 @@ public class AdRepository : IAdRepository
       IQueryable<Advertisement> query = _context.Ads
          .Include(a => a.Category)
          .Include(a => a.AddressExtra)
-         .Include(a => a.TimeUnit);
+         .Include(a => a.TimeUnit)
+         .Include(a=>a.Files);
 
       #region Сортировка по категории
       if (cat != "all")

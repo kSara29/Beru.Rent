@@ -4,7 +4,7 @@ namespace Ad.Application.DTO.GetDtos;
 
 public class AdMainPageDto
 {
-    public Guid? Id { get; set; }
+    public Guid Id { get; set; }
     public DateTime? CreatedAt { get; set; }
     public Guid? UserId { get; set; }
     public string? Title { get; set; }
@@ -16,5 +16,5 @@ public class AdMainPageDto
     public Guid? TimeUnitId { get; set; }
     public string? City { get; set; }
     public string Street { get; set; }
-    public List<MemoryStream>? Files { get; set; }
+    public List<byte[]>? Files { get; set; }
 }
