@@ -35,7 +35,7 @@ public class AdController:ControllerBase
         [FromQuery] int page = 0,
         [FromQuery] string sortdate = "",
         [FromQuery] string sortprice = "",
-        [FromQuery] Guid cat =default)
+        [FromQuery] string cat ="all")
     {
         var result = await _service.GetAllAdAsync(page, sortdate, sortprice, cat);
         return Ok(new {result.Data.MainPageDto, result.Data.TotalPage});

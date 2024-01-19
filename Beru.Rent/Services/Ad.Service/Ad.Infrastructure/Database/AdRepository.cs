@@ -51,7 +51,7 @@ public class AdRepository : IAdRepository
 
    }
 
-   public  async Task<GetMainPageDto<Advertisement>?> GetAllAdAsync(int page, string sortdate, string sortprice, Guid cat)
+   public  async Task<GetMainPageDto<Advertisement>?> GetAllAdAsync(int page, string sortdate, string sortprice, string cat)
    {
       IQueryable<Advertisement> query = _context.Ads
          .Include(a => a.Category)
@@ -60,9 +60,9 @@ public class AdRepository : IAdRepository
          .Include(a=>a.Files);
 
       #region Сортировка по категории
-      if (cat != null)
+      if (cat != "all")
       {
-         query = query.Where(a => a.Category.Id == cat|| a.Category.ParentId == cat);
+         query = query.Where(a => a.Category.Title == cat);
       }
       #endregion
 
