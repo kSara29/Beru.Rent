@@ -16,22 +16,15 @@ public class GetAllBookings(IBookingService service): Endpoint<GetAllBookingDto>
     public override async Task HandleAsync(GetAllBookingDto model, CancellationToken ct)
     {
         var results = await service.GetAllBookingsAsync(model.AdId);
-        DateArray[] dateTimes = new DateArray[results.Length];
-        for (int i = 0; i < results.Length; i++)
+        DateArray[] dateTimes = new DateArray[results.Length/2];
+        for (int i = 0; i < results.Length/2; i++)
         {
-            dateTimes[i].from = results[i,0];
-            dateTimes[i].to = results[i,1];
+            dateTimes[i] = new DateArray()
+            {
+                from = results[i, 0],
+                to = results[i, 1]
+            };
         }
-        /*
-           [[дата начала, дата конца],
-            [дата начала, дата конца],
-            [дата начала, дата конца]]
-
-            [[[дата начала],[дата конца]],
-             [[дата начала],[дата конца]],
-             [[дата начала],[дата конца]]]
-
-           */
         await SendAsync(dateTimes, cancellation: ct);
     }
 }
