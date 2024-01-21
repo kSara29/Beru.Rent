@@ -1,4 +1,6 @@
 ﻿using Ad.Api.DTO;
+using Ad.Application.Contracts.File;
+using Ad.Application.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ad.Api.Controllers;
@@ -8,10 +10,12 @@ namespace Ad.Api.Controllers;
 public class AdController:ControllerBase
 {
     private readonly IAdService _service;
+    private readonly IFileService _fileService;
 
-    public AdController(IAdService service)
+    public AdController(IAdService service, IFileService fileService)
     {
         _service = service;
+        _fileService = fileService;
     }
     
     [HttpPost("/api/ad/create")]
@@ -19,6 +23,11 @@ public class AdController:ControllerBase
     public async Task<IActionResult> CreateAdAsync([FromForm] CreateAdDto dto)
     {
        var result =  await _service.CreateAdAsync(dto);
+       foreach (var file in dto.Files)
+       {
+           var fileDto = new CreateFileDto(result.Data, file);
+           await _fileService.UploadFileAsync(fileDto);
+       }
        return Ok(result);
     }
     
