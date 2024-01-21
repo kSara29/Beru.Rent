@@ -9,7 +9,7 @@ public class Advertisement  : Entity
     public string Title { get; set; }
     public string Description { get; set; }
     public string? ExtraConditions { get; set; }
-    public bool NeededDeposit { get; set; }
+    public bool? NeededDeposit { get; set; }
     public decimal? MinDeposit { get; set; }
     public AdState State { get; set; }
     public decimal Price { get; set; }
