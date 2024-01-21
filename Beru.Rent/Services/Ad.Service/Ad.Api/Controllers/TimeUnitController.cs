@@ -15,9 +15,9 @@ public class TimeUnitController:ControllerBase
         _service = service;
     }
     
-    [HttpPost("/api/timeunit/post/")]
+    [HttpPost("/api/timeunit/post/create")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAsync([FromBody] CreateTimeUnitDto dto)
+    public async Task<IActionResult> GetAsync(CreateTimeUnitDto dto)
     {
         var result = await _service.CreateAsync(dto);
         return Ok(result);

@@ -11,7 +11,8 @@ public static class TimeUnitMap
         return new TimeUnit
         {
             Title = dto.Title,
-            Duration = dto.Duration
+            Duration = TimeSpan.Parse(dto.Duration),
+            CreatedAt = DateTime.Now
         };
     }
     
