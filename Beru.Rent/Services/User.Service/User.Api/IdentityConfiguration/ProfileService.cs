@@ -8,11 +8,6 @@ public class ProfileService : IProfileService
 {
     public Task GetProfileDataAsync(ProfileDataRequestContext context)
     {
-        var claims = new List<Claim>
-        {
-            new(ClaimTypes.DateOfBirth, "01.02.2010")
-        };
-        context.IssuedClaims.AddRange(claims);
         return Task.CompletedTask;
     }
 

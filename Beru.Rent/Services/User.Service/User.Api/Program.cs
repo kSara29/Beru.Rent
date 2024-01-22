@@ -38,12 +38,12 @@ builder.Services.AddIdentityServer(config =>
     {
         config.UserInteraction.LoginUrl = "/Auth/Login";
     })
-    .AddAspNetIdentity<IdentityUser>()
+    .AddAspNetIdentity<User.Domain.Models.User>()
     .AddInMemoryClients(Configuration.GetClients())
     .AddInMemoryApiResources(Configuration.GetApiResources())
     .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
     .AddInMemoryApiScopes(Configuration.GetScopes())
-    // .AddProfileService<ProfileService>()
+    .AddProfileService<ProfileService>()
     .AddDeveloperSigningCredential();
 
 builder.Services.AddCors(config =>

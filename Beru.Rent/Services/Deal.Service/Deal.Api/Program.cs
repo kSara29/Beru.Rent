@@ -8,8 +8,7 @@ using Minio;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DealContext>(options =>
     options.UseNpgsql(connectionString), ServiceLifetime.Scoped);
 
