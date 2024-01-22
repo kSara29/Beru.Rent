@@ -10,10 +10,15 @@ namespace Ad.Api.Controllers;
 public class AddressController:ControllerBase
 {
     private readonly IAddressService<CreateAddressExtraDto, AddressExtraDto> _addressExtraService;
+    private readonly HttpClient _httpClient;
+    private readonly string _dadataToken = "6eccf7edd6d4d8526063c7f9ffda8de2b50a5cb6";
 
-    public AddressController(IAddressService<CreateAddressExtraDto, AddressExtraDto> addressExtraService)
+    public AddressController(IAddressService<CreateAddressExtraDto, AddressExtraDto> addressExtraService, HttpClient httpClient)
     {
         _addressExtraService = addressExtraService;
+        _httpClient = httpClient;
+        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Token {_dadataToken}");
+        _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
     }
     
 
@@ -42,4 +47,16 @@ public class AddressController:ControllerBase
         var result = await _addressExtraService.RemoveAsync(id);
         return Ok(result);
     }
+    
+    
+    [HttpPost("/api/address/suggestions")]
+    public async Task<string> SuggestAddress(string query)
+    {
+        var response = await _httpClient.PostAsJsonAsync("https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address", new { query });
+        response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync();
+        return content;
+    }
+    
+    
 }

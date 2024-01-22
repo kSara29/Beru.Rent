@@ -41,6 +41,7 @@ builder.Services.AddMinio(accessKey, secretKey);
 builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureServices();
 builder.Services.AddControllers();
+builder.Services.AddHttpClient();
 
 
 // builder.Services.AddDbContext<AdContext>(options =>
