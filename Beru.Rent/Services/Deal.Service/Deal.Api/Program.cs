@@ -1,8 +1,4 @@
-using Deal.Api.DTO.Deal;
-using Deal.Api.Mapper;
-using Deal.Application.Contracts.Deal;
 using Deal.Infrastructure.Persistance;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using Deal.Application;
@@ -13,8 +9,6 @@ using Minio;
 var builder = WebApplication.CreateBuilder(args);
 
 
-
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<DealContext>(options =>
     options.UseNpgsql(connectionString), ServiceLifetime.Scoped);
