@@ -16,6 +16,6 @@ public record CreateAdDto(
     [property: JsonPropertyName("timeUnitId")]Guid TimeUnitId,
     [property: JsonPropertyName("contractTypeId")]int ContractType,
     [property: JsonPropertyName("addressExtraId")]Guid? AddressExtraId,
-    [property: JsonPropertyName("addressExtraId")]string Address,
+    [property: JsonPropertyName("addressExtra")]string Address,
     [property: JsonPropertyName("tags")]string Tags,
     [property: JsonPropertyName("files")] List<IFormFile> Files);
