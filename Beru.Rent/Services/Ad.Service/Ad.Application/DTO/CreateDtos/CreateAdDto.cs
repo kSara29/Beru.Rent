@@ -9,7 +9,7 @@ public record CreateAdDto(
     [property: JsonPropertyName("title")]string Title,
     [property: JsonPropertyName("description")]string Description,
     [property: JsonPropertyName("extraConditions")]string? ExtraConditions,
-    [property: JsonPropertyName("deposit")]bool? NeededDeposit,
+    [property: JsonPropertyName("neededDeposit")]bool? NeededDeposit,
     [property: JsonPropertyName("minDeposit")]decimal? MinDeposit,
     [property: JsonPropertyName("price")]decimal Price,
     [property: JsonPropertyName("categoryId")]Guid CategoryId,
