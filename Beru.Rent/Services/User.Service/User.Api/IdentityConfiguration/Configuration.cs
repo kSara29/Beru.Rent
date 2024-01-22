@@ -7,22 +7,6 @@ public static class Configuration
 {
     public static IEnumerable<Client> GetClients() => new List<Client>
     {
-        // new()
-        // {
-        //     ClientId = "client_id_mvc",
-        //     ClientSecrets = { new Secret("client_secret_mvc".ToSha256()) },
-        //     AllowedGrantTypes = GrantTypes.Code,
-        //     AllowedScopes =
-        //     {
-        //         "OrdersAPI", 
-        //         IdentityServerConstants.StandardScopes.OpenId,
-        //         IdentityServerConstants.StandardScopes.Profile
-        //     },
-        //     RedirectUris = { "https://localhost:11000/signin-oidc" },
-        //     RequireConsent = false,
-        //     AccessTokenLifetime = 5,
-        //     AllowOfflineAccess = true
-        // },
         new()
         {
             ClientId = "client_id_vue",
@@ -30,11 +14,11 @@ public static class Configuration
             RequireConsent = false,
             RequirePkce = true,
             AllowedGrantTypes = GrantTypes.Code,
-            AllowedCorsOrigins = {"https://localhost:7034"},//порт фронта
-            RedirectUris = { "https://localhost:7034/callback.html" },//порт фронта
+            AllowedCorsOrigins = {"https://localhost:7034"},
+            RedirectUris = { "https://localhost:7034/callback.html" },
             AllowedScopes =
             {
-                "User.Api", 
+                "User.Api",
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile
             }

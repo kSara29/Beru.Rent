@@ -1,8 +1,4 @@
-using Deal.Api.DTO.Deal;
-using Deal.Api.Mapper;
-using Deal.Application.Contracts.Deal;
 using Deal.Infrastructure.Persistance;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using Deal.Application;
@@ -19,8 +15,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddInfrastructureServices();
 builder.Services.AddApplicationService();
 builder.Services.AddSwaggerGen();
-
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<DealContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
