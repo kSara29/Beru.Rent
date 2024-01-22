@@ -8,13 +8,12 @@ public class AuthController : Controller
 {
     private readonly SignInManager<Domain.Models.User> _signInManager;
     private readonly UserManager<Domain.Models.User> _userManager;
-    private readonly IHttpClientFactory _httpClient;
 
     public AuthController
-        (IHttpClientFactory httpClient, SignInManager<Domain.Models.User> signInManager)
+        (SignInManager<Domain.Models.User> signInManager, UserManager<Domain.Models.User> userManager)
     {
-        _httpClient = httpClient;
         _signInManager = signInManager;
+        _userManager = userManager;
     }
 
     [HttpGet]
