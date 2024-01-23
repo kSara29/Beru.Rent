@@ -1,4 +1,4 @@
-﻿#region Общение в базой Minio
+﻿
 
 using Ad.Application.Contracts.File;
 using Ad.Application.DTO;
@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Minio;
 using Minio.DataModel.Args;
 
+
 [ApiController]
 public class FileController : ControllerBase
 {
+    #region Общение в базой Minio
     private readonly IMinioClient minioClient;
     private readonly IFileService _service;
 
@@ -41,7 +43,7 @@ public class FileController : ControllerBase
 
     [HttpDelete("api/delete/{id}")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> UploadFile([FromRoute] Guid id)
+    public async Task<IActionResult> DeleteFile([FromRoute] Guid id)
     {
         await _service.RemoveFileAsync(id);
         return Ok("Файл удален");
@@ -55,28 +57,11 @@ public class FileController : ControllerBase
     public async Task<IActionResult> GetFile([FromRoute] Guid id)
     {
         var response = await _service.GetFileAsync(id); // Assuming GetFileAsync returns byte[]
+        return Ok(response);
 
-        if (response == null || response.Data.Length == 0)
-        {
-            return NotFound();
-        }
-
-        var fileContentResult = new FileContentResult(response.Data, "application/octet-stream")
-        {
-            FileDownloadName = "d.jpg" // Set the file name here
-        };
-
-        return fileContentResult;
     }
 
-private (string FileName, string FileExtension) GetFileNameAndExtension(byte[] fileBytes)
-{
-    // Your logic to determine file name and extension
-    // This might involve file signature analysis, content type detection, etc.
-    // For simplicity, you can use a placeholder or default values
-    return ("file", ".jpg");
-}
 
-}
 
-    #endregion
+#endregion
+}

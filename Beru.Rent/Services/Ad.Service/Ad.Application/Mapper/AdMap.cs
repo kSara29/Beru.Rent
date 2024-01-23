@@ -1,4 +1,5 @@
 ﻿using Ad.Api.DTO;
+using Ad.Application.DTO.GetDtos;
 using Ad.Domain.Models;
 
 namespace Ad.Application.Mapper;
@@ -10,7 +11,61 @@ public static class AdMap
     {
         return new Advertisement
         {
-            
+            UserId = createAdDto.UserId,
+            Title = createAdDto.Title,
+            Description = createAdDto.Description,
+            ExtraConditions = createAdDto.ExtraConditions,
+            NeededDeposit = createAdDto.NeededDeposit,
+            MinDeposit = createAdDto.MinDeposit,
+            Price = createAdDto.Price,
+            CategoryId = createAdDto.CategoryId,
+            TimeUnitId = createAdDto.TimeUnitId,
+            ContractType = (ContractType)createAdDto.ContractType,
+            AddressExtraId = createAdDto.AddressExtraId
+        };
+    }
+    
+    public static AdDto ToDto(this Advertisement model)
+    {
+        return new AdDto
+        {
+            Id = model.Id,
+            CreatedAt = model.CreatedAt,
+            UserId = model.Id,
+            Title = model.Title,
+            Description = model.Description,
+            ExtraConditions = model.ExtraConditions,
+            NeededDeposit = model.NeededDeposit,
+            MinDeposit = model.MinDeposit,
+            State = model.State,
+            Price = model.Price,
+            UpdatedAt = model.UpdatedAt,
+            CategoryId = model.CategoryId,
+            TimeUnitId = model.TimeUnitId,
+            ContractType = model.ContractType,
+            AddressExtraId = model.AddressExtraId,
+            Category = model.Category,
+            AddressExtra = model.AddressExtra,
+            TimeUnit = model.TimeUnit
+        };
+    }
+
+    public static AdMainPageDto ToMainPageDto(this Advertisement model)
+    {
+        return new AdMainPageDto
+        {
+            Id = model.Id,
+            CreatedAt = model.CreatedAt,
+            UserId = model.Id,
+            Title = model.Title,
+            Description = model.Description,
+            State = model.State,
+            Price = model.Price,
+            CategoryId = model.CategoryId,
+            TimeUnitId = model.TimeUnitId,
+            Street = model.AddressExtra.Street,
+            City = model.AddressExtra.City,
+            Category = model.Category.Title
         };
     }
 }

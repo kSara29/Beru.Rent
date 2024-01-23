@@ -1,10 +1,6 @@
-﻿
+﻿namespace Ad.Application.DTO.CreateDtos;
 
-using Ad.Domain.Models.Common;
-
-namespace Ad.Domain.Models;
-
-public class AddressMain : Entity   
+public class CreateAddressMainDto
 {
     public required string Country { get; set; }
     public required string City { get; set; }

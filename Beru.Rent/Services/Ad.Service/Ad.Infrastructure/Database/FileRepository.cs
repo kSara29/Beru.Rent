@@ -2,10 +2,12 @@
 using Ad.Domain.Models;
 using Ad.Infrastructure.Context;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Minio;
 using Minio.DataModel;
 using Minio.DataModel.Args;
 using Minio.DataModel.Encryption;
+
 
 namespace Ad.Infrastructure.Database;
 
@@ -160,12 +162,7 @@ public class FileRepository:IFileRepository
                 var bytes = memoryStream.ToArray();
                 return bytes;
 
-                using (MemoryStream ms = new MemoryStream())
-                {
-                   await  stream.CopyToAsync(ms);
-                    var result =  ms.ToArray();
-                    return result;
-                }
+               
             }
         }
         catch (Exception e)
@@ -173,6 +170,31 @@ public class FileRepository:IFileRepository
             Console.WriteLine(e.Message);
             return null;
         }
+    }
+
+    public async Task<List<byte[]>> GetAllFilesAsync(Guid bucketId)
+    {
+        #region идем в Postgress И забираем массив id файлов внутри бакета с BucketId
+
+        var fileIds = await _context.Files
+            .Where(f => f.BucketName == bucketId.ToString())
+            .Select(f=>f.Id)
+            .ToListAsync();
+
+        if (fileIds.Count == 0)
+            return null;
+        #endregion
+
+        #region идем в Minio и по очереди забираем файлы, записываем в массив байтов
+
+        var files = new List<byte[]>();
+        foreach (var fileId in fileIds)
+        {
+            files.Add(await GetFileAsync(fileId));
+        }
+
+        return files;
+        #endregion
     }
 
 

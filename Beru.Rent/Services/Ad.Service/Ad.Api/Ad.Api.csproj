@@ -9,9 +9,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Minio" Version="6.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-        <PackageReference Include="Minio" Version="6.0.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
@@ -27,6 +27,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <ProjectReference Include="..\Ad.Application.csproj" />
+        <ProjectReference Include="..\Ad.Application\Ad.Application.csproj" />
         <ProjectReference Include="..\Ad.Infrastructure\Ad.Infrastructure.csproj" />
 
     </ItemGroup>

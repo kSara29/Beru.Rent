@@ -10,7 +10,6 @@ public class AdContext : DbContext
 
     public DbSet<Tariff> Tariffs { get; set; }
     public DbSet<Advertisement> Ads { get; set; }
-    public DbSet<AddressMain> AddressMains { get; set; }
     public DbSet<AddressExtra> AddressExtras { get; set; }
     public DbSet<Tag> Tags { get; set; }
     public DbSet<TimeUnit> TimeUnits { get; set; }
