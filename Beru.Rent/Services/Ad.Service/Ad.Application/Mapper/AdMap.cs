@@ -1,5 +1,6 @@
 ﻿using Ad.Api.DTO;
 using Ad.Domain.Models;
+using Ad.Dto;
 
 namespace Ad.Application.Mapper;
 

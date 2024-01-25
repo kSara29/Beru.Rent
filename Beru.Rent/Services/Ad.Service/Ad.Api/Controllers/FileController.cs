@@ -1,7 +1,7 @@
 ﻿#region Общение в базой Minio
 
 using Ad.Application.Contracts.File;
-using Ad.Application.DTO;
+using Ad.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Minio;
 using Minio.DataModel.Args;

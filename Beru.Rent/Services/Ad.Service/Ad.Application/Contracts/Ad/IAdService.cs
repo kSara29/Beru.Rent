@@ -1,7 +1,7 @@
-
-
-using Ad.Api.DTO;
 using Ad.Application.Responses;
+using Ad.Dto;
+
+namespace Ad.Application.Contracts.Ad;
 
 public interface IAdService
 {

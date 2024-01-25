@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Ad.Api.DTO;
+namespace Ad.Dto;
 
 [Serializable]
 public record CreateAdDto(

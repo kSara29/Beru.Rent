@@ -1,3 +1,4 @@
+using Ad.Application.Contracts.Ad;
 using Ad.Application.Contracts.File;
 using Ad.Application.Contracts.Tag;
 using Ad.Application.Services;

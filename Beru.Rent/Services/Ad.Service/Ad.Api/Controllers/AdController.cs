@@ -1,4 +1,6 @@
 ﻿using Ad.Api.DTO;
+using Ad.Application.Contracts.Ad;
+using Ad.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ad.Api.Controllers;

@@ -1,6 +1,6 @@
 ﻿using Ad.Api.DTO;
-using Ad.Application.DTO;
 using Ad.Application.Responses;
+using Ad.Dto;
 
 namespace Ad.Application.Contracts.File;
 
