@@ -7,7 +7,7 @@ public class GetAllBookings(IBookingService service): Endpoint<GetAllBookingDto>
 {
     public override void Configure()
     {
-        Post("api/booking/getallbookings");
+        Get("/api/booking/getallbookings");
         AllowAnonymous();
     }
 

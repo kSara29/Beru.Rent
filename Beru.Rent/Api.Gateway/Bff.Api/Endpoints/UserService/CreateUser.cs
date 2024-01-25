@@ -3,21 +3,21 @@ using Common;
 using FastEndpoints;
 using User.Dto;
 
-namespace Bff.Api.Endpoints;
+namespace Bff.Api.Endpoints.UserService;
 
-public class GetUserById(IUserService service) : Endpoint<GetUserByIdRequest, ResponseModel<UserDtoResponce>>
+public class CreateUser(IUserService service) : Endpoint<CreateUserDto, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
-        Get("/bff/user/getById");
+        Post("/bff/user/createUser");
         AllowAnonymous();
     }
     
     public override async Task HandleAsync
-        (GetUserByIdRequest? request, CancellationToken ct)
-    {
+        (CreateUserDto? request, CancellationToken ct)
+    { 
         if (request is null) await SendAsync(null!, cancellation: ct);
-        var response = await service.GetUserByIdAsync(request!);
+        var response = await service.CreateUserAsync(request!);
         await SendAsync(response, cancellation: ct);
     }
 }

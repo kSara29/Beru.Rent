@@ -5,7 +5,6 @@ using User.Application.Extencions;
 using User.Infrastructure;
 using User.Infrastructure.Context;
 using FastEndpoints;
-using User.Api;
 using User.Api.IdentityConfiguration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,7 +42,6 @@ builder.Services.AddIdentityServer(config =>
     .AddInMemoryApiResources(Configuration.GetApiResources())
     .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
     .AddInMemoryApiScopes(Configuration.GetScopes())
-    .AddProfileService<ProfileService>()
     .AddDeveloperSigningCredential();
 
 builder.Services.AddCors(config =>
@@ -86,7 +84,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
+app.UseIdentityServer();
 app.UseAuthorization();
 
 app.MapControllerRoute(

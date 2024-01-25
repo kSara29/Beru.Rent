@@ -3,21 +3,21 @@ using Common;
 using FastEndpoints;
 using User.Dto;
 
-namespace Bff.Api.Endpoints;
+namespace Bff.Api.Endpoints.UserService;
 
-public class UpdateUser(IUserService service) : Endpoint<UpdateUserDto, ResponseModel<UserDtoResponce>>
+public class GetUserByMail(IUserService service) : Endpoint<GetUserByEmailRequest, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
-        Post("/bff/user/updateUser");
+        Get("/bff/user/getByMail");
         AllowAnonymous();
     }
     
     public override async Task HandleAsync
-        (UpdateUserDto? request, CancellationToken ct)
+        (GetUserByEmailRequest? request, CancellationToken ct)
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
-        var response = await service.UpdateUserAsync(request!);
+        var response = await service.GetUserByEmailAsync(request!);
         await SendAsync(response, cancellation: ct);
     }
 }

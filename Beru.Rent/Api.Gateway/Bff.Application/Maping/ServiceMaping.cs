@@ -1,11 +1,10 @@
 ﻿using System.Text;
 using System.Text.Json;
 using Common;
-using User.Dto;
 
 namespace Bff.Application.Maping;
 
-public class UserServiceMaping
+public class ServiceMaping<T>
 {
     public async Task<HttpResponseMessage> HttpGetConnection(string connectionString)
     {
@@ -27,11 +26,11 @@ public class UserServiceMaping
     public string GetContentString(string content, string contentPropName) => 
         $"{{ \"{contentPropName}\": \"{content}\" }}";
     
-    public async Task<ResponseModel<UserDtoResponce>> UserResponceModelMaping(HttpResponseMessage responseMessage)
+    public async Task<ResponseModel<T>> ResponceModelMaping(HttpResponseMessage responseMessage)
     {
         if (!responseMessage.IsSuccessStatusCode)
         {
-            var responceFailed = new ResponseModel<UserDtoResponce>(new ResponseError
+            var responceFailed = new ResponseModel<T>(new ResponseError
             {
                 Code = "server",
                 Message = "Что то не так"
@@ -42,11 +41,11 @@ public class UserServiceMaping
             return responceFailed;
         }
         var jsonString = await responseMessage.Content.ReadAsStringAsync();
-        var userDto = JsonSerializer.Deserialize<UserDtoResponce>(jsonString);
+        var userDto = JsonSerializer.Deserialize<T>(jsonString);
 
         if (userDto is null)
         {
-            var responceModel = new ResponseModel<UserDtoResponce>(new ResponseError
+            var responceModel = new ResponseModel<T>(new ResponseError
             {
                 Code = "email",
                 Message = "Юзер не найден"
@@ -57,7 +56,7 @@ public class UserServiceMaping
             return responceModel;
         };
         
-        var responceSuccess = new ResponseModel<UserDtoResponce>(userDto)
+        var responceSuccess = new ResponseModel<T>(userDto)
         {
             Status = ResponseStatus.Success
         };

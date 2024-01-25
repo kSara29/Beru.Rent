@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\BuildingBlocks\Common\Common.csproj" />
+      <ProjectReference Include="..\..\BuildingBlocks\Deal.Dto\Deal.Dto.csproj" />
       <ProjectReference Include="..\..\BuildingBlocks\User.Dto\User.Dto.csproj" />
     </ItemGroup>
 

@@ -9,4 +9,6 @@ public class RequestToUserApi
     public required string GetUserByName { get; init; }
     public required string DeleteUser { get; init; }
     public required string UpdateUser { get; init; }
+    public required string CreateUser { get; init; }
+    public required string Auth { get; init; }
 }

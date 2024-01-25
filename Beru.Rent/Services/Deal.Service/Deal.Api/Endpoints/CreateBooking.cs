@@ -8,7 +8,7 @@ public class CreateBooking(IBookingService service) : Endpoint<CreateBookingDto,
 {
     public override void Configure()
     {
-        Post("api/booking/create");
+        Post("/api/booking/create");
         AllowAnonymous();
     }
 

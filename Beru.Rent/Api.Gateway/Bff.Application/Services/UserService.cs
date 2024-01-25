@@ -8,46 +8,46 @@ using User.Dto;
 
 namespace Bff.Application.Services;
 
-public class UserService(UserServiceMaping userServiceMaping, IOptions<RequestToUserApi> jsonOptions) : IUserService
+public class UserService(ServiceMaping<UserDtoResponce> serviceMaping, IOptions<RequestToUserApi> jsonOptions) : IUserService
 {
     public async Task<ResponseModel<UserDtoResponce>> GetUserByEmailAsync(GetUserByEmailRequest request)
     {
         var httpConnection =
-            await userServiceMaping.HttpGetConnection(string.Concat(jsonOptions.Value.GetUserByEmail, request.Email));
+            await serviceMaping.HttpGetConnection(string.Concat(jsonOptions.Value.GetUserByEmail, request.Email));
 
         var responce = 
-            await userServiceMaping.UserResponceModelMaping(httpConnection);
+            await serviceMaping.ResponceModelMaping(httpConnection);
         return responce;
     }
 
     public async Task<ResponseModel<UserDtoResponce>> GetUserByIdAsync(GetUserByIdRequest request)
     {
         var httpConnection =
-            await userServiceMaping.HttpGetConnection(string.Concat(jsonOptions.Value.GetUserById, request.Id));
+            await serviceMaping.HttpGetConnection(string.Concat(jsonOptions.Value.GetUserById, request.Id));
 
         var responce = 
-            await userServiceMaping.UserResponceModelMaping(httpConnection);
+            await serviceMaping.ResponceModelMaping(httpConnection);
         return responce;
     }
 
     public async Task<ResponseModel<UserDtoResponce>> GetUserByNameAsync(GetUserByUserNameRequest request)
     {
         var httpConnection =
-            await userServiceMaping.HttpGetConnection(string.Concat(jsonOptions.Value.GetUserByName, request.UserName));
+            await serviceMaping.HttpGetConnection(string.Concat(jsonOptions.Value.GetUserByName, request.UserName));
 
         var responce = 
-            await userServiceMaping.UserResponceModelMaping(httpConnection);
+            await serviceMaping.ResponceModelMaping(httpConnection);
         return responce;
     }
 
     public async Task<ResponseModel<UserDtoResponce>> DeleteUserAsync(DeleteUserByIdRequest request)
     {
-        var content = userServiceMaping.GetContentString(request.Id, nameof(request.Id));
+        var content = serviceMaping.GetContentString(request.Id, nameof(request.Id));
         var httpConnection =
-            await userServiceMaping.HttpPostConnection(jsonOptions.Value.DeleteUser, content);
+            await serviceMaping.HttpPostConnection(jsonOptions.Value.DeleteUser, content);
         
         var responce = 
-            await userServiceMaping.UserResponceModelMaping(httpConnection);
+            await serviceMaping.ResponceModelMaping(httpConnection);
         return responce;
     }
 
@@ -55,10 +55,29 @@ public class UserService(UserServiceMaping userServiceMaping, IOptions<RequestTo
     {
         var content = JsonSerializer.Serialize(request);
         var httpConnection =
-            await userServiceMaping.HttpPostConnection(jsonOptions.Value.UpdateUser, content);
+            await serviceMaping.HttpPostConnection(jsonOptions.Value.UpdateUser, content);
         
         var responce = 
-            await userServiceMaping.UserResponceModelMaping(httpConnection);
+            await serviceMaping.ResponceModelMaping(httpConnection);
+        return responce;
+    }
+
+    public async Task<ResponseModel<UserDtoResponce>> CreateUserAsync(CreateUserDto request)
+    {
+        var content = JsonSerializer.Serialize(request);
+        var httpConnection =
+            await serviceMaping.HttpPostConnection(jsonOptions.Value.CreateUser, content);
+        
+        var responce = 
+            await serviceMaping.ResponceModelMaping(httpConnection);
+        return responce;
+    }
+
+    public async Task<ResponseModel<UserDtoResponce>> GetAuthService()
+    {
+        var httpConnection =
+            await serviceMaping.HttpGetConnection(jsonOptions.Value.Auth);
+        var responce = await serviceMaping.ResponceModelMaping(httpConnection);
         return responce;
     }
 }

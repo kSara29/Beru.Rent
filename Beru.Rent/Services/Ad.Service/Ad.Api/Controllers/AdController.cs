@@ -23,12 +23,4 @@ public class AdController:ControllerBase
        var result =  await _service.CreateAdAsync(dto);
        return Ok(result);
     }
-    
-    [HttpGet("/api/ad/create")]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> CreateAdAsync()
-    {
-       
-        return Ok();
-    }
 }

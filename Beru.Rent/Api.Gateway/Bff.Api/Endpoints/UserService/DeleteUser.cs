@@ -3,14 +3,13 @@ using Common;
 using FastEndpoints;
 using User.Dto;
 
-namespace Bff.Api.Endpoints;
+namespace Bff.Api.Endpoints.UserService;
 
 public class DeleteUser(IUserService service) : Endpoint<DeleteUserByIdRequest, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
         Post("/bff/user/deleteUser");
-        AllowAnonymous();
     }
     
     public override async Task HandleAsync

@@ -10,4 +10,6 @@ public interface IUserService
     Task<ResponseModel<UserDtoResponce>> GetUserByNameAsync(GetUserByUserNameRequest request);
     Task<ResponseModel<UserDtoResponce>> DeleteUserAsync(DeleteUserByIdRequest request);
     Task<ResponseModel<UserDtoResponce>> UpdateUserAsync(UpdateUserDto request);
+    Task<ResponseModel<UserDtoResponce>> CreateUserAsync(CreateUserDto request);
+    Task<ResponseModel<UserDtoResponce>> GetAuthService();
 }
