@@ -8,7 +8,7 @@ using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace User.Api.Endpoints;
 
-public class CreateUser(IUserService service) : Endpoint<CreateUserDto, ResponseModel<UserDto>>
+public class CreateUser(IUserService service) : Endpoint<CreateUserDto, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
@@ -21,7 +21,7 @@ public class CreateUser(IUserService service) : Endpoint<CreateUserDto, Response
     {
         CreateUserValidation createUserValidation = new CreateUserValidation();
         ValidationResult result = createUserValidation.Validate(model);
-        var err = ResponseModel<UserDto>.CreateFailed(new ResponseError
+        var err = ResponseModel<UserDtoResponce>.CreateFailed(new ResponseError
         {
             Code = "qwerty",
             Message = "Что-то не так"
@@ -29,7 +29,7 @@ public class CreateUser(IUserService service) : Endpoint<CreateUserDto, Response
         if (!result.IsValid) await SendAsync(err, cancellation: ct);
         var user = await service.CreateUserAsync(model, model.Password);
         
-        var res = ResponseModel<UserDto>.CreateSuccess(user.ToUserDto());
+        var res = ResponseModel<UserDtoResponce>.CreateSuccess(user.ToUserDto());
         await SendAsync(res, cancellation: ct);
     }
 }

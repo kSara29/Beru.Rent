@@ -4,7 +4,7 @@ using User.Dto;
 
 namespace User.Api.Endpoints;
 
-public class GetUserByName(IUserService service): Endpoint<GetUserByUserNameRequest, UserDto>
+public class GetUserByName(IUserService service): Endpoint<GetUserByUserNameRequest, UserDtoResponce>
 {
     public override void Configure()
     {
@@ -18,9 +18,4 @@ public class GetUserByName(IUserService service): Endpoint<GetUserByUserNameRequ
         var result = await service.GetUserByNameAsync(request!.UserName);
         await SendAsync(result, cancellation: ct);
     }
-}
-
-public record GetUserByUserNameRequest
-{
-    [QueryParam] public required string UserName { get; init; }
 }

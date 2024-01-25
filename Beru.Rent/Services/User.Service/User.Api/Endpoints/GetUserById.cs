@@ -4,7 +4,7 @@ using User.Dto;
 
 namespace User.Api.Endpoints;
 
-public class GetUserById(IUserService service): Endpoint<GetUserByIdRequest, UserDto>
+public class GetUserById(IUserService service): Endpoint<GetUserByIdRequest, UserDtoResponce>
 {
     public override void Configure()
     {

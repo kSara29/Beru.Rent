@@ -1,3 +1,5 @@
+using Bff.Application;
+using Bff.Application.JsonOptions;
 using FastEndpoints;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,9 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddFastEndpoints();
+builder.Services.Configure<RequestToUserApi>(builder.Configuration.GetSection(RequestToUserApi.Name));
+builder.Services.AddApplicationService();
 
 var app = builder.Build();
-
 app.UseFastEndpoints();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -19,3 +22,4 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.Run();

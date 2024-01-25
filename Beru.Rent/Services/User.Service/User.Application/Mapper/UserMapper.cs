@@ -19,11 +19,11 @@ public static class UserMapper
             };
     }
     
-    public static UserDto? ToUserDto(this Domain.Models.User? model)
+    public static UserDtoResponce? ToUserDto(this Domain.Models.User? model)
     {
         return model is null
             ? null
-            : new UserDto
+            : new UserDtoResponce
             {
                 UserId = model.Id,
                 FirstName = model.FirstName,

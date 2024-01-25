@@ -22,6 +22,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\BuildingBlocks\Common\Common.csproj" />
+      <ProjectReference Include="..\..\BuildingBlocks\User.Dto\User.Dto.csproj" />
+      <ProjectReference Include="..\Bff.Application\Bff.Application.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-namespace Auth.Models;
+namespace User.Api.Models;
 
 public class ErrorViewModel
 {

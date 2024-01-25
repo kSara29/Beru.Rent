@@ -5,19 +5,19 @@ using User.Dto;
 
 namespace Bff.Api.Endpoints;
 
-public class GetUserByMail(IUserService service) : Endpoint<GetUserByEmailRequest, ResponseModel<UserDtoResponce>>
+public class GetUserByName(IUserService service) : Endpoint<GetUserByUserNameRequest, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
-        Get("/bff/user/getByMail");
+        Get("/bff/user/getByName");
         AllowAnonymous();
     }
     
     public override async Task HandleAsync
-        (GetUserByEmailRequest? request, CancellationToken ct)
+        (GetUserByUserNameRequest? request, CancellationToken ct)
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
-        var response = await service.GetUserByEmailAsync(request!);
+        var response = await service.GetUserByNameAsync(request!);
         await SendAsync(response, cancellation: ct);
     }
 }

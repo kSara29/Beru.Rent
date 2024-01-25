@@ -4,7 +4,7 @@ using User.Dto;
 
 namespace User.Api.Endpoints;
 
-public class GetUserByMail(IUserService service): Endpoint<GetUserByEmailRequest, UserDto>
+public class GetUserByMail(IUserService service): Endpoint<GetUserByEmailRequest, UserDtoResponce>
 {
     public override void Configure()
     {
@@ -18,9 +18,4 @@ public class GetUserByMail(IUserService service): Endpoint<GetUserByEmailRequest
         var result = await service.GetUserByMailAsync(request!.Email);
         await SendAsync(result, cancellation: ct);
     }
-}
-
-public abstract record GetUserByEmailRequest
-{
-    [QueryParam] public required string Email { get; init; }
 }

@@ -5,19 +5,19 @@ using User.Dto;
 
 namespace Bff.Api.Endpoints;
 
-public class GetUserByMail(IUserService service) : Endpoint<GetUserByEmailRequest, ResponseModel<UserDtoResponce>>
+public class DeleteUser(IUserService service) : Endpoint<DeleteUserByIdRequest, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
-        Get("/bff/user/getByMail");
+        Post("/bff/user/deleteUser");
         AllowAnonymous();
     }
     
     public override async Task HandleAsync
-        (GetUserByEmailRequest? request, CancellationToken ct)
+        (DeleteUserByIdRequest? request, CancellationToken ct)
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
-        var response = await service.GetUserByEmailAsync(request!);
+        var response = await service.DeleteUserAsync(request!);
         await SendAsync(response, cancellation: ct);
     }
 }

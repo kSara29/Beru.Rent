@@ -19,7 +19,7 @@ public class UpdateUser(IUserService service) : Endpoint<UpdateUserDto, object>
     {
         UpdateUserValidation updateUserValidation = new UpdateUserValidation();
         ValidationResult result = updateUserValidation.Validate(model);
-        // var validateResult = model.UpdateUserValidate();
+        var validateResult = model.UpdateUserValidate();
         if (!result.IsValid) await SendAsync(result, cancellation: ct);
         var results = await service.UpdateUserAsync(model!);
         await SendAsync(results, cancellation: ct);
