@@ -1,6 +1,6 @@
 using FastEndpoints;
 using User.Application.Contracts;
-using User.Application.DTO;
+using User.Dto;
 
 namespace User.Api.Endpoints;
 
@@ -20,7 +20,7 @@ public class GetUserById(IUserService service): Endpoint<GetUserByIdRequest, Use
     }
 }
 
-public abstract record GetUserByIdRequest
+public record GetUserByIdRequest
 {
     [QueryParam] public required string Id { get; init; }
 }

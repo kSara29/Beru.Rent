@@ -1,6 +1,6 @@
 using FastEndpoints;
 using User.Application.Contracts;
-using User.Application.DTO;
+using User.Dto;
 
 namespace User.Api.Endpoints;
 

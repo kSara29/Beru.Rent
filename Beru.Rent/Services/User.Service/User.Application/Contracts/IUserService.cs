@@ -1,4 +1,4 @@
-using User.Application.DTO;
+using User.Dto;
 
 namespace User.Application.Contracts;
 

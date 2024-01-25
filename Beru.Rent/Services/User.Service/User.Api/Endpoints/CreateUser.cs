@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Common;
+﻿using Common;
 using FastEndpoints;
 using User.Application.Contracts;
-using User.Application.DTO;
 using User.Application.Extencions.Validation;
 using User.Application.Mapper;
+using User.Dto;
 using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace User.Api.Endpoints;

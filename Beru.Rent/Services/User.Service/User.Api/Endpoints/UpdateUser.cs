@@ -1,8 +1,8 @@
 ﻿using FastEndpoints;
 using FluentValidation.Results;
 using User.Application.Contracts;
-using User.Application.DTO;
 using User.Application.Extencions.Validation;
+using User.Dto;
 
 namespace User.Api.Endpoints;
 

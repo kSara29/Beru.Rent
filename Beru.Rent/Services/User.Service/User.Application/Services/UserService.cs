@@ -1,6 +1,6 @@
 using User.Application.Contracts;
-using User.Application.DTO;
 using User.Application.Mapper;
+using User.Dto;
 
 namespace User.Application.Services;
 
