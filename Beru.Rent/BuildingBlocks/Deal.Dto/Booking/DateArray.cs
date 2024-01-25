@@ -1,6 +1,4 @@
-using System.Runtime.InteropServices.JavaScript;
-
-namespace Deal.Application.DTO.Booking;
+namespace Deal.Dto.Booking;
 
 public class DateArray
 {

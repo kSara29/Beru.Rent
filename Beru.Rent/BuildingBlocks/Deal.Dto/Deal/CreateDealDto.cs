@@ -1,4 +1,4 @@
-﻿namespace Deal.Api.DTO.Deal;
+﻿namespace Deal.Dto.Deal;
 
 [Serializable]
 public record CreateDealDto(

@@ -1,6 +1,5 @@
-using Deal.Api.DTO;
-using Deal.Api.DTO.Booking;
 using Deal.Application.Contracts.Booking;
+using Deal.Dto.Booking;
 using FastEndpoints;
 
 namespace Deal.Api.Endpoints;

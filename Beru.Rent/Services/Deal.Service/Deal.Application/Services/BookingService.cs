@@ -1,10 +1,7 @@
-﻿
-using Deal.Api.DTO;
-using Deal.Api.DTO.Booking;
-using Deal.Api.Mapper;
-using Deal.Application.Contracts.Booking;
-using Deal.Application.DTO.Booking;
+﻿using Deal.Application.Contracts.Booking;
+using Deal.Application.Mapper;
 using Deal.Domain.Models;
+using Deal.Dto.Booking;
 
 namespace Deal.Application.Services;
 

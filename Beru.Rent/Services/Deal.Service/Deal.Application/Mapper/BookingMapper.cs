@@ -1,9 +1,7 @@
-﻿using Deal.Api.DTO;
-using Deal.Api.DTO.Booking;
-using Deal.Application.DTO.Booking;
-using Deal.Domain.Models;
+﻿using Deal.Domain.Models;
+using Deal.Dto.Booking;
 
-namespace Deal.Api.Mapper;
+namespace Deal.Application.Mapper;
 
 public static class BookingMapper
 {

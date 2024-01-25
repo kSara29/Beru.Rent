@@ -1,4 +1,4 @@
-namespace Deal.Application.DTO.Booking;
+namespace Deal.Dto.Booking;
 
 [Serializable]
 public record GetAllBookingDto

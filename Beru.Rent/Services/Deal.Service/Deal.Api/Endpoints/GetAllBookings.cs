@@ -1,7 +1,5 @@
-using System.Runtime.InteropServices.JavaScript;
-using Deal.Api.DTO.Booking;
 using Deal.Application.Contracts.Booking;
-using Deal.Application.DTO.Booking;
+using Deal.Dto.Booking;
 using FastEndpoints;
 namespace Deal.Api.Endpoints;
 

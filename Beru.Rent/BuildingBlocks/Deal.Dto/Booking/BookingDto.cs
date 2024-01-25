@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
-using Deal.Domain.Enums;
 
-namespace Deal.Api.DTO;
+namespace Deal.Dto.Booking;
 
 [Serializable]
 public record BookingDto(

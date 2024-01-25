@@ -1,4 +1,4 @@
-namespace Deal.Application.DTO.Disput;
+namespace Deal.Dto.Disput;
 
 public record CreateDisputDto
 (

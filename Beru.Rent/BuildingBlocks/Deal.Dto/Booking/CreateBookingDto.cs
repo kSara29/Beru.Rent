@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-
-namespace Deal.Api.DTO.Booking;
+﻿namespace Deal.Dto.Booking;
 
 [Serializable]
 public record CreateBookingDto(
