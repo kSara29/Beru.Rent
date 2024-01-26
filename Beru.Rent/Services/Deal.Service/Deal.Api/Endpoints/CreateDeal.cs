@@ -1,7 +1,6 @@
-using Deal.Api.DTO.Deal;
 using Deal.Application.Contracts.Deal;
+using Deal.Dto.Deal;
 using FastEndpoints;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Deal.Api.Endpoints;
 

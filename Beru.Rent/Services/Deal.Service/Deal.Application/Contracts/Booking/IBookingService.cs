@@ -1,6 +1,4 @@
-﻿using Deal.Api.DTO;
-using Deal.Api.DTO.Booking;
-using Deal.Application.DTO.Booking;
+﻿using Deal.Dto.Booking;
 
 namespace Deal.Application.Contracts.Booking;
 

@@ -1,10 +1,10 @@
 using FastEndpoints;
 using User.Application.Contracts;
-using User.Application.DTO;
+using User.Dto;
 
 namespace User.Api.Endpoints;
 
-public class GetUserById(IUserService service): Endpoint<GetUserByIdRequest, UserDto>
+public class GetUserById(IUserService service): Endpoint<GetUserByIdRequest, UserDtoResponce>
 {
     public override void Configure()
     {
@@ -18,9 +18,4 @@ public class GetUserById(IUserService service): Endpoint<GetUserByIdRequest, Use
         var result = await service.GetUserByIdAsync(request!.Id);
         await SendAsync(result, cancellation: ct);
     }
-}
-
-public abstract record GetUserByIdRequest
-{
-    [QueryParam] public required string Id { get; init; }
 }

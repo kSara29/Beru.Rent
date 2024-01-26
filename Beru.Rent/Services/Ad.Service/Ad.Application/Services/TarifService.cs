@@ -1,6 +1,6 @@
-﻿using Ad.Api.DTO.Tarif;
-using Ad.Api.Mapper;
+﻿using Ad.Api.Mapper;
 using Ad.Application.Responses;
+using Ad.Dto.CreateDtos;
 
 
 namespace Ad.Application.Services;

@@ -1,5 +1,3 @@
-using User.Application.DTO;
-
 namespace User.Application.Contracts;
 
 public interface IUserRepository

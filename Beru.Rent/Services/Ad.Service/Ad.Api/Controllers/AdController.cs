@@ -1,8 +1,7 @@
-﻿using Ad.Api.DTO;
-using Ad.Application.Contracts.File;
-using Ad.Application.DTO;
+﻿using Ad.Application.Contracts.File;
+using Ad.Application.Contracts.Ad;
+using Ad.Dto.CreateDtos;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ad.Api.Controllers;
 

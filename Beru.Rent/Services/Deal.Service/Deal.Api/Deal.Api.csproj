@@ -30,6 +30,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\BuildingBlocks\Deal.Dto\Deal.Dto.csproj" />
       <ProjectReference Include="..\Deal.Application\Deal.Application.csproj" />
       <ProjectReference Include="..\Deal.Domain\Deal.Domain.csproj" />
       <ProjectReference Include="..\Deal.Infrastructure\Deal.Infrastructure.csproj" />

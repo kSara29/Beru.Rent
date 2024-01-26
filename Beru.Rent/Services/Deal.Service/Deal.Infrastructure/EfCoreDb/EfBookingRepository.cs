@@ -1,7 +1,7 @@
-﻿    using Deal.Api.DTO;
-    using Deal.Application.Contracts.Booking;
+﻿using Deal.Application.Contracts.Booking;
     using Deal.Domain.Enums;
     using Deal.Domain.Models;
+    using Deal.Dto.Booking;
     using Deal.Infrastructure.Persistance;
 
     namespace Deal.Infrastructure.EfCoreDb;

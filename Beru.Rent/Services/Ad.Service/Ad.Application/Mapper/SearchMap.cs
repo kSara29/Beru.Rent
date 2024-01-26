@@ -1,5 +1,5 @@
-using Ad.Application.DTO;
 using Ad.Domain.Models;
+using Ad.Dto;
 
 namespace Ad.Application.Mapper;
 

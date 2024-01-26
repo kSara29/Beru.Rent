@@ -13,6 +13,7 @@ public static class Configuration
             RequireClientSecret = false,
             RequireConsent = false,
             RequirePkce = true,
+            AllowOfflineAccess = true,
             AllowedGrantTypes = GrantTypes.Code,
             AllowedCorsOrigins = {"https://localhost:7034"},
             RedirectUris = { "https://localhost:7034/callback.html" },

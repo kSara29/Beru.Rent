@@ -1,5 +1,5 @@
-﻿using Ad.Api.DTO;
-using Ad.Domain.Models;
+﻿using Ad.Domain.Models;
+using Ad.Dto.CreateDtos;
 
 namespace Ad.Api.Mapper;
 

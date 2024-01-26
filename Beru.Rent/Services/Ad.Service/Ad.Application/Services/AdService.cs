@@ -1,12 +1,14 @@
-
-using Ad.Api.DTO;
 using Ad.Application.Contracts.Ad;
 using Ad.Application.Contracts.File;
 using Ad.Application.DTO.GetDtos;
 using Ad.Application.Mapper;
+using Ad.Application.Contracts.Ad;
 using Ad.Application.Responses;
 using Ad.Domain.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Ad.Dto;
+using Ad.Dto.GetDtos;
+using CreateAdDto = Ad.Dto.CreateDtos.CreateAdDto;
 
 namespace Ad.Application.Services;
 

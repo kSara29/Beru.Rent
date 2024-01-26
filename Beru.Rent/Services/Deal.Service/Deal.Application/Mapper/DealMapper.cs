@@ -1,6 +1,6 @@
-﻿using Deal.Api.DTO.Deal;
+﻿using Deal.Dto.Deal;
 
-namespace Deal.Api.Mapper;
+namespace Deal.Application.Mapper;
 
 public static class DealMapper
 {

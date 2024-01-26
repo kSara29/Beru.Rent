@@ -1,9 +1,11 @@
-
-
-using Ad.Api.DTO;
 using Ad.Application.DTO.GetDtos;
 using Ad.Application.Responses;
 using Ad.Domain.Models;
+using Ad.Dto;
+using Ad.Dto.GetDtos;
+using CreateAdDto = Ad.Dto.CreateDtos.CreateAdDto;
+
+namespace Ad.Application.Contracts.Ad;
 
 public interface IAdService
 {

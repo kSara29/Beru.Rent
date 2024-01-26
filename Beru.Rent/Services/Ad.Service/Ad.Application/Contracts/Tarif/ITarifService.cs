@@ -1,7 +1,5 @@
-﻿
-
-using Ad.Api.DTO.Tarif;
-using Ad.Application.Responses;
+﻿using Ad.Application.Responses;
+using Ad.Dto.CreateDtos;
 
 public interface ITarifService
 {

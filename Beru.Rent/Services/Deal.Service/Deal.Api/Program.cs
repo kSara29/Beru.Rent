@@ -8,7 +8,8 @@ using Minio;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<DealContext>(options => options.UseNpgsql(connectionString), ServiceLifetime.Scoped);
+builder.Services.AddDbContext<DealContext>(options =>
+    options.UseNpgsql(connectionString), ServiceLifetime.Scoped);
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 #region Подключаю Minio

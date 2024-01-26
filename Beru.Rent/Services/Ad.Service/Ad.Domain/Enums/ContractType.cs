@@ -1,6 +1,6 @@
 ﻿
 
-namespace Ad.Domain.Models;
+namespace Ad.Domain.Enums;
 
 public enum ContractType {
     

@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 using FluentValidation;
-using User.Application.DTO;
+using User.Dto;
 
 namespace User.Application.Extencions.Validation;
 

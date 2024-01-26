@@ -1,5 +1,5 @@
-﻿using Deal.Api.DTO.Deal;
-using Deal.Application.Contracts.Deal;
+﻿using Deal.Application.Contracts.Deal;
+using Deal.Dto.Deal;
 
 namespace Deal.Application.Services;
 

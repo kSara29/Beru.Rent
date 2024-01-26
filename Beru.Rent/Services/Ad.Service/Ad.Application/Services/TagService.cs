@@ -1,7 +1,7 @@
-﻿using Ad.Api.DTO;
-using Ad.Application.Contracts.Tag;
+﻿using Ad.Application.Contracts.Tag;
 using Ad.Application.Responses;
 using Ad.Domain.Models;
+using Ad.Dto.CreateDtos;
 
 namespace Ad.Application.Services;
 

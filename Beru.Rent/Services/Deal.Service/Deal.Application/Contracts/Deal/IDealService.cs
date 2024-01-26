@@ -1,4 +1,4 @@
-using Deal.Api.DTO.Deal;
+using Deal.Dto.Deal;
 
 namespace Deal.Application.Contracts.Deal;
 

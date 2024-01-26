@@ -1,4 +1,5 @@
 ﻿
+using Ad.Domain.Enums;
 using Ad.Domain.Models.Common;
 
 namespace Ad.Domain.Models;

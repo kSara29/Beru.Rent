@@ -1,7 +1,6 @@
-﻿using Deal.Api.DTO.Deal;
-using Deal.Application.Contracts.Deal;
-using Deal.Domain.Enums;
+﻿using Deal.Application.Contracts.Deal;
 using Deal.Domain.Models;
+using Deal.Dto.Deal;
 using Deal.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 
