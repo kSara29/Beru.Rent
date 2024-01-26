@@ -1,30 +1,54 @@
-﻿using Deal.Application.Contracts.Deal;
+﻿using Deal.Api.DTO.Deal;
+using Deal.Application.Contracts.Deal;
 using Deal.Domain.Enums;
+using Deal.Domain.Models;
 using Deal.Infrastructure.Persistance;
+using Microsoft.EntityFrameworkCore;
 
 namespace Deal.Infrastructure.EfCoreDb;
 
 public class EfDealRepository: IDealRepository
 {
     private readonly DealContext _db;
-    
-    public EfDealRepository(DealContext db)
+    private readonly HttpClient _httpClient;
+
+    public EfDealRepository(DealContext db, HttpClient httpClient)
     {
         _db = db;
+        _httpClient = httpClient;
     }
-    
-    public async Task<bool> CreateDealAsync(Domain.Models.Deal deal)
+
+    public async Task<CreateDealDto> CreateDealAsync(Guid id)
     {
         try
         {
-            deal.DealState = DealState.Open.ToString();
-            await _db.Deals.AddAsync(deal);
-            await _db.SaveChangesAsync();
-            return true; 
+            Booking? book = await _db.Bookings.FirstOrDefaultAsync(b => b.Id == id);
+
+            HttpResponseMessage response =
+                await _httpClient.GetAsync($"http://localhost:5105/api/ad/getOwnerId/{book.AdId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string ownerId = await response.Content.ReadAsStringAsync();
+                CreateDealDto dto =new CreateDealDto(
+                    book.AdId,
+                    book.TenantId,
+                    book.Cost,
+                    ownerId,
+                    book.Dbeg,
+                    book.Dend
+                );
+                return dto;   
+            }
+            else
+            {
+                return null;
+            }
+            
         }
         catch (Exception ex)
         {
-            return false;
+            return null;
         }
     }
 }

@@ -11,4 +11,6 @@ public interface IAdService
     Task<BaseApiResponse<AdDto>> GetAdAsync(Guid id);
     Task<BaseApiResponse<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(int page, string sortdate, string sortprice, string cat);
     Task<decimal> GetCostAsync(Guid adId, DateTime ebeg, DateTime dend);
+    Task<string> GetOwnerIdAsync(Guid adId);    
+    
 }

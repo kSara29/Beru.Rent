@@ -59,4 +59,10 @@ public class AdService : IAdService
         var result =await _repository.GetCostAsync(adId, dbeg,dend);
         return result;
     }
+
+    public async Task<string> GetOwnerIdAsync(Guid adId)
+    {
+        var result =await _repository.GetOwnerIdAsync(adId);
+        return result;
+    }
 }

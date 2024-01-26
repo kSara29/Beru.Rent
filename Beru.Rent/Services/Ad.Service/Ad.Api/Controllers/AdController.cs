@@ -58,4 +58,12 @@ public class AdController:ControllerBase
         var result = await _service.GetCostAsync(adId, dbeg, dend);
         return Ok(result);
     }
+    
+    [HttpGet("/api/ad/getOwnerId/{adId}")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetOwnerIdAsync(Guid adId)
+    {
+        var result = await _service.GetOwnerIdAsync(adId);
+        return Ok(result);
+    }
 }

@@ -5,7 +5,7 @@ using Deal.Application.DTO.Booking;
 using FastEndpoints;
 namespace Deal.Api.Endpoints;
 
-public class GetAllBookings(IBookingService service): Endpoint<Guid>
+public class GetAllBookings(IBookingService service): Endpoint<Guid>    
 {
     public override void Configure()
     {

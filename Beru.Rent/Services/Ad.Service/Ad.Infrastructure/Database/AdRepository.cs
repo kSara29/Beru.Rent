@@ -126,4 +126,10 @@ public class AdRepository : IAdRepository
       decimal cost = Convert.ToDecimal((dend - dbeg) / TheAd.TimeUnit.Duration)*TheAd.Price;
       return cost;
    }
+
+   public async Task<string> GetOwnerIdAsync(Guid adId)
+   {
+      string ownerId = _context.Ads.ToList().FirstOrDefault(a => a.Id == adId).UserId;
+      return ownerId;
+   }
 }
