@@ -51,11 +51,11 @@ public class AdController:ControllerBase
         return Ok(new {result.Data.MainPageDto, result.Data.TotalPage});
     }
     
-    [HttpGet("/api/ad/getCost/{adid}/{dbeg}/{dend}")]
+    [HttpGet("/api/ad/getCost/{adId}&{dbeg}&{dend}")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetCostAsync(Guid adid, DateTime dbeg, DateTime dend)
+    public async Task<IActionResult> GetCostAsync(Guid adId, DateTime dbeg, DateTime dend)
     {
-        var result = await _service.GetCostAsync(adid, dbeg, dend);
+        var result = await _service.GetCostAsync(adId, dbeg, dend);
         return Ok(result);
     }
 }

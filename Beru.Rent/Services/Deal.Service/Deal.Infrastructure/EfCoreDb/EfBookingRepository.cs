@@ -56,10 +56,10 @@
                     }
                 }
 
-                HttpResponseMessage response = await _httpClient.GetAsync($"/api/ad/getAdds/{booking.AdId}/{booking.Dbeg}/{booking.Dend}");
+                HttpResponseMessage response = await _httpClient.GetAsync($"http://localhost:5105/api/ad/getCost/{booking.AdId}&{booking.Dbeg.ToString().Replace('/', '-')}&{booking.Dend.ToString().Replace('/', '-')}");
                 if (response.IsSuccessStatusCode)
                 {
-                    booking.Cost = decimal.Parse(response.ToString());
+                    booking.Cost = decimal.Parse(await response.Content.ReadAsStringAsync());
                     _db.Bookings.Add(booking);
                     await _db.SaveChangesAsync();
                     return true; 
@@ -103,16 +103,23 @@
             
         }
 
-        public async Task<List<Booking>> GetBookingsAsync(Guid id)
+        public async Task<List<BookingDto>> GetBookingsAsync(Guid id)
         {
             List<Booking> bookings =_db.Bookings.ToList();
-            List<Booking> theBooking = new List<Booking>();
+            List<BookingDto> theBooking = new List<BookingDto>();
             foreach (var books in bookings)
             {
-                if (id == books.TenantId)
-                {
-                    theBooking.Add(books);
-                }   
+                // if (id == books.TenantId)
+                // {
+                //     theBooking.Add(new BookingDto{
+                //         AdId = books.AdId,
+                //         TenantId = books.TenantId,
+                //         Dbeg = books.Dbeg,
+                //         Dend = books.Dend,
+                //         Cost = books.Cost,
+                //         BookingState = books.BookingState
+                //         });
+                // }   
             }
             return theBooking;
         }

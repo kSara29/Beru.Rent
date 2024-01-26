@@ -112,7 +112,7 @@ public class AdRepository : IAdRepository
 
    public async Task<decimal> GetCostAsync(Guid adId, DateTime dbeg, DateTime dend)
    {
-      List<Advertisement> advertisements = _context.Ads.ToList();
+      List<Advertisement> advertisements = _context.Ads.Include(a => a.TimeUnit).ToList();
       Advertisement TheAd = new Advertisement();
       foreach (var ads in advertisements)
       {
@@ -122,6 +122,7 @@ public class AdRepository : IAdRepository
          }
       }
 
+      
       decimal cost = Convert.ToDecimal((dend - dbeg) / TheAd.TimeUnit.Duration)*TheAd.Price;
       return cost;
    }
