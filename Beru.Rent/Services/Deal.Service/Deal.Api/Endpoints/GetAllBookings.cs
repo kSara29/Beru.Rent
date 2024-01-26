@@ -5,11 +5,11 @@ using Deal.Application.DTO.Booking;
 using FastEndpoints;
 namespace Deal.Api.Endpoints;
 
-public class GetAllBookings(IBookingService service): Endpoint<Guid>    
+public class GetAllBookings(IBookingService service): Endpoint<Guid, DateArray[]>    
 {
     public override void Configure()
     {
-        Get("api/booking/getallbookings/{id}");
+        Post("api/booking/getallbookings/{id}");
         AllowAnonymous();
     }
 
