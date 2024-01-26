@@ -23,6 +23,20 @@ public class Booking: DealEntity
         BookingState = Enums.BookingState.InQueue.ToString();
         CreatedAt = DateTime.UtcNow;
     }
+    
+    public Booking(
+        Guid adId,
+        Guid tenantId,
+        DateTime dbeg,
+        DateTime dend)
+    {
+        AdId = adId;
+        TenantId = tenantId;
+        Dbeg = dbeg;
+        Dend = dend;
+        BookingState = Enums.BookingState.InQueue.ToString();
+        CreatedAt = DateTime.UtcNow;
+    }
 
     public Booking( Guid adId)
     {
