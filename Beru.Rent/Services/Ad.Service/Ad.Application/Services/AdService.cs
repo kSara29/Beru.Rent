@@ -5,6 +5,7 @@ using Ad.Application.Contracts.File;
 using Ad.Application.DTO.GetDtos;
 using Ad.Application.Mapper;
 using Ad.Application.Responses;
+using Ad.Domain.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Ad.Application.Services;
@@ -37,6 +38,7 @@ public class AdService : IAdService
         }
         return new BaseApiResponse<AdDto>(null, "Некорректный id");
     }
+    
 
     public async Task<BaseApiResponse<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(int page, string sortdate, string sortprice, string cat)
     {
@@ -50,5 +52,11 @@ public class AdService : IAdService
         }
 
         return new BaseApiResponse<GetMainPageDto<AdMainPageDto>>(mainPageDto);
+    }
+
+    public async Task<decimal> GetCostAsync(Guid adId, DateTime dbeg, DateTime dend)
+    {
+        var result =await _repository.GetCostAsync(adId, dbeg,dend);
+        return result;
     }
 }

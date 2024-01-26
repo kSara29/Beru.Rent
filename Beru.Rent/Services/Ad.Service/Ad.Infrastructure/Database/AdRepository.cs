@@ -109,4 +109,20 @@ public class AdRepository : IAdRepository
 
       return new GetMainPageDto<Advertisement>(result, totalPages);
    }
+
+   public async Task<decimal> GetCostAsync(Guid adId, DateTime dbeg, DateTime dend)
+   {
+      List<Advertisement> advertisements = _context.Ads.ToList();
+      Advertisement TheAd = new Advertisement();
+      foreach (var ads in advertisements)
+      {
+         if (ads.Id == adId)
+         {
+            TheAd = ads;
+         }
+      }
+
+      decimal cost = Convert.ToDecimal((dend - dbeg) / TheAd.TimeUnit.Duration)*TheAd.Price;
+      return cost;
+   }
 }

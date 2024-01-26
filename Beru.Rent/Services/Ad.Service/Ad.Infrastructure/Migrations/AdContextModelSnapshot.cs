@@ -95,7 +95,7 @@ namespace Ad.Infrastructure.Migrations
                     b.Property<decimal?>("MinDeposit")
                         .HasColumnType("numeric");
 
-                    b.Property<bool>("NeededDeposit")
+                    b.Property<bool?>("NeededDeposit")
                         .HasColumnType("boolean");
 
                     b.Property<decimal>("Price")

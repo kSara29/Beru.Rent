@@ -8,11 +8,14 @@
     public class EfBookingRepository: IBookingRepository
     {
         private readonly DealContext _db;
-        
-        public EfBookingRepository(DealContext db)
+        private readonly HttpClient _httpClient;
+
+        public EfBookingRepository(DealContext db, HttpClient httpClient)
         {
             _db = db;
+            _httpClient = httpClient;
         }
+
         public async Task<bool> CancelReservationAsync(Booking booking)
         {
             try
@@ -51,10 +54,21 @@
                         }
                     }
                 }
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"/api/ad/getAdds/{booking.AdId}/{booking.Dbeg}/{booking.Dend}");
+                if (response.IsSuccessStatusCode)
+                {
+                    booking.Cost = decimal.Parse(response.ToString());
+                    _db.Bookings.Add(booking);
+                    await _db.SaveChangesAsync();
+                    return true; 
+                }
+                else
+                {
+                    return false;
+                }
                 
-                _db.Bookings.Add(booking);
-                await _db.SaveChangesAsync();
-                return true; 
+                
             }
             catch (Exception ex)
             {
