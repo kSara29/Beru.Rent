@@ -1,6 +1,5 @@
 using Deal.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
-
 using Deal.Application;
 using Deal.Infrastructure;
 using FastEndpoints;
@@ -8,10 +7,9 @@ using Minio;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-
-builder.Services.AddDbContext<DealContext>(options =>
-    options.UseNpgsql(connectionString), ServiceLifetime.Scoped);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<DealContext>(options => options.UseNpgsql(connectionString), ServiceLifetime.Scoped);
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 #region Подключаю Minio
 var endpoint = "play.min.io";
