@@ -30,4 +30,9 @@ public class BookingService: IBookingService
     {
         return await _bookingRepository.GetAllBookingsAsync(id);
     }
+
+    public async Task<List<Booking>> GetBookingsAsync(Guid id)
+    {
+        return await _bookingRepository.GetBookingsAsync(id);
+    }
 }

@@ -1,4 +1,5 @@
-﻿    using Deal.Application.Contracts.Booking;
+﻿    using Deal.Api.DTO;
+    using Deal.Application.Contracts.Booking;
     using Deal.Domain.Enums;
     using Deal.Domain.Models;
     using Deal.Infrastructure.Persistance;
@@ -100,5 +101,19 @@
             }
                 return result; 
             
+        }
+
+        public async Task<List<Booking>> GetBookingsAsync(Guid id)
+        {
+            List<Booking> bookings =_db.Bookings.ToList();
+            List<Booking> theBooking = new List<Booking>();
+            foreach (var books in bookings)
+            {
+                if (id == books.TenantId)
+                {
+                    theBooking.Add(books);
+                }   
+            }
+            return theBooking;
         }
     }
