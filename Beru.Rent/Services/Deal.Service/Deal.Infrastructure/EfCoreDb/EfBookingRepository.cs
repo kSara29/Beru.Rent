@@ -1,4 +1,5 @@
-﻿    using Deal.Application.Contracts.Booking;
+﻿    using Deal.Api.DTO;
+    using Deal.Application.Contracts.Booking;
     using Deal.Domain.Enums;
     using Deal.Domain.Models;
     using Deal.Infrastructure.Persistance;
@@ -8,11 +9,14 @@
     public class EfBookingRepository: IBookingRepository
     {
         private readonly DealContext _db;
-        
-        public EfBookingRepository(DealContext db)
+        private readonly HttpClient _httpClient;
+
+        public EfBookingRepository(DealContext db, HttpClient httpClient)
         {
             _db = db;
+            _httpClient = httpClient;
         }
+
         public async Task<bool> CancelReservationAsync(Booking booking)
         {
             try
@@ -51,10 +55,21 @@
                         }
                     }
                 }
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"http://localhost:5105/api/ad/getCost/{booking.AdId}&{booking.Dbeg.ToString().Replace('/', '-')}&{booking.Dend.ToString().Replace('/', '-')}");
+                if (response.IsSuccessStatusCode)
+                {
+                    booking.Cost = decimal.Parse(await response.Content.ReadAsStringAsync());
+                    _db.Bookings.Add(booking);
+                    await _db.SaveChangesAsync();
+                    return true; 
+                }
+                else
+                {
+                    return false;
+                }
                 
-                _db.Bookings.Add(booking);
-                await _db.SaveChangesAsync();
-                return true; 
+                
             }
             catch (Exception ex)
             {
@@ -86,5 +101,26 @@
             }
                 return result; 
             
+        }
+
+        public async Task<List<BookingDto>> GetBookingsAsync(Guid id)
+        {
+            List<Booking> bookings =_db.Bookings.ToList();
+            List<BookingDto> theBooking = new List<BookingDto>();
+            foreach (var books in bookings)
+            {
+                // if (id == books.TenantId)
+                // {
+                //     theBooking.Add(new BookingDto{
+                //         AdId = books.AdId,
+                //         TenantId = books.TenantId,
+                //         Dbeg = books.Dbeg,
+                //         Dend = books.Dend,
+                //         Cost = books.Cost,
+                //         BookingState = books.BookingState
+                //         });
+                // }   
+            }
+            return theBooking;
         }
     }
