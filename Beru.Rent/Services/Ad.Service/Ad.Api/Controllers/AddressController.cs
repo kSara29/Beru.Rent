@@ -1,7 +1,9 @@
-﻿using Ad.Application.Contracts.Address;
+﻿using Ad.Api.Request;
+using Ad.Application.Contracts.Address;
 using Ad.Application.DTO.CreateDtos;
 using Ad.Application.DTO.GetDtos;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace Ad.Api.Controllers;
 
@@ -11,13 +13,13 @@ public class AddressController:ControllerBase
 {
     private readonly IAddressService<CreateAddressExtraDto, AddressExtraDto> _addressExtraService;
     private readonly HttpClient _httpClient;
-    private readonly string _dadataToken = "6eccf7edd6d4d8526063c7f9ffda8de2b50a5cb6";
-
+    private readonly string _yandexToken = "3305a045-226e-4b6c-ab37-49746a18655d";
+    
     public AddressController(IAddressService<CreateAddressExtraDto, AddressExtraDto> addressExtraService, HttpClient httpClient)
     {
         _addressExtraService = addressExtraService;
         _httpClient = httpClient;
-        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Token {_dadataToken}");
+        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Token {_yandexToken}");
         _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
     }
     
@@ -50,13 +52,25 @@ public class AddressController:ControllerBase
     
     
     [HttpPost("/api/address/suggestions")]
-    public async Task<string> SuggestAddress(string query)
+    public async Task<string> SuggestAddress([FromBody] QueryModel model)
     {
-        var response = await _httpClient.PostAsJsonAsync("https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address", new { query });
-        response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
-        return content;
+        string url = $"https://suggest-maps.yandex.ru/v1/suggest?apikey={_yandexToken}&text={model.Query}&print_address=1&results=20";
+
+        using (HttpClient client = new HttpClient())
+        {
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                return responseBody;
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine("Ошибка :{0} ", e.Message);
+            }
+        }
+
+        return "";
     }
-    
-    
 }
