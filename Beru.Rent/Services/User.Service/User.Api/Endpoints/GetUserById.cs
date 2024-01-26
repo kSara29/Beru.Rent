@@ -19,8 +19,3 @@ public class GetUserById(IUserService service): Endpoint<GetUserByIdRequest, Use
         await SendAsync(result, cancellation: ct);
     }
 }
-
-public record GetUserByIdRequest
-{
-    [QueryParam] public required string Id { get; init; }
-}

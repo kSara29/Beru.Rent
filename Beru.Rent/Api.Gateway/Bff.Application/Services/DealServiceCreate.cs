@@ -9,17 +9,17 @@ using Microsoft.Extensions.Options;
 namespace Bff.Application.Services;
 
 public class DealServiceCreate
-    (ServiceMaping<BookingDto> serviceMaping, 
+    (ServiceMaping<BookingDto> serviceMapping,
         IOptions<RequestToDealApi> jsonOptions) : IDealServiceCreate
 {
     public async Task<ResponseModel<BookingDto>> CreateBookingAsync(CreateBookingDto request)
     {
         var content = JsonSerializer.Serialize(request);
         var httpConnection =
-            await serviceMaping.HttpPostConnection(jsonOptions.Value.CreateBooking, content);
+            await serviceMapping.HttpPostConnection(jsonOptions.Value.CreateBooking, content);
         
         var responce = 
-            await serviceMaping.ResponceModelMaping(httpConnection);
+            await serviceMapping.ResponceModelMaping(httpConnection);
         return responce;
     }
 }

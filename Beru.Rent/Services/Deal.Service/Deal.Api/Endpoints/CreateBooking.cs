@@ -4,7 +4,7 @@ using FastEndpoints;
 
 namespace Deal.Api.Endpoints;
 
-public class CreateBooking(IBookingService service) : Endpoint<CreateBookingDto,object>
+public class CreateBooking(IBookingService service) : Endpoint<CreateBookingDto, object>
 {
     public override void Configure()
     {
