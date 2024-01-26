@@ -4,8 +4,8 @@
 public record CreateDealDto(
     Guid AdId,
     Guid TenantId,
-    decimal Cost,
-    Guid OwnerId,
-    string DealState,
-    decimal Deposit
+    decimal? Cost,
+    string OwnerId,
+    DateTime dbeg,
+    DateTime dend
     );
