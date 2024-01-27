@@ -1,19 +1,25 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using IdentityServer4;
+using IdentityServer4.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using User.Api.Models;
 
 namespace User.Api.Controllers;
 
-public class AuthController : Controller
+public class AccountController : Controller
 {
     private readonly SignInManager<Domain.Models.User> _signInManager;
     private readonly UserManager<Domain.Models.User> _userManager;
+    private readonly IIdentityServerInteractionService _interaction;
 
-    public AuthController
-        (SignInManager<Domain.Models.User> signInManager, UserManager<Domain.Models.User> userManager)
+
+    public AccountController
+        (SignInManager<Domain.Models.User> signInManager, UserManager<Domain.Models.User> userManager, IIdentityServerInteractionService interaction)
     {
         _signInManager = signInManager;
         _userManager = userManager;
+        _interaction = interaction;
     }
 
     [HttpGet]
@@ -44,10 +50,14 @@ public class AuthController : Controller
         return Redirect(model.ReturnUrl);
     }
     
-    [HttpPost]
-    public async Task<IActionResult> Logout(string returnUrl)
+    [HttpGet]
+    public async Task<IActionResult> Logout(string logoutId)
     {
-        await _signInManager.SignOutAsync();
-        return Redirect(returnUrl);
+        if (User?.Identity.IsAuthenticated == true)
+        {
+            await HttpContext.SignOutAsync(IdentityServerConstants.DefaultCookieAuthenticationScheme);
+        }
+        var logoutContext = await _interaction.GetLogoutContextAsync(logoutId);
+        return Redirect(logoutContext.PostLogoutRedirectUri ?? "/");
     }
 }

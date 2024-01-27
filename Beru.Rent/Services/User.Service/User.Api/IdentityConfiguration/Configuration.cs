@@ -20,6 +20,7 @@ public static class Configuration
             RefreshTokenUsage = TokenUsage.OneTimeOnly,
             AllowedCorsOrigins = {"https://localhost:3000"},
             RedirectUris = { "https://localhost:3000/callback" },
+            PostLogoutRedirectUris = { "https://localhost:3000/" },
             AllowedScopes =
             {
                 "User.Api",

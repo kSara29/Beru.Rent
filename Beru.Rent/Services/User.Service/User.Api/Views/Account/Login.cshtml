@@ -6,7 +6,7 @@
 
 <h2>Вход в приложение</h2>
 <h5 class="text-danger">@ViewBag.Error</h5>
-<form method="post" asp-controller="Auth" asp-action="Login">
+<form method="post" asp-controller="Account" asp-action="Login">
     <div asp-validation-summary="ModelOnly"></div>
     
     <input type="hidden" asp-for="ReturnUrl">

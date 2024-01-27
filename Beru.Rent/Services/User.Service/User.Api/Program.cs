@@ -35,7 +35,8 @@ builder.Services.AddDbContext<UserContext>(options =>
 // Add services to the container.
 builder.Services.AddIdentityServer(config =>
     {
-        config.UserInteraction.LoginUrl = "/Auth/Login";
+        config.UserInteraction.LoginUrl = "/Account/Login";
+        config.UserInteraction.LogoutUrl = "/Account/Logout";
     })
     .AddAspNetIdentity<User.Domain.Models.User>()
     .AddInMemoryClients(Configuration.GetClients())

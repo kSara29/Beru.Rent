@@ -35,7 +35,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <AdditionalFiles Include="Views\Auth\Login.cshtml" />
+      <AdditionalFiles Include="Views\Account\Login.cshtml" />
       <AdditionalFiles Include="Views\Home\Index.cshtml" />
       <AdditionalFiles Include="Views\Home\Privacy.cshtml" />
       <AdditionalFiles Include="Views\Shared\Error.cshtml" />
