@@ -11,17 +11,21 @@ public static class Configuration
         {
             ClientId = "client_id_vue",
             RequireClientSecret = false,
-            RequireConsent = false,
+            RequireConsent = false, 
             RequirePkce = true,
             AllowOfflineAccess = true,
+            AccessTokenLifetime = 3600,
+            SlidingRefreshTokenLifetime = 1296000,
             AllowedGrantTypes = GrantTypes.Code,
-            AllowedCorsOrigins = {"https://localhost:7034"},
-            RedirectUris = { "https://localhost:7034/callback.html" },
+            RefreshTokenUsage = TokenUsage.OneTimeOnly,
+            AllowedCorsOrigins = {"https://localhost:3000"},
+            RedirectUris = { "https://localhost:3000/callback" },
             AllowedScopes =
             {
                 "User.Api",
                 IdentityServerConstants.StandardScopes.OpenId,
-                IdentityServerConstants.StandardScopes.Profile
+                IdentityServerConstants.StandardScopes.Profile,
+                IdentityServerConstants.StandardScopes.OfflineAccess
             }
         }
     };
