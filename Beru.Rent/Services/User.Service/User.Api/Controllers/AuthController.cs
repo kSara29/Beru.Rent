@@ -43,4 +43,11 @@ public class AuthController : Controller
         ModelState.AddModelError("UserName", "Somthing went wrong");
         return Redirect(model.ReturnUrl);
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> Logout(string returnUrl)
+    {
+        await _signInManager.SignOutAsync();
+        return Redirect(returnUrl);
+    }
 }
