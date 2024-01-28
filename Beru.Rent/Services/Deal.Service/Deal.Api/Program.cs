@@ -32,6 +32,20 @@ builder.Services.AddInfrastructureServices();
 builder.Services.AddApplicationService();
 builder.Services.AddSwaggerGen();
 
+#region CORS политики
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("mypolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
+#endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,6 +55,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("mypolicy");
 app.UseHttpsRedirection();
 app.UseFastEndpoints();
 app.Run();
