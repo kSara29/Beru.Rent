@@ -1,8 +1,10 @@
 ﻿using Deal.Application.Contracts.Booking;
-    using Deal.Domain.Enums;
+using Deal.Application.Mapper;
+using Deal.Domain.Enums;
     using Deal.Domain.Models;
     using Deal.Dto.Booking;
     using Deal.Infrastructure.Persistance;
+    using Microsoft.EntityFrameworkCore;
 
     namespace Deal.Infrastructure.EfCoreDb;
 
@@ -105,22 +107,10 @@
 
         public async Task<List<BookingDto>> GetBookingsAsync(Guid id)
         {
-            List<Booking> bookings =_db.Bookings.ToList();
-            List<BookingDto> theBooking = new List<BookingDto>();
+            List<Booking> bookings =await _db.Bookings.Where(b => b.TenantId == id).ToListAsync();
+            List<BookingDto> theBooking = new();
             foreach (var books in bookings)
-            {
-                // if (id == books.TenantId)
-                // {
-                //     theBooking.Add(new BookingDto{
-                //         AdId = books.AdId,
-                //         TenantId = books.TenantId,
-                //         Dbeg = books.Dbeg,
-                //         Dend = books.Dend,
-                //         Cost = books.Cost,
-                //         BookingState = books.BookingState
-                //         });
-                // }   
-            }
+                theBooking.Add(books.ToDomain());
             return theBooking;
         }
     }

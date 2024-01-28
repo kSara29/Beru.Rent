@@ -11,7 +11,7 @@ public class Booking: DealEntity
     public Booking(
         Guid adId,
         Guid tenantId,
-        decimal cost,
+        decimal? cost,
         DateTime dbeg,
         DateTime dend)
     {

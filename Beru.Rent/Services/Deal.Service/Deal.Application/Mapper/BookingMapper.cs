@@ -17,5 +17,13 @@ public static class BookingMapper
             dto.TenantId, 
             dto.Dbeg,
             dto.Dend);
-   
+
+    public static BookingDto ToDomain(this Booking booking)
+        => new(booking.Id,
+            booking.AdId,
+            booking.TenantId,
+            booking.Dbeg,
+            booking.Dend,
+            booking.Cost,
+            booking.BookingState);
 }
