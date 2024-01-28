@@ -10,6 +10,7 @@ public class DeleteUser(IUserService service) : Endpoint<DeleteUserByIdRequest, 
     public override void Configure()
     {
         Post("/bff/user/deleteUser");
+        AllowAnonymous();
     }
     
     public override async Task HandleAsync

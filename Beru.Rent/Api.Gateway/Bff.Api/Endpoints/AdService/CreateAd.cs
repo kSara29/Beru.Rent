@@ -6,19 +6,19 @@ using FastEndpoints;
 namespace Bff.Api.Endpoints.AdService;
 
 
-public class CreateAd(IAdService service) : Endpoint<CreateAdDto, ResponseModel<GuidResponse>>
-{
-    public override void Configure()
-    {
-        Post("/bff/ad/createad");
-        AllowAnonymous();
-    }
-    
-    public override async Task HandleAsync
-        (CreateAdDto? request, CancellationToken ct)
-    { 
-        if (request is null) await SendAsync(null!, cancellation: ct);
-        var response = await service.CreateAdAsync(request);
-        await SendAsync(response, cancellation: ct);
-    }
-}
+// public class CreateAd(IAdService service) : Endpoint<CreateAdDto, ResponseModel<GuidResponse>>
+// {
+//     public override void Configure()
+//     {
+//         Post("/bff/ad/createad");
+//         AllowAnonymous();
+//     }
+//     
+//     public override async Task HandleAsync
+//         (CreateAdDto? request, CancellationToken ct)
+//     { 
+//         if (request is null) await SendAsync(null!, cancellation: ct);
+//         var response = await service.CreateAdAsync(request);
+//         await SendAsync(response, cancellation: ct);
+//     }
+// }

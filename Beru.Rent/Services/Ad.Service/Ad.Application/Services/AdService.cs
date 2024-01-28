@@ -43,7 +43,11 @@ public class AdService : IAdService
         }
 
         var errors = new List<ResponseError>();
-        var errorModel = new ResponseError("404", "С таким Id объявления не найдено");
+        var errorModel = new ResponseError
+        {
+            Code = "404",
+            Message = "С таким Id объявления не найдено"
+        };
         errors.Add(errorModel);
 
         return ResponseModel<AdDto>.CreateFailed(errors);

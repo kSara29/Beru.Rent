@@ -1,83 +1,52 @@
-﻿using System.Text.Json;
-using Bff.Application.Contracts;
+﻿using Bff.Application.Contracts;
 using Bff.Application.JsonOptions;
 using Bff.Application.Maping;
 using Common;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using User.Dto;
 
 namespace Bff.Application.Services;
 
-public class UserService(ServiceMaping<UserDtoResponce> serviceMaping, IOptions<RequestToUserApi> jsonOptions) : IUserService
+public class UserService
+    (ServiceHandler<UserDtoResponce> serviceHandler, 
+        IOptions<RequestToUserApi> jsonOptions) : IUserService
 {
-    public async Task<ResponseModel<UserDtoResponce>> GetUserByEmailAsync(GetUserByEmailRequest request)
-    {
-        var httpConnection =
-            await serviceMaping.HttpGetConnection(string.Concat(jsonOptions.Value.GetUserByEmail, request.Email));
+    public async Task<ResponseModel<UserDtoResponce>> GetUserByEmailAsync(GetUserByEmailRequest request) => 
+        await serviceHandler.GetConnectionHandler
+            (serviceHandler.CreateConnectionUrlWithQuery
+                (jsonOptions.Value.Url, "api/user/getByMail?Email=", request.Email));
+    
+    public async Task<ResponseModel<UserDtoResponce>> GetUserByIdAsync(GetUserByIdRequest request) =>
+        await serviceHandler.GetConnectionHandler
+            (serviceHandler.CreateConnectionUrlWithQuery
+                (jsonOptions.Value.Url, "api/user/getById?Id=", request.Id));
+    
 
-        var responce = 
-            await serviceMaping.ResponceModelMaping(httpConnection);
-        return responce;
-    }
-
-    public async Task<ResponseModel<UserDtoResponce>> GetUserByIdAsync(GetUserByIdRequest request)
-    {
-        var httpConnection =
-            await serviceMaping.HttpGetConnection(string.Concat(jsonOptions.Value.GetUserById, request.Id));
-
-        var responce = 
-            await serviceMaping.ResponceModelMaping(httpConnection);
-        return responce;
-    }
-
-    public async Task<ResponseModel<UserDtoResponce>> GetUserByNameAsync(GetUserByUserNameRequest request)
-    {
-        var httpConnection =
-            await serviceMaping.HttpGetConnection(string.Concat(jsonOptions.Value.GetUserByName, request.UserName));
-
-        var responce = 
-            await serviceMaping.ResponceModelMaping(httpConnection);
-        return responce;
-    }
+    public async Task<ResponseModel<UserDtoResponce>> GetUserByNameAsync(GetUserByUserNameRequest request) =>
+        await serviceHandler.GetConnectionHandler
+            (serviceHandler.CreateConnectionUrlWithQuery
+                (jsonOptions.Value.Url, "api/user/getByName?UserName=", request.UserName));
 
     public async Task<ResponseModel<UserDtoResponce>> DeleteUserAsync(DeleteUserByIdRequest request)
     {
-        var content = serviceMaping.GetContentString(request.Id, nameof(request.Id));
-        var httpConnection =
-            await serviceMaping.HttpPostConnection(jsonOptions.Value.DeleteUser, content);
-        
-        var responce = 
-            await serviceMaping.ResponceModelMaping(httpConnection);
-        return responce;
+        var jsonContent = JsonConvert.SerializeObject(request);
+        var url = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/user/delete");
+        return await serviceHandler.PostConnectionHandler(url, jsonContent);
     }
 
     public async Task<ResponseModel<UserDtoResponce>> UpdateUserAsync(UpdateUserDto request)
     {
-        var content = JsonSerializer.Serialize(request);
-        var httpConnection =
-            await serviceMaping.HttpPostConnection(jsonOptions.Value.UpdateUser, content);
-        
-        var responce = 
-            await serviceMaping.ResponceModelMaping(httpConnection);
-        return responce;
+        var jsonContent = JsonConvert.SerializeObject(request);
+        var url = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/user/update");
+        var result = await serviceHandler.PostConnectionHandler(url, jsonContent);
+        return result;
     }
 
     public async Task<ResponseModel<UserDtoResponce>> CreateUserAsync(CreateUserDto request)
     {
-        var content = JsonSerializer.Serialize(request);
-        var httpConnection =
-            await serviceMaping.HttpPostConnection(jsonOptions.Value.CreateUser, content);
-        
-        var responce = 
-            await serviceMaping.ResponceModelMaping(httpConnection);
-        return responce;
-    }
-
-    public async Task<ResponseModel<UserDtoResponce>> GetAuthService()
-    {
-        var httpConnection =
-            await serviceMaping.HttpGetConnection(jsonOptions.Value.Auth);
-        var responce = await serviceMaping.ResponceModelMaping(httpConnection);
-        return responce;
+        var jsonContent = JsonConvert.SerializeObject(request);
+        var url = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/user/create");
+        return await serviceHandler.PostConnectionHandler(url, jsonContent);
     }
 }

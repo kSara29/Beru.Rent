@@ -12,7 +12,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddFastEndpoints();
 builder.Services.Configure<RequestToUserApi>(builder.Configuration.GetSection(RequestToUserApi.Name));
-builder.Services.Configure<RequestToDealApi>(builder.Configuration.GetSection(RequestToDealApi.Name));
 builder.Services.Configure<RequestToAdApi>(builder.Configuration.GetSection(RequestToAdApi.Name));
 builder.Services.AddApplicationService();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -27,6 +26,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 app.UseFastEndpoints();
+app.UseRouting();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
