@@ -2,7 +2,7 @@
 using Common;
 using Newtonsoft.Json;
 
-namespace Bff.Application.Maping;
+namespace Bff.Application.Handlers;
 
 public class ServiceHandler<T>
 {
@@ -30,7 +30,7 @@ public class ServiceHandler<T>
     /// </summary>
     /// <param name="responseMessage">ответ от сервера полученный от метода HttpGetConnection или HttpPostConnection</param>
     /// <returns>возвращает общую модель ответа ResponseModel<T></returns>
-    public async Task<ResponseModel<T>> HandleSuccessResponse(HttpResponseMessage responseMessage)
+    private async Task<ResponseModel<T>> HandleSuccessResponse(HttpResponseMessage responseMessage)
     {
         var jsonString = await responseMessage.Content.ReadAsStringAsync();
         var responseDto = JsonConvert.DeserializeObject<ResponseModel<T>>(jsonString);
