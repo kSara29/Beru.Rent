@@ -9,7 +9,7 @@ public class UpdateUser(IUserService service) : Endpoint<UpdateUserDto, Response
 {
     public override void Configure()
     {
-        Post("/bff/user/updateUser");
+            Post("/bff/user/updateUser");
         AllowAnonymous();
     }
     

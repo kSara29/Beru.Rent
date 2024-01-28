@@ -28,8 +28,4 @@
       <ProjectReference Include="..\Bff.Application\Bff.Application.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Endpoints\AdService\" />
-    </ItemGroup>
-
 </Project>

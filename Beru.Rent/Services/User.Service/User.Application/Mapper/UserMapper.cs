@@ -19,6 +19,22 @@ public static class UserMapper
             };
     }
     
+    public static Domain.Models.User? ToUser(this UserDtoResponce? model)
+    {
+        return model is null
+            ? null
+            : new Domain.Models.User
+            {
+                Id = model.UserId,
+                FirstName = model.FirstName,
+                Email = model.Mail,
+                Iin = model.Iin,
+                LastName = model.LastName,
+                PhoneNumber = model.Phone,
+                UserName = model.UserName
+            };
+    }
+    
     public static UserDtoResponce? ToUserDto(this Domain.Models.User? model)
     {
         return model is null

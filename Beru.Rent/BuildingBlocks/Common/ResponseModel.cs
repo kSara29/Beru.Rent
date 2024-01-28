@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace Common;
 
 [Serializable]
@@ -5,16 +7,20 @@ public class ResponseModel<T>
 {
     public required ResponseStatus Status { get; set; }
     public T? Data { get; init; }
-    public ResponseError? Error { get; init; }
+    public List<ResponseError?>? Errors { get; init; }
+
+    public ResponseModel()
+    {
+    }
 
     public ResponseModel(T data)
     {
         Data = data;
     }
 
-    public ResponseModel(ResponseError error)
+    public ResponseModel(List<ResponseError?>? errors)
     {
-        Error = error;
+        Errors = errors;
     }
 
     public static ResponseModel<T> CreateSuccess(T data)
@@ -25,9 +31,9 @@ public class ResponseModel<T>
         };
     }
 
-    public static ResponseModel<T> CreateFailed(ResponseError error)
+    public static ResponseModel<T> CreateFailed(List<ResponseError?>? errors)
     {
-        return new ResponseModel<T>(error)
+        return new ResponseModel<T>(errors)
         {
             Status = ResponseStatus.Failed
         };
