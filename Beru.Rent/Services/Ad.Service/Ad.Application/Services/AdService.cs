@@ -8,6 +8,9 @@ using Ad.Domain.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Ad.Dto;
 using Ad.Dto.GetDtos;
+using Ad.Dto.ResponseDto;
+using Common;
+using Microsoft.AspNetCore.Http;
 using CreateAdDto = Ad.Dto.CreateDtos.CreateAdDto;
 
 namespace Ad.Application.Services;
@@ -22,13 +25,13 @@ public class AdService : IAdService
         _repository = repository;
         _fileRepository = fileRepository;
     }
-    public async Task<BaseApiResponse<Guid>> CreateAdAsync(CreateAdDto ad)
+    public async Task<ResponseModel<Guid>> CreateAdAsync(CreateAdDto ad)
     {
        var result =await _repository.CreateAdAsync(ad.ToDomain());
-       return new BaseApiResponse<Guid>(result);
+       return ResponseModel<Guid>.CreateSuccess(result);
     }
 
-    public async Task<BaseApiResponse<AdDto>> GetAdAsync(Guid id)
+    public async Task<ResponseModel<AdDto>> GetAdAsync(Guid id)
     {
         var result = await _repository.GetAdAsync(id);
         if (result != null)
@@ -36,13 +39,18 @@ public class AdService : IAdService
               var data = result.ToDto();
               var files = await _fileRepository.GetAllFilesAsync(id);
               data.Files = files;
-              return new BaseApiResponse<AdDto>(data); 
+              var response = ResponseModel<AdDto>.CreateSuccess(data);
         }
-        return new BaseApiResponse<AdDto>(null, "Некорректный id");
+
+        var errors = new List<ResponseError>();
+        var errorModel = new ResponseError("404", "С таким Id объявления не найдено");
+        errors.Add(errorModel);
+
+        return ResponseModel<AdDto>.CreateFailed(errors);
     }
     
 
-    public async Task<BaseApiResponse<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(int page, string sortdate, string sortprice, string cat)
+    public async Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(int page, string sortdate, string sortprice, string cat)
     {
         var result = await _repository.GetAllAdAsync(page,sortdate,sortprice,cat);
         var mainPageDto = new GetMainPageDto<AdMainPageDto>(result.MainPageDto.Select(ad => ad.ToMainPageDto()).ToList(), result.TotalPage);
@@ -53,18 +61,19 @@ public class AdService : IAdService
             dto.Files = files;
         }
 
-        return new BaseApiResponse<GetMainPageDto<AdMainPageDto>>(mainPageDto);
+        return ResponseModel<GetMainPageDto<AdMainPageDto>>.CreateSuccess(mainPageDto);
     }
 
-    public async Task<decimal> GetCostAsync(Guid adId, DateTime dbeg, DateTime dend)
+    public async Task<ResponseModel<decimal>> GetCostAsync(Guid adId, DateTime dbeg, DateTime dend)
     {
         var result =await _repository.GetCostAsync(adId, dbeg,dend);
-        return result;
+        return ResponseModel<decimal>.CreateSuccess(result);
     }
 
-    public async Task<string> GetOwnerIdAsync(Guid adId)
+    public async Task<ResponseModel<string>> GetOwnerIdAsync(Guid adId)
     {
         var result =await _repository.GetOwnerIdAsync(adId);
-        return result;
+        
+        return ResponseModel<string>.CreateSuccess(result);
     }
 }
