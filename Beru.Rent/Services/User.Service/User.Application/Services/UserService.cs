@@ -1,6 +1,6 @@
 using User.Application.Contracts;
-using User.Application.DTO;
 using User.Application.Mapper;
+using User.Dto;
 
 namespace User.Application.Services;
 
@@ -29,13 +29,25 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<UserDto> GetUserByIdAsync(string userId)
+    public async Task<UserDtoResponce> GetUserByIdAsync(string userId)
     {
         var user = await _userRepository.GetUserByIdAsync(userId);
         return user.ToUserDto();
     }
+    
+    public async Task<UserDtoResponce> GetUserByMailAsync(string mail)
+    {
+        var user = await _userRepository.GetUserByMailAsync(mail);
+        return user.ToUserDto();
+    }
+    
+    public async Task<UserDtoResponce> GetUserByNameAsync(string userName)
+    {
+        var user = await _userRepository.GetUserByNameAsync(userName);
+        return user.ToUserDto();
+    }
 
-    public async Task<UserDto> DeleteUserAsync(string userId)
+    public async Task<UserDtoResponce> DeleteUserAsync(string userId)
     {
         var result = await _userRepository.DeleteUserAsync(userId);
         return result.ToUserDto();

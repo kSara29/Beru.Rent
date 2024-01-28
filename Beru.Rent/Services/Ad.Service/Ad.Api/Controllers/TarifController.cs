@@ -1,6 +1,4 @@
-﻿
-
-using Ad.Api.DTO.Tarif;
+﻿using Ad.Dto.CreateDtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ad.Api.Controllers;

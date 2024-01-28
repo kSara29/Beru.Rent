@@ -1,6 +1,5 @@
 ﻿using Ad.Application.Contracts.Category;
 using Ad.Application.DTO.CreateDtos;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ad.Api.Controllers;

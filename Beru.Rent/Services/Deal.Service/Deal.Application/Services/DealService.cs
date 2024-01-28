@@ -1,4 +1,5 @@
 ﻿using Deal.Application.Contracts.Deal;
+using Deal.Dto.Deal;
 
 namespace Deal.Application.Services;
 
@@ -11,8 +12,8 @@ public class DealService: IDealService
         _dealRepository = dealRepository;
     }
     
-    public Task<bool> CreateDealAsync(Domain.Models.Deal deal)
+    public Task<CreateDealDto> CreateDealAsync(Guid Id)
     {
-        return (_dealRepository.CreateDealAsync(deal)); 
+        return (_dealRepository.CreateDealAsync(Id)); 
     }
 }

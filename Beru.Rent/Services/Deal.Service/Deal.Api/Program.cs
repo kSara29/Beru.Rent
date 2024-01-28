@@ -1,10 +1,5 @@
-using Deal.Api.DTO.Deal;
-using Deal.Api.Mapper;
-using Deal.Application.Contracts.Deal;
 using Deal.Infrastructure.Persistance;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
 using Deal.Application;
 using Deal.Infrastructure;
 using FastEndpoints;
@@ -12,18 +7,10 @@ using Minio;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddFastEndpoints();
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddInfrastructureServices();
-builder.Services.AddApplicationService();
-builder.Services.AddSwaggerGen();
-
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 builder.Services.AddDbContext<DealContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString), ServiceLifetime.Scoped);
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 #region Подключаю Minio
 var endpoint = "play.min.io";
@@ -36,6 +23,28 @@ builder.Services.AddMinio(configureClient => configureClient
     .WithCredentials(accessKey, secretKey));
 #endregion
 
+builder.Services.AddHttpClient();
+builder.Services.AddFastEndpoints();
+// Add services to the container.
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddInfrastructureServices();
+builder.Services.AddApplicationService();
+builder.Services.AddSwaggerGen();
+
+#region CORS политики
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("mypolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
+#endregion
 
 var app = builder.Build();
 
@@ -46,6 +55,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("mypolicy");
 app.UseHttpsRedirection();
 app.UseFastEndpoints();
 app.Run();

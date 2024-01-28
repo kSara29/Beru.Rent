@@ -11,12 +11,12 @@ public class DealContext : DbContext
     public DbSet<ContractStorage> ContractStorages { get; set; }
     
     
-    public DealContext(DbContextOptions options) : base(options)
+    public DealContext(DbContextOptions<DealContext> options) : base(options)
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
     }
-    
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

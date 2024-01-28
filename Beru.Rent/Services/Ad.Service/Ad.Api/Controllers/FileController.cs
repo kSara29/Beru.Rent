@@ -1,16 +1,15 @@
-﻿
-
-using Ad.Application.Contracts.File;
-using Ad.Application.DTO;
+﻿using Ad.Application.Contracts.File;
+using Ad.Dto.CreateDtos;
 using Microsoft.AspNetCore.Mvc;
 using Minio;
 using Minio.DataModel.Args;
 
+namespace Ad.Api.Controllers;
 
 [ApiController]
 public class FileController : ControllerBase
 {
-    #region Общение в базой Minio
+    #region Общение в базой Miniom
     private readonly IMinioClient minioClient;
     private readonly IFileService _service;
 
@@ -26,7 +25,7 @@ public class FileController : ControllerBase
     public async Task<IActionResult> UploadFile([FromForm] CreateFileDto fileDto)
     {
 
-       await _service.UploadFileAsync(fileDto);
+        await _service.UploadFileAsync(fileDto);
 
        
         string bucketID = fileDto.AdId.ToString(); 
@@ -63,5 +62,5 @@ public class FileController : ControllerBase
 
 
 
-#endregion
+    #endregion
 }

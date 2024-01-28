@@ -1,5 +1,5 @@
-﻿using Ad.Api.DTO;
-using Ad.Application.Responses;
+﻿using Ad.Application.Responses;
+using Ad.Dto.CreateDtos;
 
 namespace Ad.Application.Contracts.Tag;
 

@@ -1,6 +1,6 @@
-﻿using Ad.Api.DTO;
-using Ad.Application.Contracts.File;
-using Ad.Application.DTO;
+﻿using Ad.Application.Contracts.File;
+using Ad.Application.Contracts.Ad;
+using Ad.Dto.CreateDtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ad.Api.Controllers;
@@ -48,5 +48,21 @@ public class AdController:ControllerBase
     {
         var result = await _service.GetAllAdAsync(page, sortdate, sortprice, cat);
         return Ok(new {result.Data.MainPageDto, result.Data.TotalPage});
+    }
+    
+    [HttpGet("/api/ad/getCost/{adId}&{dbeg}&{dend}")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetCostAsync(Guid adId, DateTime dbeg, DateTime dend)
+    {
+        var result = await _service.GetCostAsync(adId, dbeg, dend);
+        return Ok(result);
+    }
+    
+    [HttpGet("/api/ad/getOwnerId/{adId}")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetOwnerIdAsync(Guid adId)
+    {
+        var result = await _service.GetOwnerIdAsync(adId);
+        return Ok(result);
     }
 }

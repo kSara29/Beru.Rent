@@ -1,11 +1,14 @@
-﻿using FastEndpoints;
+﻿using Common;
+using FastEndpoints;
 using User.Application.Contracts;
-using User.Application.DTO;
 using User.Application.Extencions.Validation;
+using User.Application.Mapper;
+using User.Dto;
+using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace User.Api.Endpoints;
 
-public class CreateUser(IUserService service) : Endpoint<CreateUserDto, object>
+public class CreateUser(IUserService service) : Endpoint<CreateUserDto, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
@@ -16,9 +19,17 @@ public class CreateUser(IUserService service) : Endpoint<CreateUserDto, object>
     public override async Task HandleAsync
         (CreateUserDto model, CancellationToken ct)
     {
-        var result = model.CreateUserValidate();
-        if (result!.Count > 0) await SendAsync(result, cancellation: ct);
-        var results = await service.CreateUserAsync(model, model.Password);
-        await SendAsync(results, cancellation: ct);
+        CreateUserValidation createUserValidation = new CreateUserValidation();
+        ValidationResult result = createUserValidation.Validate(model);
+        var err = ResponseModel<UserDtoResponce>.CreateFailed(new ResponseError
+        {
+            Code = "qwerty",
+            Message = "Что-то не так"
+        });
+        if (!result.IsValid) await SendAsync(err, cancellation: ct);
+        var user = await service.CreateUserAsync(model, model.Password);
+        
+        var res = ResponseModel<UserDtoResponce>.CreateSuccess(user.ToUserDto());
+        await SendAsync(res, cancellation: ct);
     }
 }

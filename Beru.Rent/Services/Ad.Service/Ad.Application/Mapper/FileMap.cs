@@ -1,5 +1,6 @@
-﻿using Ad.Application.DTO;
-using Ad.Domain.Models;
+﻿using Ad.Domain.Models;
+using Ad.Dto;
+using Ad.Dto.CreateDtos;
 
 namespace Ad.Application.Mapper;
 

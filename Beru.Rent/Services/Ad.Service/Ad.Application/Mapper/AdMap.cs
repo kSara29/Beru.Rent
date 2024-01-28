@@ -1,6 +1,9 @@
-﻿using Ad.Api.DTO;
-using Ad.Application.DTO.GetDtos;
+﻿using Ad.Application.DTO.GetDtos;
+using Ad.Domain.Enums;
 using Ad.Domain.Models;
+using Ad.Dto;
+using Ad.Dto.GetDtos;
+using CreateAdDto = Ad.Dto.CreateDtos.CreateAdDto;
 
 namespace Ad.Application.Mapper;
 

@@ -1,6 +1,7 @@
-﻿using Ad.Application.Contracts.Address;
-using Ad.Domain.Models;
+﻿using Ad.Domain.Models;
 using Ad.Infrastructure.Context;
+using Ad.Application.Contracts;
+using Ad.Application.Contracts.Address;
 
 namespace Ad.Infrastructure.Database;
 

@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\BuildingBlocks\Deal.Dto\Deal.Dto.csproj" />
         <ProjectReference Include="..\Deal.Domain\Deal.Domain.csproj" />
     </ItemGroup>
 
@@ -24,8 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="DTO\" />
-      <Folder Include="Responses\" />
+      <Folder Include="Validation\" />
     </ItemGroup>
 
 </Project>
