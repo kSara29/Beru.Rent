@@ -1,24 +1,24 @@
 ﻿using Ad.Dto.CreateDtos;
-using Ad.Dto.ResponseDto;
+using Ad.Dto.GetDtos;
 using Bff.Application.Contracts;
 using Common;
 using FastEndpoints;
+
 namespace Bff.Api.Endpoints.AdService;
 
-
-public class CreateAd(IAdService service) : Endpoint<CreateAdDto, ResponseModel<GuidResponse>>
+public class GetAdById(IAdService service) : Endpoint<RequestById, ResponseModel<AdDto>>
 {
     public override void Configure()
     {
-        Post("/bff/ad/createad");
+        Post("/bff/ad/get");
         AllowAnonymous();
     }
     
     public override async Task HandleAsync
-        (CreateAdDto? request, CancellationToken ct)
+        (RequestById? request, CancellationToken ct)
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
-        var response = await service.CreateAdAsync(request);
+        var response = await service.GetAdAsync(request);
         await SendAsync(response, cancellation: ct);
     }
 }
