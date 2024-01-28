@@ -25,11 +25,8 @@
       <ProjectReference Include="..\..\BuildingBlocks\Common\Common.csproj" />
       <ProjectReference Include="..\..\BuildingBlocks\Deal.Dto\Deal.Dto.csproj" />
       <ProjectReference Include="..\..\BuildingBlocks\User.Dto\User.Dto.csproj" />
+      <ProjectReference Include="..\..\BuildingBlocks\Ad.Dto\Ad.Dto.csproj" />
       <ProjectReference Include="..\Bff.Application\Bff.Application.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Endpoints\AdService\" />
     </ItemGroup>
 
 </Project>

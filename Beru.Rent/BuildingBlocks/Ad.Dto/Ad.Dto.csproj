@@ -14,4 +14,8 @@
       <ProjectReference Include="..\..\Services\Ad.Service\Ad.Domain\Ad.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="ResponceDto\" />
+    </ItemGroup>
+
 </Project>
