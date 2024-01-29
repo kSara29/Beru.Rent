@@ -21,6 +21,7 @@ public static class DependencyInjections
         service.AddScoped<IAdService, AdService>(); 
         service.AddScoped<ICategoryService, CategoryService>(); 
         service.AddScoped<ITimeUnitService, TimeUnitService>(); 
+        service.AddScoped<IFileService, FileService>(); 
         service.AddScoped<ServiceHandler<GuidResponse>>();
         service.AddScoped<ServiceHandler<StringResponse>>();
         service.AddScoped<ServiceHandler<AdDto>>();
@@ -30,7 +31,7 @@ public static class DependencyInjections
         service.AddScoped<ServiceHandler<TimeUnitDto?>>();
         service.AddScoped<ServiceHandler<GetMainPageDto<AdMainPageDto>>>();
         service.AddScoped<ServiceHandler<DecimalResponse>>();
-        service.AddScoped<ServiceHandler<TimeUnitDto?>>();
+        service.AddScoped<ServiceHandler<byte[]?>>();
         return service;
     }
 }
