@@ -25,7 +25,7 @@ public class AdController:ControllerBase
        var result =  await _service.CreateAdAsync(dto);
        foreach (var file in dto.Files)
        {
-           var fileDto = new CreateFileDto(result.Data, file);
+           var fileDto = new CreateFileDto(result.Data.Id, file);
            await _fileService.UploadFileAsync(fileDto);
        }
        return Ok(result);
