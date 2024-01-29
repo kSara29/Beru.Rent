@@ -18,14 +18,15 @@ public class BookingService: IBookingService
         return await (_bookingRepository.CancelReservationAsync(booking));
     }
 
-    public async Task<bool> CreateBookingAsync(CreateBookingDto dto)
+    public async Task<BoolResponseDto> CreateBookingAsync(CreateBookingRequestDto dto)
     {
-        return await _bookingRepository.CreateBookingAsync(dto.ToDomain());
+        bool boolean = await _bookingRepository.CreateBookingAsync(dto);
+        return boolean.ToDomain();
     }
 
-    public async Task<DateTime[,]> GetAllBookingsAsync(Guid id)
+    public async Task<DateTime[,]> GetBookingDatesAsync(Guid id)
     {
-        return await _bookingRepository.GetAllBookingsAsync(id);
+        return await _bookingRepository.GetBookingDatesAsync(id);
     }
 
     public async Task<List<BookingDto>> GetBookingsAsync(Guid id)

@@ -5,7 +5,7 @@ using FastEndpoints;
 
 namespace Bff.Api.Endpoints.DealService;
 
-public class CreateBooking(IDealServiceCreate serviceCreate) : Endpoint<CreateBookingDto, ResponseModel<BookingDto>>
+public class CreateBooking(IDealServiceCreate serviceCreate) : Endpoint<CreateBookingRequestDto, ResponseModel<BookingDto>>
 {
     public override void Configure()
     {
@@ -14,7 +14,7 @@ public class CreateBooking(IDealServiceCreate serviceCreate) : Endpoint<CreateBo
     }
     
     public override async Task HandleAsync
-        (CreateBookingDto? request, CancellationToken ct)
+        (CreateBookingRequestDto? request, CancellationToken ct)
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
         var response = await serviceCreate.CreateBookingAsync(request!);

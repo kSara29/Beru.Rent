@@ -4,7 +4,7 @@ using FastEndpoints;
 
 namespace Deal.Api.Endpoints;
 
-public class CreateDeal(IDealService _service): Endpoint<Guid, CreateDealDto>
+public class GetDeal(IDealService _service): Endpoint<Guid, CreateDealDto>
 {
     public override void Configure()
     {

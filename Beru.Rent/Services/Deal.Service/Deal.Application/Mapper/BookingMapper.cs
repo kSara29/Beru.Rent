@@ -12,11 +12,8 @@ public static class BookingMapper
             dto.Dbeg,
             dto.Dend);
     
-    public static Booking ToDomain(this CreateBookingDto dto)
-        => new(dto.AdId, 
-            dto.TenantId, 
-            dto.Dbeg,
-            dto.Dend);
+    public static BoolResponseDto ToDomain(this bool boolean)
+        => new(boolean);
 
     public static BookingDto ToDomain(this Booking booking)
         => new(booking.Id,

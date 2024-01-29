@@ -35,22 +35,22 @@ using Deal.Domain.Enums;
             }
         }
 
-        public async Task<bool> CreateBookingAsync(Booking booking)
+        public async Task<bool> CreateBookingAsync(CreateBookingRequestDto dto)
         {
             try
             {
-                List<Booking> bookings = _db.Bookings.ToList();
+                List<Booking> bookings = _db.Bookings.Where(b => b.AdId == dto.AdId).ToList();
                 
-                if (booking.Dbeg < DateTime.UtcNow.AddMinutes(-1))
+                if (dto.Dbeg < DateTime.UtcNow.AddMinutes(-1))
                     return false;
                 
                 foreach (var book in bookings)
                 {
-                    if (booking.AdId == book.AdId && book.BookingState == BookingState.Accept.ToString())
+                    if (book.BookingState == BookingState.Accept.ToString())
                     {
-                        if (booking.Dbeg > book.Dbeg && booking.Dbeg < book.Dend || 
-                            booking.Dend > book.Dbeg && booking.Dend < book.Dend ||
-                            booking.Dbeg < book.Dbeg && booking.Dend > book.Dend 
+                        if (dto.Dbeg > book.Dbeg && dto.Dbeg < book.Dend || 
+                            dto.Dend > book.Dbeg && dto.Dend < book.Dend ||
+                            dto.Dbeg < book.Dbeg && dto.Dend > book.Dend 
                             )
                         {
                             return false;
@@ -80,7 +80,7 @@ using Deal.Domain.Enums;
         }
         
 
-        public async Task<DateTime[,]> GetAllBookingsAsync(Guid id)
+        public async Task<DateTime[,]> GetBookingDatesAsync(Guid id)
         {
             List<Booking> bookings = _db.Bookings.ToList();
             int size = 0;

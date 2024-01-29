@@ -1,4 +1,5 @@
 using Deal.Application.Contracts.Booking;
+using Deal.Dto.Booking;
 using FastEndpoints;
 
 namespace Deal.Api.Endpoints;
@@ -7,7 +8,7 @@ public class GetBookings(IBookingService _service): Endpoint<Guid>
 {
     public override void Configure()
     {
-        Get("api/booking/getbookings/{id}");
+        Post("api/booking/getbookings/{id}");
         AllowAnonymous();
     }
 

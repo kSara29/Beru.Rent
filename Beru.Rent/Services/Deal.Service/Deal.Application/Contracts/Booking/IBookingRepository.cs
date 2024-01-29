@@ -5,7 +5,7 @@ namespace Deal.Application.Contracts.Booking;
 public interface IBookingRepository
 { 
     Task<bool> CancelReservationAsync(Domain.Models.Booking booking);
-    Task<bool> CreateBookingAsync(Domain.Models.Booking booking);
-    Task<DateTime[,]> GetAllBookingsAsync(Guid id);
+    Task<bool> CreateBookingAsync(CreateBookingRequestDto dto);
+    Task<DateTime[,]> GetBookingDatesAsync(Guid id);
     Task<List<BookingDto>> GetBookingsAsync(Guid id);
 }

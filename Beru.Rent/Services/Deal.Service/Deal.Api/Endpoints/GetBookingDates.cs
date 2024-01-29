@@ -3,17 +3,17 @@ using Deal.Dto.Booking;
 using FastEndpoints;
 namespace Deal.Api.Endpoints;
 
-public class GetAllBookings(IBookingService service): Endpoint<Guid, DateArray[]>    
+public class GetBookingDates(IBookingService service): Endpoint<Guid, DateArray[]>    
 {
     public override void Configure()
     {
-        Post("api/booking/getallbookings/{id}");
+        Post("api/booking/getbookingdates/{id}");
         AllowAnonymous();
     }
 
     public override async Task HandleAsync(Guid id, CancellationToken ct)
     {
-        var results = await service.GetAllBookingsAsync(id);
+        var results = await service.GetBookingDatesAsync(id);
         if (results != null)
         {
         DateArray[] dateTimes = new DateArray[results.Length/2];

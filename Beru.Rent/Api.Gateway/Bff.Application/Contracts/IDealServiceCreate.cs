@@ -5,5 +5,5 @@ namespace Bff.Application.Contracts;
 
 public interface IDealServiceCreate
 {
-    Task<ResponseModel<BookingDto>> CreateBookingAsync(CreateBookingDto request);
+    Task<ResponseModel<BookingDto>> CreateBookingAsync(CreateBookingRequestDto request);
 }

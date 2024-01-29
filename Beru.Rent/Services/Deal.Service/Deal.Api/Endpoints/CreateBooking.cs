@@ -1,10 +1,11 @@
+using Common;
 using Deal.Application.Contracts.Booking;
 using Deal.Dto.Booking;
 using FastEndpoints;
 
 namespace Deal.Api.Endpoints;
 
-public class CreateBooking(IBookingService service) : Endpoint<CreateBookingDto, object>
+public class CreateBooking(IBookingService service) : Endpoint<CreateBookingRequestDto, ResponseModel<BoolResponseDto>>
 {
     public override void Configure()
     {
@@ -12,9 +13,13 @@ public class CreateBooking(IBookingService service) : Endpoint<CreateBookingDto,
         AllowAnonymous();
     }
 
-    public override async Task HandleAsync(CreateBookingDto model, CancellationToken ct)
+    public override async Task HandleAsync(CreateBookingRequestDto model, CancellationToken ct)
     {
+        //Проверяем через валидацию. Если валидация не пройдена правильно создаем responseModel с результатом CreateFailed,
+        //с причиной ошибки(код и сообщение)
+        
         var results = await service.CreateBookingAsync(model);
-        await SendAsync(results, cancellation: ct);
+        var res = ResponseModel<BoolResponseDto>.CreateSuccess(results);
+        await SendAsync(res, cancellation: ct);
     }
 }

@@ -12,7 +12,7 @@ public class DealServiceCreate
     (ServiceMaping<BookingDto> serviceMapping,
         IOptions<RequestToDealApi> jsonOptions) : IDealServiceCreate
 {
-    public async Task<ResponseModel<BookingDto>> CreateBookingAsync(CreateBookingDto request)
+    public async Task<ResponseModel<BookingDto>> CreateBookingAsync(CreateBookingRequestDto request)
     {
         var content = JsonSerializer.Serialize(request);
         var httpConnection =
