@@ -29,12 +29,16 @@ public class AdService(
         var url = serviceHandlerGuid.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/ad/CreateAdAsync");
         return await serviceHandlerGuid.PostConnectionHandler(url, jsonContent);
     }
-    
 
-    public async Task<ResponseModel<AdDto>> GetAdAsync(RequestById id) =>
-            await serviceHandlerAdDto.GetConnectionHandler
-            (serviceHandlerAdDto.CreateConnectionUrlWithQuery
-                (jsonOptions.Value.Url, "api/ad/get/", id.Id.ToString()));
+
+    public async Task<ResponseModel<AdDto>> GetAdAsync(RequestById id)
+    {
+        var url = serviceHandlerAdDto.CreateConnectionUrlWithQuery
+            (jsonOptions.Value.Url, "api/ad/get/", id.Id.ToString());
+        var result = await serviceHandlerAdDto.GetConnectionHandler(url);
+        return result;
+    }
+            
 
     public Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(MainPageRequestDto requestDto)
     {
