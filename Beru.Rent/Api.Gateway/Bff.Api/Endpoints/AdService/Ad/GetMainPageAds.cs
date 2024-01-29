@@ -1,24 +1,24 @@
-﻿using Ad.Dto.CreateDtos;
-using Ad.Dto.GetDtos;
+﻿using Ad.Application.DTO.GetDtos;
+using Ad.Dto.RequestDto;
 using Bff.Application.Contracts;
 using Common;
 using FastEndpoints;
 
 namespace Bff.Api.Endpoints.AdService;
 
-public class GetAdById(IAdService service) : Endpoint<RequestById, ResponseModel<AdDto>>
+public class GetMainPageAds(IAdService service) : Endpoint<MainPageRequestDto, ResponseModel<GetMainPageDto<AdMainPageDto>>>
 {
     public override void Configure()
     {
-        Get("/bff/ad/getById");
+        Get("/bff/ad/getMainPageAds");
         AllowAnonymous();
     }
     
     public override async Task HandleAsync
-        (RequestById? request, CancellationToken ct)
+        (MainPageRequestDto? request, CancellationToken ct)
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
-        var response = await service.GetAdAsync(request);
+        var response = await service.GetAllAdAsync(request);
         await SendAsync(response, cancellation: ct);
     }
 }

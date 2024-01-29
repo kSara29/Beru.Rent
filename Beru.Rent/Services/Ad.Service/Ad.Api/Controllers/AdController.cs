@@ -47,7 +47,7 @@ public class AdController:ControllerBase
         [FromQuery] string cat ="all")
     {
         var result = await _service.GetAllAdAsync(page, sortdate, sortprice, cat);
-        return Ok(new {result.Data.MainPageDto, result.Data.TotalPage});
+        return Ok(result);
     }
     
     [HttpGet("/api/ad/getCost/{adId}&{dbeg}&{dend}")]

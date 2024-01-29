@@ -1,26 +1,24 @@
-﻿using Ad.Dto.CreateDtos;
+﻿
+
+using Ad.Application.DTO.CreateDtos;
 using Ad.Dto.ResponseDto;
 using Bff.Application.Contracts;
 using Common;
 using FastEndpoints;
-using Microsoft.AspNetCore.Mvc;
 
-namespace Bff.Api.Endpoints.AdService;
-
-
-public class CreateAd(IAdService service) : Endpoint<CreateAdDto, ResponseModel<GuidResponse>>
+public class CreateCategory(ICategoryService service) : Endpoint<CreateCategoryDto, ResponseModel<GuidResponse>>
 {
     public override void Configure()
     {
-        Post("/bff/ad/create");
+        Post("/bff/category/create");
         AllowAnonymous();
     }
     
     public override async Task HandleAsync
-        (CreateAdDto? request, CancellationToken ct)
+        (CreateCategoryDto? request, CancellationToken ct)
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
-        var response = await service.CreateAdAsync(request);
+        var response = await service.CreateCategoryAsync(request);
         await SendAsync(response, cancellation: ct);
     }
 }

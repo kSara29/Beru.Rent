@@ -26,7 +26,7 @@ public class AdService(
     public async Task<ResponseModel<GuidResponse>> CreateAdAsync(CreateAdDto ad)
     {
         var jsonContent = JsonConvert.SerializeObject(ad);
-        var url = serviceHandlerGuid.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/ad/CreateAdAsync");
+        var url = serviceHandlerGuid.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/ad/create");
         return await serviceHandlerGuid.PostConnectionHandler(url, jsonContent);
     }
 
@@ -40,9 +40,12 @@ public class AdService(
     }
             
 
-    public Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(MainPageRequestDto requestDto)
+    public async Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(MainPageRequestDto requestDto)
     {
-        throw new NotImplementedException();
+        var url = serviceHandlerMainAdDto.CreateConnectionUrlWithQuery
+            (jsonOptions.Value.Url, "api/ad/get/?", $"page={requestDto.Page}&sortdate={requestDto.SortDate}&sortprice={requestDto.SortPrice}&cat={requestDto.CategoryName}");
+        var result = await serviceHandlerMainAdDto.GetConnectionHandler(url);
+        return result;
     }
 
     public Task<ResponseModel<DecimalResponse>> GetCostAsync(RequestById adId, DateTime ebeg, DateTime dend)
