@@ -52,7 +52,7 @@ public class AddressController:ControllerBase
     
     
     [HttpPost("/api/address/suggestions")]
-    public async Task<string> SuggestAddress([FromBody] QueryModel model)
+    public async Task<List<string>> SuggestAddress([FromBody] QueryModel model)
     {
         string url = $"https://suggest-maps.yandex.ru/v1/suggest?apikey={_yandexToken}&text={model.Query}&print_address=1&results=20";
 
@@ -63,7 +63,12 @@ public class AddressController:ControllerBase
                 HttpResponseMessage response = await client.GetAsync(url);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
-                return responseBody;
+                var jsonDoc = JsonDocument.Parse(responseBody);
+                var results = jsonDoc.RootElement.GetProperty("results");
+                var addresses = results.EnumerateArray()
+                    .Select(result => result.GetProperty("address").GetProperty("formatted_address").GetString())
+                    .ToList();
+                return addresses;
             }
             catch (HttpRequestException e)
             {
@@ -71,6 +76,6 @@ public class AddressController:ControllerBase
             }
         }
 
-        return "";
+        return new List<string>();
     }
 }
