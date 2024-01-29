@@ -59,7 +59,7 @@ public static class AdMap
         {
             Id = model.Id,
             CreatedAt = model.CreatedAt,
-            UserId = model.Id,
+            UserId = Guid.Parse(model.UserId),
             Title = model.Title,
             Description = model.Description,
             State = model.State,

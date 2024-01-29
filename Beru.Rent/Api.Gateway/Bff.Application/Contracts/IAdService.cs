@@ -2,6 +2,7 @@
 using Ad.Application.DTO.GetDtos;
 using Ad.Dto.CreateDtos;
 using Ad.Dto.GetDtos;
+using Ad.Dto.RequestDto;
 using Ad.Dto.ResponseDto;
 using Common;
 
@@ -12,10 +13,9 @@ public interface IAdService
     Task<ResponseModel<GuidResponse>> CreateAdAsync(CreateAdDto ad);
     Task<ResponseModel<AdDto>> GetAdAsync(RequestById id);
 
-    Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(int page, string sortdate, string sortprice,
-        string cat);
+    Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(MainPageRequestDto requestDto);
 
-    Task<decimal> GetCostAsync(RequestById adId, DateTime ebeg, DateTime dend);
-    Task<StringResponse> GetOwnerIdAsync(RequestById adId);
+    Task<ResponseModel<DecimalResponse>> GetCostAsync(RequestById adId, DateTime ebeg, DateTime dend);
+    Task<ResponseModel<StringResponse>> GetOwnerIdAsync(RequestById adId);
 
 }

@@ -2,5 +2,5 @@
 
 public class GuidResponse
 {
-    public required Guid Id { get; init; }
+    public Guid Id { get; set; }
 }

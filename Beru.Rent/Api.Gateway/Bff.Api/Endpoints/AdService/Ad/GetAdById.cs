@@ -10,7 +10,7 @@ public class GetAdById(IAdService service) : Endpoint<RequestById, ResponseModel
 {
     public override void Configure()
     {
-        Post("/bff/ad/get");
+        Get("/bff/ad/getbyid");
         AllowAnonymous();
     }
     

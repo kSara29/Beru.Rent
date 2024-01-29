@@ -23,16 +23,16 @@ public class AdController:ControllerBase
     public async Task<IActionResult> CreateAdAsync([FromForm] CreateAdDto dto)
     {
        var result =  await _service.CreateAdAsync(dto);
-       foreach (var file in dto.Files)
-       {
-           var fileDto = new CreateFileDto(result.Data.Id, file);
-           await _fileService.UploadFileAsync(fileDto);
-       }
-       return Ok(result);
+        foreach (var file in dto.Files)
+        {
+            var fileDto = new CreateFileDto(result.Data!.Id, file);
+            await _fileService.UploadFileAsync(fileDto);
+        }
+       
+        return Ok(result);
     }
     
     [HttpGet("/api/ad/get/{id}")]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAdAsync([FromRoute] Guid id)
     {
         var result = await _service.GetAdAsync(id);
