@@ -21,15 +21,22 @@ public class CreateUser(IUserService service) : Endpoint<CreateUserDto, Response
     {
         CreateUserValidation createUserValidation = new CreateUserValidation();
         ValidationResult result = createUserValidation.Validate(model);
-        var err = ResponseModel<UserDtoResponce>.CreateFailed(new ResponseError
+        if (!result.IsValid && result.Errors.Count > 0)
         {
-            Code = "qwerty",
-            Message = "Что-то не так"
-        });
-        if (!result.IsValid) await SendAsync(err, cancellation: ct);
+            var responce = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError?>());
+            foreach (var validationFailure in result.Errors)
+            {
+                responce.Errors!.Add(new ResponseError
+                {
+                    Code = validationFailure.PropertyName,
+                    Message = validationFailure.ErrorMessage
+                });
+            }
+            await SendAsync(responce, cancellation: ct);
+        }
         var user = await service.CreateUserAsync(model, model.Password);
         
-        var res = ResponseModel<UserDtoResponce>.CreateSuccess(user.ToUserDto());
+        var res = ResponseModel<UserDtoResponce>.CreateSuccess(user.ToUserDto()!);
         await SendAsync(res, cancellation: ct);
     }
 }

@@ -4,7 +4,7 @@ using User.Dto;
 
 namespace User.Application.Extencions.Validation;
 
-public class CreateUserValidation: AbstractValidator<CreateUserDto>
+public class CreateUserValidation : AbstractValidator<CreateUserDto>
 {
     public CreateUserValidation()
     {

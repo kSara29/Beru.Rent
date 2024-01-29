@@ -1,8 +1,9 @@
 ﻿namespace Bff.Application.JsonOptions;
 
-public class RequestToUserApi
+public class RequestToAdApi
 {
-    public const string Name = "UserServiceUrl";
+    public const string Name = "AdService";
     
     public required string Url { get; init; }
+
 }

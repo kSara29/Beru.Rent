@@ -1,10 +1,11 @@
+using Common;
 using FastEndpoints;
 using User.Application.Contracts;
 using User.Dto;
 
 namespace User.Api.Endpoints;
 
-public class GetUserByMail(IUserService service): Endpoint<GetUserByEmailRequest, UserDtoResponce>
+public class GetUserByMail(IUserService service): Endpoint<GetUserByEmailRequest, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
@@ -13,9 +14,24 @@ public class GetUserByMail(IUserService service): Endpoint<GetUserByEmailRequest
     }
     public override async Task HandleAsync
         (GetUserByEmailRequest? request, CancellationToken ct)
-    { 
-        if (request is null) await SendAsync(null!, cancellation: ct);
+    {
         var result = await service.GetUserByMailAsync(request!.Email);
-        await SendAsync(result, cancellation: ct);
+        
+        if (result is null)
+        {
+            var responseFail = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError?>
+                {
+                    new()
+                    {
+                        Message = "Юзер не найден"
+                    }
+                }
+            );
+            await SendAsync(responseFail, cancellation: ct);
+        }
+
+        var responseSuccess = ResponseModel<UserDtoResponce>.CreateSuccess(result);
+        
+        await SendAsync(responseSuccess, cancellation: ct);
     }
 }

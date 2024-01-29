@@ -47,9 +47,14 @@ public class UserService : IUserService
         return user.ToUserDto();
     }
 
-    public async Task<UserDtoResponce> DeleteUserAsync(string userId)
+    public async Task<UserDtoResponce?> DeleteUserAsync(string userId)
     {
-        var result = await _userRepository.DeleteUserAsync(userId);
-        return result.ToUserDto();
+        var user = await _userRepository.GetUserByIdAsync(userId);
+        if (user is not null)
+        {
+            var result = await _userRepository.DeleteUserAsync(user);
+            return result.ToUserDto();
+        }
+        return null;
     }
 }

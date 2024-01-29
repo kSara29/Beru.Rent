@@ -1,10 +1,11 @@
+using Common;
 using FastEndpoints;
 using User.Application.Contracts;
 using User.Dto;
 
 namespace User.Api.Endpoints;
 
-public class DeleteUser(IUserService service): Endpoint<DeleteUserByIdRequest, UserDtoResponce>
+public class DeleteUser(IUserService service): Endpoint<DeleteUserByIdRequest, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
@@ -12,10 +13,26 @@ public class DeleteUser(IUserService service): Endpoint<DeleteUserByIdRequest, U
         AllowAnonymous();
     }
     public override async Task HandleAsync
-        (DeleteUserByIdRequest? request, CancellationToken ct)
+        (DeleteUserByIdRequest request, CancellationToken ct)
     {
-        if (request is null) await SendAsync(null!, cancellation: ct);
         var result = await service.DeleteUserAsync(request!.Id);
-        await SendAsync(result, cancellation: ct);
+        if (result is null)
+        {
+            var responseFail = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError?>
+                {
+                    new()
+                    {
+                        Message = "Юзер не найден"
+                    }
+                }
+            );
+            await SendAsync(responseFail, cancellation: ct);
+        }
+
+        else
+        {
+            var responseSuccess = ResponseModel<UserDtoResponce>.CreateSuccess(result);
+            await SendAsync(responseSuccess, cancellation: ct);
+        }
     }
 }

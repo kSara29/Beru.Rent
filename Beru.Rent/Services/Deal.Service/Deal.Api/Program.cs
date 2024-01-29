@@ -12,17 +12,6 @@ builder.Services.AddDbContext<DealContext>(options =>
     options.UseNpgsql(connectionString), ServiceLifetime.Scoped);
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("mypolicy", builder =>
-    {
-        builder.AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-    });
-});
-
 #region Подключаю Minio
 var endpoint = "play.min.io";
 var accessKey = "Q3AM3UQ867SPQQA43P2F";
@@ -43,6 +32,20 @@ builder.Services.AddInfrastructureServices();
 builder.Services.AddApplicationService();
 builder.Services.AddSwaggerGen();
 
+#region CORS политики
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("mypolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
+#endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -51,6 +54,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseCors("mypolicy");
 app.UseHttpsRedirection();
 app.UseFastEndpoints();

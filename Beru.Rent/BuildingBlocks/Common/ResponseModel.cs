@@ -7,6 +7,10 @@ public class ResponseModel<T>
     public T? Data { get; init; }
     public List<ResponseError?>? Errors { get; init; }
 
+    public ResponseModel()
+    {
+    }
+
     public ResponseModel(T data)
     {
         Data = data;
