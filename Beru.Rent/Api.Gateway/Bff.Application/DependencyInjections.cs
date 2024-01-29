@@ -13,8 +13,8 @@ public static class DependencyInjections
     public static IServiceCollection AddApplicationService(this IServiceCollection service)
     {
         service.AddScoped<ServiceHandler<UserDtoResponce>>();
-        
         service.AddScoped<IUserService, UserService>();
+        service.AddScoped<IAdService, AdService>();
         return service;
     }
 }
