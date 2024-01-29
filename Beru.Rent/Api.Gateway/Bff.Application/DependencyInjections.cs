@@ -20,13 +20,17 @@ public static class DependencyInjections
         service.AddScoped<IUserService, UserService>();
         service.AddScoped<IAdService, AdService>(); 
         service.AddScoped<ICategoryService, CategoryService>(); 
+        service.AddScoped<ITimeUnitService, TimeUnitService>(); 
         service.AddScoped<ServiceHandler<GuidResponse>>();
         service.AddScoped<ServiceHandler<StringResponse>>();
         service.AddScoped<ServiceHandler<AdDto>>();
         service.AddScoped<ServiceHandler<List<CategoryDto?>>>();
         service.AddScoped<ServiceHandler<CategoryDto?>>();
+        service.AddScoped<ServiceHandler<List<TimeUnitDto?>>>();
+        service.AddScoped<ServiceHandler<TimeUnitDto?>>();
         service.AddScoped<ServiceHandler<GetMainPageDto<AdMainPageDto>>>();
         service.AddScoped<ServiceHandler<DecimalResponse>>();
+        service.AddScoped<ServiceHandler<TimeUnitDto?>>();
         return service;
     }
 }
