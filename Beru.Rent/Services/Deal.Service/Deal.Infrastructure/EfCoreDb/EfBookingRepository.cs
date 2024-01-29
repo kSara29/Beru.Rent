@@ -37,16 +37,14 @@ using Deal.Domain.Enums;
 
         public async Task<bool> CreateBookingAsync(CreateBookingRequestDto dto)
         {
-            try
-            {
-                List<Booking> bookings = _db.Bookings.Where(b => b.AdId == dto.AdId).ToList();
+               var bookings = _db.Bookings.ToList();
                 
                 if (dto.Dbeg < DateTime.UtcNow.AddMinutes(-1))
                     return false;
                 
                 foreach (var book in bookings)
                 {
-                    if (book.BookingState == BookingState.Accept.ToString())
+                    if (book.AdId == dto.AdId && book.BookingState == BookingState.Accept.ToString())
                     {
                         if (dto.Dbeg > book.Dbeg && dto.Dbeg < book.Dend || 
                             dto.Dend > book.Dbeg && dto.Dend < book.Dend ||
@@ -58,25 +56,21 @@ using Deal.Domain.Enums;
                     }
                 }
 
-                HttpResponseMessage response = await _httpClient.GetAsync($"http://localhost:5105/api/ad/getCost/{booking.AdId}&{booking.Dbeg.ToString().Replace('/', '-')}&{booking.Dend.ToString().Replace('/', '-')}");
-                if (response.IsSuccessStatusCode)
-                {
-                    booking.Cost = decimal.Parse(await response.Content.ReadAsStringAsync());
+                // HttpResponseMessage response = await _httpClient.GetAsync($"http://localhost:5105/api/ad/getCost/{booking.AdId}&{booking.Dbeg.ToString().Replace('/', '-')}&{booking.Dend.ToString().Replace('/', '-')}");
+                // if (response.IsSuccessStatusCode)
+                // {
+                //     booking.Cost = decimal.Parse(await response.Content.ReadAsStringAsync());
+                    Booking booking = dto.ToDomain();
                     _db.Bookings.Add(booking);
                     await _db.SaveChangesAsync();
                     return true; 
-                }
-                else
-                {
-                    return false;
-                }
+                // }
+                // else
+                // {
+                //     return false;
+                // }  После того, как поключат Ad service к Bff и можно будет взять данные по вычету Cost
                 
-                
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            
         }
         
 

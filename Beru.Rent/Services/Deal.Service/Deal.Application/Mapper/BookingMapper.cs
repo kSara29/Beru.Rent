@@ -5,10 +5,9 @@ namespace Deal.Application.Mapper;
 
 public static class BookingMapper
 {
-    public static Booking ToDomain(this BookingDto dto)
+    public static Booking ToDomain(this CreateBookingRequestDto dto)
         => new(dto.AdId, 
             dto.TenantId, 
-            dto.Cost,
             dto.Dbeg,
             dto.Dend);
     

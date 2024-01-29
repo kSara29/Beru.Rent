@@ -37,13 +37,4 @@ public class Booking: DealEntity
         BookingState = Enums.BookingState.InQueue.ToString();
         CreatedAt = DateTime.UtcNow;
     }
-
-    public Booking( Guid adId)
-    {
-        AdId = adId;
-    }
-
-    public Booking()
-    {
-    }
 }

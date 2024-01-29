@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations;
 using Common;
 using Deal.Application.Contracts.Booking;
+using Deal.Application.Extencions.Validation;
 using Deal.Dto.Booking;
 using FastEndpoints;
+using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace Deal.Api.Endpoints;
 
@@ -13,13 +16,31 @@ public class CreateBooking(IBookingService service) : Endpoint<CreateBookingRequ
         AllowAnonymous();
     }
 
-    public override async Task HandleAsync(CreateBookingRequestDto model, CancellationToken ct)
+    public override async Task HandleAsync
+        (CreateBookingRequestDto model, CancellationToken ct)
     {
-        //Проверяем через валидацию. Если валидация не пройдена правильно создаем responseModel с результатом CreateFailed,
-        //с причиной ошибки(код и сообщение)
+        CreateBookingValidation createBookingValidation = new CreateBookingValidation();
+        ValidationResult valresult = createBookingValidation.Validate(model);
+        if (!valresult.IsValid && valresult.Errors.Count >0)
+        {
+            var responce = ResponseModel<BoolResponseDto>.CreateFailed(new List<ResponseError?>());
+            foreach (var validationFailure in valresult.Errors)
+            {
+                responce.Errors!.Add(new ResponseError
+                {
+                    Code = validationFailure.PropertyName,
+                    Message = validationFailure.ErrorMessage
+                });
+            }
+
+            await SendAsync(responce, cancellation: ct);
+        }
+        else
+        {
+            var results = await service.CreateBookingAsync(model);
+            var res = ResponseModel<BoolResponseDto>.CreateSuccess(results);
+            await SendAsync(res, cancellation: ct);
+        }
         
-        var results = await service.CreateBookingAsync(model);
-        var res = ResponseModel<BoolResponseDto>.CreateSuccess(results);
-        await SendAsync(res, cancellation: ct);
     }
 }
