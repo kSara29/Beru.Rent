@@ -1,6 +1,6 @@
 ﻿using FastEndpoints;
 
-namespace User.Dto;
+namespace User.Dto.RequestDto;
 
 public record GetUserByUserNameRequest
 {

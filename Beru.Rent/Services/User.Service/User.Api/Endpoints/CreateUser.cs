@@ -4,11 +4,13 @@ using User.Application.Contracts;
 using User.Application.Extencions.Validation;
 using User.Application.Mapper;
 using User.Dto;
+using User.Dto.RequestDto;
+using User.Dto.ResponseDto;
 using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace User.Api.Endpoints;
 
-public class CreateUser(IUserService service) : Endpoint<CreateUserDto, ResponseModel<UserDtoResponce>>
+public class CreateUser(IUserService service, CreateUserValidation createUserValidation) : Endpoint<CreateUserDto, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
@@ -19,8 +21,20 @@ public class CreateUser(IUserService service) : Endpoint<CreateUserDto, Response
     public override async Task HandleAsync
         (CreateUserDto model, CancellationToken ct)
     {
-        CreateUserValidation createUserValidation = new CreateUserValidation();
-        ValidationResult result = createUserValidation.Validate(model);
+        var userEmail = await service.GetUserByMailAsync(model.Mail);
+        if (userEmail is not null)
+        {
+            var responce = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError?>
+            {
+                new()
+                {
+                    Code = nameof(model.Mail),
+                    Message = "Данный адрес электронной почты уже занят"
+                }
+            });
+            await SendAsync(responce, cancellation: ct);
+        }
+        var result = createUserValidation.Validate(model);
         if (!result.IsValid && result.Errors.Count > 0)
         {
             var responce = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError?>());
