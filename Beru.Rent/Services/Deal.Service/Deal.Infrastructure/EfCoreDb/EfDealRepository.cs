@@ -1,4 +1,5 @@
-﻿using Deal.Application.Contracts.Deal;
+﻿using Common;
+using Deal.Application.Contracts.Deal;
 using Deal.Domain.Enums;
 using Deal.Domain.Models;
 using Deal.Dto.Booking;
@@ -45,5 +46,10 @@ public class EfDealRepository: IDealRepository
             return new Domain.Models.Deal();
         }
         
+    }
+
+    public async Task<List<Domain.Models.Deal>> GetAllDealsAsync(RequestByUserId id)
+    {
+        return _db.Deals.ToList().Where(d => d.OwnerId == id.Id).ToList();
     }
 }
