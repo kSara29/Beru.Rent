@@ -11,9 +11,10 @@ namespace Bff.Application.Services;
 
 public class BookingService(
     ServiceHandler<DecimalResponse> serviceHandlerDecimal,
-    ServiceHandler<BoolResponseDto> serviceHandleBoolResponseDto,
+    ServiceHandler<BoolResponseDto> serviceHandlerBoolResponseDto,
     IOptions<RequestToDealApi> jsonOptions,
-    IOptions<RequestToAdApi> jsonOptionsAd
+    IOptions<RequestToAdApi>? jsonOptionsAd,
+    ServiceHandler<List<GetBookingDatesResponse>> serviceHandlerGetBookingDatesResponse
     ) : IBookingService
 {
     
@@ -23,7 +24,14 @@ public class BookingService(
         var cost = await serviceHandlerDecimal.GetConnectionHandler(url);
         dto.Cost = cost.Data.Number;
         var jsonContent = JsonConvert.SerializeObject(dto);
-        var urllast = serviceHandleBoolResponseDto.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/deal/create");
-        return await serviceHandleBoolResponseDto.PostConnectionHandler(urllast, jsonContent);
+        var urllast = serviceHandlerBoolResponseDto.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/deal/create");
+        return await serviceHandlerBoolResponseDto.PostConnectionHandler(urllast, jsonContent);
+    }
+
+    public async Task<ResponseModel<List<GetBookingDatesResponse>>> GetBookingDatesAsync(RequestById id)
+    {
+        var url = serviceHandlerGetBookingDatesResponse.CreateConnectionUrlWithQuery(jsonOptions.Value.Url,
+            "api/booking/getbookingdates/?", $"{id}");
+        return await serviceHandlerGetBookingDatesResponse.GetConnectionHandler(url);;
     }
 }

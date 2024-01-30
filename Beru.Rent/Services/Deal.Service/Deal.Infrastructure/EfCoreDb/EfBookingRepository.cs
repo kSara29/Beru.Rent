@@ -64,22 +64,26 @@ using Deal.Domain.Enums;
         }
         
 
-        public async Task<List<GetBookingDatesResponse>> GetBookingDatesAsync(RequestById id)
+        public async Task<List<Booking>> GetBookingDatesAsync(RequestById id)
         {
-            var books = _db.Bookings.ToList().Where(b => b.AdId == id.Id).ToList();
-            List<GetBookingDatesResponse> list = new List<GetBookingDatesResponse>();
-            foreach (var book in books) 
-                list.Add(book.ToDto());
-            return list; 
-            
+            var books = await _db.Bookings.Where(b => b.AdId == id.Id).ToListAsync();
+            return books; 
         }
 
-        public async Task<List<BookingDto>> GetBookingsAsync(Guid id)
+        public async Task<List<Booking>> GetAllBookingsAsync(List<RequestById> id)
         {
-            List<Booking> bookings =await _db.Bookings.Where(b => b.TenantId == id).ToListAsync();
-            List<BookingDto> theBooking = new();
-            foreach (var books in bookings)
-                theBooking.Add(books.ToDomain());
-            return theBooking;
+            List<Booking> books = new List<Booking>();
+            foreach (var each in id)
+            {
+                List<Booking> bookings = await _db.Bookings.Where(b => b.AdId == each.Id).ToListAsync();
+                foreach (var book in bookings)
+                 books.Add(book);   
+            }
+            return books;
+        }
+
+        public async Task<Booking> GetBookingAsync(RequestById id)
+        {
+            return await _db.Bookings.FirstOrDefaultAsync(b => b.Id == id.Id);
         }
     }

@@ -50,6 +50,6 @@ public class EfDealRepository: IDealRepository
 
     public async Task<List<Domain.Models.Deal>> GetAllDealsAsync(RequestByUserId id)
     {
-        return _db.Deals.ToList().Where(d => d.OwnerId == id.Id).ToList();
+        return await _db.Deals.Where(d => d.OwnerId == id.Id).ToListAsync();
     }
 }

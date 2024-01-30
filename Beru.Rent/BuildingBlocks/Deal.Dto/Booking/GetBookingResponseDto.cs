@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace Deal.Dto.Booking;
 
 [Serializable]
-public record BookingDto(
+public record GetBookingResponseDto(
     [property: JsonPropertyName("Id")]Guid Id,
     [property: JsonPropertyName("adId")]Guid AdId,
     [property: JsonPropertyName("tenantId")]string TenantId,

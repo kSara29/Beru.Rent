@@ -8,6 +8,7 @@ public interface IBookingRepository
     Task<bool> CancelReservationAsync(Domain.Models.Booking booking);
     Task<bool> CreateBookingAsync(CreateBookingRequestDto dto);
     
-    Task<List<GetBookingDatesResponse>> GetBookingDatesAsync(RequestById id);
-    Task<List<BookingDto>> GetBookingsAsync(Guid id);
+    Task<List<Domain.Models.Booking>> GetBookingDatesAsync(RequestById id);
+    Task<List<Domain.Models.Booking>> GetAllBookingsAsync(List<RequestById> id);
+    Task<Domain.Models.Booking> GetBookingAsync(RequestById id);
 }
