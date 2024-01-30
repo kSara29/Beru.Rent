@@ -1,8 +1,10 @@
 ﻿using Ad.Application.Responses;
 using Ad.Dto.CreateDtos;
+using Ad.Dto.ResponseDto;
+using Common;
 
 public interface ITarifService
 {
-    Task<BaseApiResponse<Guid>> CreateTarifAsync(CreateTarifDto dto);
-    Task<BaseApiResponse<bool>> DeleteTarifAsync(Guid id);
+    Task<ResponseModel<GuidResponse>> CreateTarifAsync(CreateTarifDto dto);
+    Task<ResponseModel<StringResponse>> DeleteTarifAsync(Guid id);
 }
