@@ -8,7 +8,7 @@ using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace Deal.Api.Endpoints;
 
-public class CreateDeal(IDealService service) : Endpoint<CreateDealRequestDto, ResponseModel<BoolResponseDto>>
+public class CreateDeal(IDealService service) : Endpoint<CreateDealRequestDto, ResponseModel<CreateDealResponseDto>>
 {
     public override void Configure()
     {
@@ -22,7 +22,7 @@ public class CreateDeal(IDealService service) : Endpoint<CreateDealRequestDto, R
         ValidationResult valresult = createDealValidation.Validate(request);
         if (valresult.IsValid && valresult.Errors.Count > 0)
         {
-            var responce = ResponseModel<BoolResponseDto>.CreateFailed(new List<ResponseError?>());
+            var responce = ResponseModel<CreateDealResponseDto>.CreateFailed(new List<ResponseError?>());
             foreach (var validationFailure in valresult.Errors)
             {
                 responce.Errors!.Add(new ResponseError
@@ -38,7 +38,7 @@ public class CreateDeal(IDealService service) : Endpoint<CreateDealRequestDto, R
         else
         {
             var results = await service.CreateDealAsync(request);
-            var res = ResponseModel<BoolResponseDto>.CreateSuccess(results);
+            var res = ResponseModel<CreateDealResponseDto>.CreateSuccess(results);
             await SendAsync(res, cancellation: ct);
         }
     }

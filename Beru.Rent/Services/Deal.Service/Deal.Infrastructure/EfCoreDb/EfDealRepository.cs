@@ -2,7 +2,6 @@
 using Deal.Domain.Enums;
 using Deal.Domain.Models;
 using Deal.Dto.Booking;
-using Deal.Dto.Deal;
 using Deal.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,10 +16,8 @@ public class EfDealRepository: IDealRepository
         _db = db;
     }
 
-    public async Task<bool> CreateDealAsync(CreateDealRequestDto dto)
+    public async Task<Guid> CreateDealAsync(CreateDealRequestDto dto)
     {
-        try
-        {
             Booking? book = await _db.Bookings.FirstOrDefaultAsync(b => b.Id == dto.bookingId);
             Domain.Models.Deal deal = new Domain.Models.Deal(
                 book.AdId,
@@ -34,11 +31,6 @@ public class EfDealRepository: IDealRepository
                 deal.DealState = DealState.Open;
             else
                 deal.DealState = DealState.Close;
-            return true;
-        }
-        catch (Exception e)
-        {
-            return false;
-        }
+            return deal.Id;
     }
 }

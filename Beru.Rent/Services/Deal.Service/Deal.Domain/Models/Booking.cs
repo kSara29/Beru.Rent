@@ -10,7 +10,7 @@ public class Booking: DealEntity
     
     public Booking(
         Guid adId,
-        Guid tenantId,
+        string tenantId,
         decimal? cost,
         DateTime dbeg,
         DateTime dend)
@@ -26,7 +26,7 @@ public class Booking: DealEntity
     
     public Booking(
         Guid adId,
-        Guid tenantId,
+        string tenantId,
         DateTime dbeg,
         DateTime dend)
     {

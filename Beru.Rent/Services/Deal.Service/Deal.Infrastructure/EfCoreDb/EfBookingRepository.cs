@@ -56,21 +56,10 @@ using Deal.Domain.Enums;
                     }
                 }
 
-                // HttpResponseMessage response = await _httpClient.GetAsync($"http://localhost:5105/api/ad/getCost/{booking.AdId}&{booking.Dbeg.ToString().Replace('/', '-')}&{booking.Dend.ToString().Replace('/', '-')}");
-                // if (response.IsSuccessStatusCode)
-                // {
-                //     booking.Cost = decimal.Parse(await response.Content.ReadAsStringAsync());
                     Booking booking = dto.ToDomain();
                     _db.Bookings.Add(booking);
                     await _db.SaveChangesAsync();
-                    return true; 
-                // }
-                // else
-                // {
-                //     return false;
-                // }  После того, как поключат Ad service к Bff и можно будет взять данные по вычету Cost
-                
-            
+                    return true;
         }
         
 

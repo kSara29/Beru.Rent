@@ -1,9 +1,10 @@
-﻿using Deal.Dto.Deal;
+﻿
+using Deal.Dto.Booking;
 
 namespace Deal.Application.Mapper;
 
 public static class DealMapper
 {
-    public static Domain.Models.Deal ToDomain(this CreateDealDto createDealDto)
-        => new(createDealDto.AdId, createDealDto.TenantId, createDealDto.Cost, createDealDto.OwnerId, createDealDto.dbeg, createDealDto.dend);
+    public static CreateDealResponseDto ToDomain(this Guid id)
+        => new(id);
 }
