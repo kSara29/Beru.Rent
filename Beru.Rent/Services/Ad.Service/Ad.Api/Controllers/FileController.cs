@@ -20,7 +20,7 @@ public class FileController : ControllerBase
     }
 // тут мы должны получить файл и отправить его на загрузку в минио и постгресс и в ответе получить мессадж с успехом и данными файла
 
-    [HttpPost("/api/upload")]
+    [HttpPost("/api/file/upload")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<IActionResult> UploadFile([FromForm] CreateFileDto fileDto)
     {
@@ -40,7 +40,7 @@ public class FileController : ControllerBase
         return Ok(presignedUrl);
     }
 
-    [HttpDelete("api/delete/{id}")]
+    [HttpPost("api/delete/{id}")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteFile([FromRoute] Guid id)
     {
@@ -50,7 +50,7 @@ public class FileController : ControllerBase
 
 
 
-    [HttpGet("api/get/{id}")]
+    [HttpGet("api/file/get/{id}")]
     [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetFile([FromRoute] Guid id)

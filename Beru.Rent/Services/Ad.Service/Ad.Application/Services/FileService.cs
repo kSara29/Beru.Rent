@@ -3,32 +3,51 @@ using Ad.Application.Mapper;
 using Ad.Application.Responses;
 using Ad.Dto;
 using Ad.Dto.CreateDtos;
+using Ad.Dto.GetDtos;
+using Ad.Dto.ResponseDto;
+using Common;
 
 namespace Ad.Application.Services;
 
-public class FileService:IFileService
+public class FileService(IFileRepository repository) : IFileService
 {
-    private readonly IFileRepository _repository;
-
-    public FileService(IFileRepository repository)
+    public async Task<ResponseModel<StringResponse>> UploadFileAsync(CreateFileDto dto)
     {
-        _repository = repository;
+        var result =  await repository.UploadFileAsync(dto.ToModel(), dto.File);
+        var response = new StringResponse
+        {
+            Text = result.ToString()
+        };
+        return ResponseModel<StringResponse>.CreateSuccess(response);
     }
-    public async Task<BaseApiResponse<string>> UploadFileAsync(CreateFileDto dto)
+
+    public async Task<ResponseModel<StringResponse>> RemoveFileAsync(Guid id)
     {
-        var result =  await _repository.UploadFileAsync(dto.ToModel(), dto.File);
-        return new BaseApiResponse<string>(result.ToString());
+        var result =  await repository.RemoveFileAsync(id);
+        var response = new StringResponse
+        {
+            Text = result
+        };
+        return ResponseModel<StringResponse>.CreateSuccess(response);
     }
-    
 
-    public async Task<BaseApiResponse<string>> RemoveFileAsync(Guid id)
+    public async Task<ResponseModel<byte[]?>> GetFileAsync(Guid id)
     {
-        var result =  await _repository.RemoveFileAsync(id);
-        return new BaseApiResponse<string>(result);    }
-
-    public async Task<BaseApiResponse<byte[]>> GetFileAsync(Guid id)
-    {
-        var result =  await _repository.GetFileAsync(id);
-        return new BaseApiResponse<byte[]>(result);   
+        var result =  await repository.GetFileAsync(id);
+      
+        if (result != null)
+        {
+             return ResponseModel<byte[]?>.CreateSuccess(result);   
+        }
+        var errors = new List<ResponseError>();
+        var errorModel = new ResponseError
+        {
+            Code = "404",
+            Message = "Такой файл не найден"
+        };
+        errors.Add(errorModel);
+        return ResponseModel<byte[]?>.CreateFailed(errors);  
+        
+        
     }
 }

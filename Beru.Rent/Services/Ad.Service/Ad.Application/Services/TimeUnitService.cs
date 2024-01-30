@@ -3,6 +3,8 @@ using Ad.Application.DTO.CreateDtos;
 using Ad.Application.DTO.GetDtos;
 using Ad.Application.Mapper;
 using Ad.Application.Responses;
+using Ad.Dto.ResponseDto;
+using Common;
 
 namespace Ad.Application.Services;
 
@@ -14,21 +16,35 @@ public class TimeUnitService : ITimeUnitService
     {
         _repository = repository;
     }
-    public async Task<BaseApiResponse<Guid>> CreateAsync(CreateTimeUnitDto dto)
+    public async Task<ResponseModel<GuidResponse>> CreateAsync(CreateTimeUnitDto dto)
     {
         var result = await _repository.CreateAsync(dto.ToDomain());
-        return new BaseApiResponse<Guid>(result);
+        return ResponseModel<GuidResponse>.CreateSuccess(new GuidResponse
+        {
+            Id = result
+        });
     }
 
-    public async Task<BaseApiResponse<TimeUnitDto?>> GetAsync(Guid id)
+    public async Task<ResponseModel<TimeUnitDto?>> GetAsync(Guid id)
     {
         var result = await _repository.GetAsync(id);
-        return new BaseApiResponse<TimeUnitDto?>(result.ToDto());
+        if (result != null)
+        {
+            return ResponseModel<TimeUnitDto?>.CreateSuccess(result.ToDto());
+        }
+        var errors = new List<ResponseError>();
+        var errorModel = new ResponseError
+        {
+            Code = "404",
+            Message = "С таким Id временного периода не найдено"
+        };
+        errors.Add(errorModel);
+        return ResponseModel<TimeUnitDto?>.CreateFailed(errors);  
     }
 
-    public async Task<BaseApiResponse<List<TimeUnitDto?>>> GetAllAsync()
+    public async Task<ResponseModel<List<TimeUnitDto?>>> GetAllAsync()
     {
         var result = await _repository.GetAllAsync();
-        return new BaseApiResponse<List<TimeUnitDto>?>(result.Select(t=>t.ToDto()).ToList());
+        return ResponseModel<List<TimeUnitDto>?>.CreateSuccess(result.Select(t=>t.ToDto()).ToList());
     }
 }

@@ -1,7 +1,10 @@
-﻿using Ad.Application.Contracts.Tag;
+﻿using Ad.Api.Mapper;
+using Ad.Application.Contracts.Tag;
 using Ad.Application.Responses;
 using Ad.Domain.Models;
 using Ad.Dto.CreateDtos;
+using Ad.Dto.ResponseDto;
+using Common;
 
 namespace Ad.Application.Services;
 
@@ -13,14 +16,13 @@ public class TagService: ITagService
     {
         _tagRepository = tagRepository;
     }
-    public Task<bool> CreateTagAsync(Tag tag)
+    
+    public async Task<ResponseModel<GuidResponse>> CreateTagAsync(TagDto tag)
     {
-        return (_tagRepository.CreateTagAsync(tag)); 
-    }
-
-
-    public Task<BaseApiResponse<Guid>> CreateTagAsync(TagDto tag)
-    {
-        throw new NotImplementedException();
+       var result = await _tagRepository.CreateTagAsync(tag.ToDomain());
+       return ResponseModel<GuidResponse>.CreateSuccess(new GuidResponse
+       {
+           Id = result
+       });
     }
 }

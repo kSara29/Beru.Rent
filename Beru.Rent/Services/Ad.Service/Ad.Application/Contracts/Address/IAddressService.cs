@@ -1,11 +1,13 @@
 ﻿using Ad.Application.Contracts.Ad;
 using Ad.Application.Responses;
+using Ad.Dto.ResponseDto;
+using Common;
 
 namespace Ad.Application.Contracts.Address;
 
 public interface IAddressService<T, TK>
 {
-    Task<BaseApiResponse<Guid>> CreateAsync(T dto);
-    Task<BaseApiResponse<string>> RemoveAsync(Guid id);
-    Task<BaseApiResponse<TK?>> GetAsync(Guid id);
+    Task<ResponseModel<GuidResponse>> CreateAsync(T dto);
+    Task<ResponseModel<StringResponse>> RemoveAsync(Guid id);
+    Task<ResponseModel<TK?>> GetAsync(Guid id);
 }

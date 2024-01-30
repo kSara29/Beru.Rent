@@ -3,6 +3,8 @@ using Ad.Application.DTO.CreateDtos;
 using Ad.Application.DTO.GetDtos;
 using Ad.Application.Mapper;
 using Ad.Application.Responses;
+using Ad.Dto.ResponseDto;
+using Common;
 
 namespace Ad.Application.Services;
 
@@ -15,22 +17,36 @@ public class CategoryService:ICategoryService
         _repository = repository;
     }
 
-    public async Task<BaseApiResponse<Guid>> CreateAsync(CreateCategoryDto dto)
+    public async Task<ResponseModel<GuidResponse>> CreateAsync(CreateCategoryDto dto)
     {
         var result = await _repository.CreateAsync(dto.ToDomain());
-        return new BaseApiResponse<Guid>(result);
+        return ResponseModel<GuidResponse>.CreateSuccess(new GuidResponse
+        {
+            Id = result
+        });
     }
 
-    public async Task<BaseApiResponse<CategoryDto?>> GetAsync(Guid id)
+    public async Task<ResponseModel<CategoryDto?>> GetAsync(Guid id)
     {
         var result = await _repository.GetAsync(id);
-        return new BaseApiResponse<CategoryDto?>(result.ToDto());
+        if (result != null)
+        {
+            return ResponseModel<CategoryDto?>.CreateSuccess(result.ToDto());
+        }
+        var errors = new List<ResponseError>();
+        var errorModel = new ResponseError
+        {
+            Code = "404",
+            Message = "С таким Id категории не найдено"
+        };
+        errors.Add(errorModel);
+        return ResponseModel<CategoryDto?>.CreateFailed(errors);  
     }
 
-    public async Task<BaseApiResponse<List<CategoryDto?>>> GetAllAsync()
+    public async Task<ResponseModel<List<CategoryDto?>>> GetAllAsync()
     {
         var result = await _repository.GetAllAsync();
-        return new BaseApiResponse<List<CategoryDto?>>(result.Select(c => c.ToDto()).ToList());
+        return ResponseModel<List<CategoryDto?>>.CreateSuccess(result.Select(c => c.ToDto()).ToList());
 
     }
 }
