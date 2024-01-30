@@ -28,5 +28,10 @@ public class Deal: DealEntity
          Dbeg = dbeg;
          Dend = dend;
      }
-    
+
+     public Deal()
+     {
+         CreatedAt = DateTime.UtcNow;
+     }
+
 }

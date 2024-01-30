@@ -33,4 +33,17 @@ public class EfDealRepository: IDealRepository
                 deal.DealState = DealState.Close;
             return deal.Id;
     }
+
+    public async Task<Domain.Models.Deal> GetDealAsync(GetDealRequestDto dto)
+    {
+        try
+        {
+            return await _db.Deals.FirstOrDefaultAsync(d => d.Id == dto.dealId);
+        }
+        catch (Exception e)
+        {
+            return new Domain.Models.Deal();
+        }
+        
+    }
 }

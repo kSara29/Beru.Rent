@@ -9,14 +9,13 @@ public class GetDeal(IDealService _service): Endpoint<GetDealRequestDto, Respons
 {
     public override void Configure()
     {
-        Post("api/booking/createDeal/{idbooking}");
+        Get("api/booking/createDeal/{idbooking}");
         AllowAnonymous();
     }
 
-    public override async Task HandleAsync(Guid idbooking, CancellationToken ct)
+    public override async Task HandleAsync(GetDealRequestDto idbooking, CancellationToken ct)
     {
-        var results = await _service.CreateDealAsync(idbooking);
-        var res = ResponseModel<GetDealResponseDto>.CreateSuccess(results);
-        await SendAsync(res, cancellation: ct);
+        var results = await _service.GetDealAsync(idbooking);
+        await SendAsync(results, cancellation: ct);
     }
 }
