@@ -39,7 +39,7 @@ using Deal.Domain.Enums;
         {
                var bookings = _db.Bookings.ToList();
                 
-                if (dto.Dbeg < DateTime.UtcNow.AddMinutes(-1))
+                if (dto.Dbeg < DateTime.UtcNow.AddMinutes(-1)) //Написать в сервисе + добавить ошибку и вернуть fail
                     return false;
                 
                 foreach (var book in bookings)

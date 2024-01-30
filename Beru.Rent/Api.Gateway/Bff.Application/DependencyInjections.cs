@@ -32,6 +32,7 @@ public static class DependencyInjections
         service.AddScoped<ServiceHandler<GetMainPageDto<AdMainPageDto>>>();
         service.AddScoped<ServiceHandler<DecimalResponse>>();
         service.AddScoped<ServiceHandler<byte[]?>>();
+        service.AddScoped<IBookingService, BookingService>();
         return service;
     }
 }

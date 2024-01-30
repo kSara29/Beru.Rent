@@ -7,11 +7,12 @@ public static class BookingMapper
 {
     public static Booking ToDomain(this CreateBookingRequestDto dto)
         => new(dto.AdId, 
-            dto.TenantId, 
+            dto.TenantId,
+            dto.Cost,
             dto.Dbeg,
             dto.Dend);
     
-    public static BoolResponseDto ToDomain(this bool boolean)
+    public static BoolResponseDto ToDto(this bool boolean)
         => new(boolean);
 
     public static BookingDto ToDomain(this Booking booking)

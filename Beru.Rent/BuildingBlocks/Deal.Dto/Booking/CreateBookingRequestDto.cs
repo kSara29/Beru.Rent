@@ -3,9 +3,12 @@
 namespace Deal.Dto.Booking;
 
 [Serializable]
-public record CreateBookingRequestDto(
-    [property: JsonPropertyName("adId")] Guid AdId,
-    [property: JsonPropertyName("TenantId")] string TenantId,
-    [property: JsonPropertyName("Dbeg")] DateTime Dbeg,
-    [property: JsonPropertyName("Dend")] DateTime Dend
-);
+public class CreateBookingRequestDto
+{
+    [property: JsonPropertyName("adId")] public Guid AdId { get; set; }
+    [property: JsonPropertyName("TenantId")] public string TenantId { get; set; }
+    [property: JsonPropertyName("Cost")] public decimal? Cost { get; set; }
+    [property: JsonPropertyName("Dbeg")] public DateTime Dbeg { get; set; }
+    [property: JsonPropertyName("Dend")] public DateTime Dend { get; set; }
+    
+}

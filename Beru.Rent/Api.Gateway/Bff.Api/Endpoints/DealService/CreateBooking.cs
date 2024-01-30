@@ -5,7 +5,7 @@ using FastEndpoints;
 
 namespace Bff.Api.Endpoints.DealService;
 
-public class CreateBooking(IDealServiceCreate serviceCreate) : Endpoint<CreateBookingRequestDto, ResponseModel<BookingDto>>
+public class CreateBooking(IBookingService serviceCreate) : Endpoint<CreateBookingRequestDto, ResponseModel<BookingDto>>
 {
     public override void Configure()
     {
