@@ -8,11 +8,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Chat.Application\Chat.Application.csproj" />
+      <ProjectReference Include="..\Chat.Domain\Chat.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
       <PackageReference Include="MongoDB.Driver" Version="2.23.1" />
-      <PackageReference Include="MongoDB.EntityFrameworkCore" Version="7.0.0-preview.1" />
     </ItemGroup>
-
+    
 </Project>

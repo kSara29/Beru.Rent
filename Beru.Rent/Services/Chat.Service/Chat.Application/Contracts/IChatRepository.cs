@@ -1,9 +1,6 @@
-﻿using Chat.Dto.ResponseModel;
-using Common;
-
-namespace Chat.Application.Contracts;
+﻿namespace Chat.Application.Contracts;
 
 public interface IChatRepository
 {
-    Task<ResponseModel<ChatDto>> GetChatAsync(Guid id);
+    public Task<Domain.Model.Chat> CreateChatAsync(Guid User1, Guid User2);
 }
