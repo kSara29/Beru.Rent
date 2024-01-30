@@ -51,7 +51,7 @@ public class BookingService: IBookingService
         
     }
 
-    public async Task<DateTime[,]> GetBookingDatesAsync(Guid id)
+    public async Task<List<GetBookingDatesResponse>> GetBookingDatesAsync(RequestById id)
     {
         return await _bookingRepository.GetBookingDatesAsync(id);
     }

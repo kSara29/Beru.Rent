@@ -38,8 +38,7 @@ public class CreateBooking(IBookingService service) : Endpoint<CreateBookingRequ
         else
         {
             var results = await service.CreateBookingAsync(model);
-            var res = ResponseModel<BoolResponseDto>.CreateSuccess(results);
-            await SendAsync(res, cancellation: ct);
+            await SendAsync(results, cancellation: ct);
         }
         
     }

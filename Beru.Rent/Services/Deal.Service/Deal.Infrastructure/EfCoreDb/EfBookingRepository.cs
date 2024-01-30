@@ -1,4 +1,5 @@
-﻿using Deal.Application.Contracts.Booking;
+﻿using Common;
+using Deal.Application.Contracts.Booking;
 using Deal.Application.Mapper;
 using Deal.Domain.Enums;
     using Deal.Domain.Models;
@@ -63,28 +64,13 @@ using Deal.Domain.Enums;
         }
         
 
-        public async Task<DateTime[,]> GetBookingDatesAsync(Guid id)
+        public async Task<List<GetBookingDatesResponse>> GetBookingDatesAsync(RequestById id)
         {
-            List<Booking> bookings = _db.Bookings.ToList();
-            int size = 0;
-            List<Booking> newbookings = new List<Booking>();
-            foreach (var book in bookings)
-            {
-                if (book.AdId == id)
-                {
-                    size++;
-                    newbookings.Add(book);
-                }
-            }
-            
-            DateTime[,] result = new DateTime[size,2];
-
-            for (int i = 0; i < newbookings.Count; i++)
-            {
-                result[i, 0] = newbookings[i].Dbeg;
-                result[i, 1] = newbookings[i].Dend;
-            }
-                return result; 
+            var books = _db.Bookings.ToList().Where(b => b.AdId == id.Id).ToList();
+            List<GetBookingDatesResponse> list = new List<GetBookingDatesResponse>();
+            foreach (var book in books) 
+                list.Add(book.ToDto());
+            return list; 
             
         }
 

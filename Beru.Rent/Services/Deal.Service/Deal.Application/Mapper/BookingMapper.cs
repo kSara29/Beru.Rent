@@ -23,4 +23,10 @@ public static class BookingMapper
             booking.Dend,
             booking.Cost,
             booking.BookingState);
+
+    public static GetBookingDatesResponse ToDto(this Booking booking)
+        => new(
+            booking.Dbeg,
+            booking.Dend
+            );
 }
