@@ -46,4 +46,9 @@ public class EfDealRepository: IDealRepository
         }
         
     }
+
+    public Task<List<Domain.Models.Deal>> GetAllDealsAsync()
+    {
+        
+    }
 }

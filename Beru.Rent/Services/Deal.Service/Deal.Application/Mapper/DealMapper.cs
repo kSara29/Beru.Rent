@@ -19,4 +19,12 @@ public static class DealMapper
             deal.Deposit,
             deal.ChatId
             );
+
+    public static GetAllDealsResponseDto ToDtoDeals(this Domain.Models.Deal deal)
+        => new(
+        deal.Id,
+        deal.Dbeg,
+        deal.Dend,
+        deal.Cost
+            );
 }

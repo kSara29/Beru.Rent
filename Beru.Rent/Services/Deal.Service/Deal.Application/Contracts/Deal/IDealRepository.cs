@@ -6,4 +6,5 @@ public interface IDealRepository
 {
     Task<Guid> CreateDealAsync(CreateDealRequestDto dto);
     Task<Domain.Models.Deal> GetDealAsync(GetDealRequestDto dto);
+    Task<List<Domain.Models.Deal>> GetAllDealsAsync();
 }
