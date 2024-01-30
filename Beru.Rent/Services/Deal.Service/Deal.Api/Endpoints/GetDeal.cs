@@ -14,7 +14,6 @@ public class GetDeal(IDealService _service): Endpoint<Guid, CreateDealDto>
 
     public override async Task HandleAsync(Guid idbooking, CancellationToken ct)
     {
-        var result = await _service.CreateDealAsync(idbooking);
-        SendAsync(result);
+     
     }
 }

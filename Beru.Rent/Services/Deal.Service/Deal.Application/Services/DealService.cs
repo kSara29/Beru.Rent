@@ -1,4 +1,6 @@
 ﻿using Deal.Application.Contracts.Deal;
+using Deal.Application.Mapper;
+using Deal.Dto.Booking;
 using Deal.Dto.Deal;
 
 namespace Deal.Application.Services;
@@ -11,9 +13,10 @@ public class DealService: IDealService
     {
         _dealRepository = dealRepository;
     }
-    
-    public Task<CreateDealDto> CreateDealAsync(Guid Id)
+
+    public async Task<BoolResponseDto> CreateDealAsync(CreateDealRequestDto dto)
     {
-        return (_dealRepository.CreateDealAsync(Id)); 
+        bool boolean = await _dealRepository.CreateDealAsync(dto);
+        return boolean.ToDomain();
     }
 }

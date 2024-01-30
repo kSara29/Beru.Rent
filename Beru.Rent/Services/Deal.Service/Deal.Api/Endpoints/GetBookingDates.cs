@@ -7,12 +7,14 @@ public class GetBookingDates(IBookingService service): Endpoint<Guid, DateArray[
 {
     public override void Configure()
     {
-        Post("api/booking/getbookingdates/{id}");
+        Get("api/booking/getbookingdates/{id}");
         AllowAnonymous();
     }
 
     public override async Task HandleAsync(Guid id, CancellationToken ct)
     {
+        
+        
         var results = await service.GetBookingDatesAsync(id);
         if (results != null)
         {

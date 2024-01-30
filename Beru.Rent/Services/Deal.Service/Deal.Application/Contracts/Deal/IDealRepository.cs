@@ -1,8 +1,9 @@
+using Deal.Dto.Booking;
 using Deal.Dto.Deal;
 
 namespace Deal.Application.Contracts.Deal;
 
 public interface IDealRepository
 {
-    Task<CreateDealDto> CreateDealAsync(Guid id);
+    Task<bool> CreateDealAsync(CreateDealRequestDto dto);
 }
