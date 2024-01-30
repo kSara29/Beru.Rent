@@ -14,7 +14,10 @@ public class BookingService(
     ServiceHandler<BoolResponseDto> serviceHandlerBoolResponseDto,
     IOptions<RequestToDealApi> jsonOptions,
     IOptions<RequestToAdApi>? jsonOptionsAd,
-    ServiceHandler<List<GetBookingDatesResponse>> serviceHandlerGetBookingDatesResponse
+    ServiceHandler<List<GetBookingDatesResponse>>? serviceHandlerGetBookingDatesResponse,
+    ServiceHandler<GetBookingResponseDto>? serviceHandlerGetBookingResponse,
+    ServiceHandler<List<GetAllBookingsResponseDto>>? serviceHandlerGetAllBookingsResponse
+    // ServiceHandler<List<Add>>? serviceHandlerGetListAd
     ) : IBookingService
 {
     
@@ -33,5 +36,26 @@ public class BookingService(
         var url = serviceHandlerGetBookingDatesResponse.CreateConnectionUrlWithQuery(jsonOptions.Value.Url,
             "api/booking/getbookingdates/?", $"{id}");
         return await serviceHandlerGetBookingDatesResponse.GetConnectionHandler(url);;
+    }
+
+    public async Task<ResponseModel<GetBookingResponseDto>> GetBookingAsync(RequestById id)
+    {
+        var url = serviceHandlerGetBookingResponse.CreateConnectionUrlWithQuery(jsonOptions.Value.Url,
+            "api/booking/getbooking/?", $"{id}");
+        return await serviceHandlerGetBookingResponse.GetConnectionHandler(url);;
+    }
+
+    public Task<ResponseModel<List<GetAllBookingsResponseDto>>> GetAllBookingsAsync(RequestByUserId id)
+    {
+        //создать метод в adService для получения list<AdId> принимая OwnerId и отправить туда запрос
+        //var url = serviceHandlerGetListAd.CreateConnectionUrlWithQuery(jsonOptionsAd.Value.Url, "api/ad/GetListAd/?", $"{id}" );
+        //var ads = await serviceHandlerGetListAd.GetConnectionHandler(url); 
+        
+        //Далее уже работаем с методом по получению списка бронирований
+        // var jsonContent = JsonConvert.SerializeObject(ads);
+        //
+        //var url = serviceHandlerGetAllBookingsResponse.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url,
+        //    "api/booking/getallbookings");
+        // return await serviceHandlerGetAllBookingsResponse.PostConnectionHandler(url, jsonContent);
     }
 }
