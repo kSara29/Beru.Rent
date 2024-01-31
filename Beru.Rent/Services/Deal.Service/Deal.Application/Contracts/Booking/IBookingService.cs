@@ -1,11 +1,13 @@
-﻿using Deal.Dto.Booking;
+﻿using Common;
+using Deal.Dto.Booking;
 
 namespace Deal.Application.Contracts.Booking;
 
 public interface IBookingService
 {
     Task<bool> CancelReservationAsync(Domain.Models.Booking booking);
-    Task<bool> CreateBookingAsync(CreateBookingDto dto);
-    Task<DateTime[,]> GetAllBookingsAsync(Guid id);
-    Task<List<BookingDto>> GetBookingsAsync(Guid id);
+    Task<ResponseModel<BoolResponseDto>> CreateBookingAsync(CreateBookingRequestDto dto);
+    Task<List<GetBookingDatesResponse>> GetBookingDatesAsync(RequestById id);
+    Task<List<GetAllBookingsResponseDto>> GetAllBookingsAsync(List<GetAllBookingsRequestDto> id);
+    Task<GetBookingResponseDto> GetBookingAsync(RequestById id);
 }

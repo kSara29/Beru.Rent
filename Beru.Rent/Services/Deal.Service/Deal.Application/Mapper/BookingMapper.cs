@@ -5,17 +5,47 @@ namespace Deal.Application.Mapper;
 
 public static class BookingMapper
 {
-    public static Booking ToDomain(this BookingDto dto)
+    public static Booking ToDomain(this CreateBookingRequestDto dto)
         => new(dto.AdId, 
-            dto.TenantId, 
+            dto.TenantId,
             dto.Cost,
             dto.Dbeg,
             dto.Dend);
     
-    public static Booking ToDomain(this CreateBookingDto dto)
-        => new(dto.AdId, 
-            dto.TenantId, 
-            dto.Dbeg,
-            dto.Dend);
-   
+    public static BoolResponseDto ToDto(this bool boolean)
+        => new(boolean);
+
+    public static GetBookingResponseDto ToDomain(this Booking booking)
+        => new(booking.Id,
+            booking.AdId,
+            booking.TenantId,
+            booking.Dbeg,
+            booking.Dend,
+            booking.Cost,
+            booking.BookingState);
+
+    public static GetBookingDatesResponse ToDateDto(this Booking booking)
+        => new(
+            booking.Dbeg,
+            booking.Dend
+            );
+    
+    public static GetAllBookingsResponseDto ToDtoes(this Booking booking)
+        => new(
+            booking.Id,
+            booking.Dbeg,
+            booking.Dend,
+            booking.Cost
+        );
+    
+    public static GetBookingResponseDto ToDto(this Booking booking)
+        => new(
+            booking.Id,
+            booking.AdId,
+            booking.TenantId,
+            booking.Dbeg,
+            booking.Dend,
+            booking.Cost,
+            booking.BookingState
+        );
 }

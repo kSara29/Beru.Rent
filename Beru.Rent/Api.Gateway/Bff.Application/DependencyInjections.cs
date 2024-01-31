@@ -8,7 +8,6 @@ using Common;
 using Deal.Dto.Booking;
 using Microsoft.Extensions.DependencyInjection;
 using User.Dto;
-using User.Dto.ResponseDto;
 
 namespace Bff.Application;
 
@@ -16,12 +15,24 @@ public static class DependencyInjections
 {
     public static IServiceCollection AddApplicationService(this IServiceCollection service)
     {
-        service.AddSingleton<ServiceHandler>();
-        service.AddSingleton<IUserService, UserService>();
-        service.AddSingleton<IAdService, AdService>(); 
-        service.AddSingleton<ICategoryService, CategoryService>(); 
-        service.AddSingleton<ITimeUnitService, TimeUnitService>(); 
-        service.AddSingleton<IFileService, FileService>(); 
+        service.AddScoped<ServiceHandler<UserDtoResponce>>();
+       
+        service.AddScoped<IUserService, UserService>();
+        service.AddScoped<IAdService, AdService>(); 
+        service.AddScoped<ICategoryService, CategoryService>(); 
+        service.AddScoped<ITimeUnitService, TimeUnitService>(); 
+        service.AddScoped<IFileService, FileService>(); 
+        service.AddScoped<ServiceHandler<GuidResponse>>();
+        service.AddScoped<ServiceHandler<StringResponse>>();
+        service.AddScoped<ServiceHandler<AdDto>>();
+        service.AddScoped<ServiceHandler<List<CategoryDto?>>>();
+        service.AddScoped<ServiceHandler<CategoryDto?>>();
+        service.AddScoped<ServiceHandler<List<TimeUnitDto?>>>();
+        service.AddScoped<ServiceHandler<TimeUnitDto?>>();
+        service.AddScoped<ServiceHandler<GetMainPageDto<AdMainPageDto>>>();
+        service.AddScoped<ServiceHandler<DecimalResponse>>();
+        service.AddScoped<ServiceHandler<byte[]?>>();
+        service.AddScoped<IBookingService, BookingService>();
         return service;
     }
 }

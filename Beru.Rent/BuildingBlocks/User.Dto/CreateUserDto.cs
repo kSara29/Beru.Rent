@@ -1,4 +1,4 @@
-namespace User.Dto.RequestDto;
+namespace User.Dto;
 
 public class CreateUserDto
 {

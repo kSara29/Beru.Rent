@@ -11,28 +11,31 @@ using Newtonsoft.Json;
 namespace Bff.Application.Services;
 
 public class TimeUnitService(
-    ServiceHandler serviceHandler,
+    ServiceHandler<GuidResponse> serviceHandlerGuid,
+    ServiceHandler<List<TimeUnitDto?>> serviceHandlerListTimeUnits,
+    ServiceHandler<TimeUnitDto?> serviceHandlerTimeUnitDto,
     IOptions<RequestToAdApi> jsonOptions) : ITimeUnitService
 {
     public async Task<ResponseModel<GuidResponse>> CreateAsync(CreateTimeUnitDto dto)
     {
-        var url = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/timeunit/post/create");
-        return await serviceHandler.PostConnectionHandler<CreateTimeUnitDto, GuidResponse>(url, dto);
+        var jsonContent = JsonConvert.SerializeObject(dto);
+        var url = serviceHandlerGuid.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/timeunit/post/create");
+        return await serviceHandlerGuid.PostConnectionHandler(url, jsonContent);
     }
 
     public async Task<ResponseModel<TimeUnitDto?>> GetAsync(RequestById id)
     {
-        var url = serviceHandler.CreateConnectionUrlWithQuery
+        var url = serviceHandlerTimeUnitDto.CreateConnectionUrlWithQuery
             (jsonOptions.Value.Url, "api/timeunit/get/", id.Id.ToString());
-        var result = await serviceHandler.GetConnectionHandler<TimeUnitDto>(url);
+        var result = await serviceHandlerTimeUnitDto.GetConnectionHandler(url);
         return result;
     }
 
     public async Task<ResponseModel<List<TimeUnitDto?>>> GetAllAsync()
     {
-        var url = serviceHandler.CreateConnectionUrlWithQuery
+        var url = serviceHandlerListTimeUnits.CreateConnectionUrlWithQuery
             (jsonOptions.Value.Url, "api/timeunit/get/", null);
-        var result = await serviceHandler.GetConnectionHandler<List<TimeUnitDto>>(url);
+        var result = await serviceHandlerListTimeUnits.GetConnectionHandler(url);
         return result;
     }
 }

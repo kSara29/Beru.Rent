@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace User.Dto.ResponseDto;
+namespace User.Dto;
 
 public class UserDtoResponce
 {

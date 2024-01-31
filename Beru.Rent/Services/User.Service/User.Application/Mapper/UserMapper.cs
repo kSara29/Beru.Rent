@@ -1,6 +1,4 @@
 ﻿using User.Dto;
-using User.Dto.RequestDto;
-using User.Dto.ResponseDto;
 
 namespace User.Application.Mapper;
 

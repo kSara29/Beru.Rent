@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace User.Dto.RequestDto;
+namespace User.Dto;
 
 public record DeleteUserByIdRequest
 {

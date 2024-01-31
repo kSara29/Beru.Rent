@@ -2,8 +2,6 @@ using Common;
 using FastEndpoints;
 using User.Application.Contracts;
 using User.Dto;
-using User.Dto.RequestDto;
-using User.Dto.ResponseDto;
 
 namespace User.Api.Endpoints;
 

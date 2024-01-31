@@ -11,28 +11,31 @@ using Newtonsoft.Json;
 namespace Bff.Application.Services;
 
 public class CategoryService(
-    ServiceHandler serviceHandler,
+    ServiceHandler<GuidResponse> serviceHandlerGuid,
+    ServiceHandler<List<CategoryDto?>> serviceHandlerListCategories,
+    ServiceHandler<CategoryDto?> serviceHandlerCategoryDto,
     IOptions<RequestToAdApi> jsonOptions):ICategoryService
 {
     public async Task<ResponseModel<GuidResponse>> CreateCategoryAsync(CreateCategoryDto dto)
     {
-        var url = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/category/post");
-        return await serviceHandler.PostConnectionHandler<CreateCategoryDto, GuidResponse>(url, dto);
+        var jsonContent = JsonConvert.SerializeObject(dto);
+        var url = serviceHandlerGuid.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/category/post");
+        return await serviceHandlerGuid.PostConnectionHandler(url, jsonContent);
     }
 
     public async Task<ResponseModel<CategoryDto?>> GetCategoryAsync(RequestById id)
     {
-        var url = serviceHandler.CreateConnectionUrlWithQuery
+        var url = serviceHandlerCategoryDto.CreateConnectionUrlWithQuery
             (jsonOptions.Value.Url, "api/category/get/", id.Id.ToString());
-        var result = await serviceHandler.GetConnectionHandler<CategoryDto>(url);
+        var result = await serviceHandlerCategoryDto.GetConnectionHandler(url);
         return result;
     }
 
     public async Task<ResponseModel<List<CategoryDto?>>> GetAllCategoriesAsync()
     {
-        var url = serviceHandler.CreateConnectionUrlWithQuery
+        var url = serviceHandlerListCategories.CreateConnectionUrlWithQuery
             (jsonOptions.Value.Url, "api/category/get", null);
-        var result = await serviceHandler.GetConnectionHandler<List<CategoryDto>>(url);
+        var result = await serviceHandlerListCategories.GetConnectionHandler(url);
         return result;
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Common;
-using User.Dto.RequestDto;
-using User.Dto.ResponseDto;
+using User.Dto;
 
 namespace Bff.Application.Contracts;
 

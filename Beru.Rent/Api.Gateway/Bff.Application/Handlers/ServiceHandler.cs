@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Bff.Application.Handlers;
 
-public class ServiceHandler
+public class ServiceHandler<T>
 {
     /// <summary>
     /// Создает Url для соединения c query параметрами
@@ -29,11 +29,11 @@ public class ServiceHandler
     /// Обрабатывает успешный ответ от сервера
     /// </summary>
     /// <param name="responseMessage">ответ от сервера полученный от метода HttpGetConnection или HttpPostConnection</param>
-    /// <returns>возвращает общую модель ответа ResponseModel<TResp></returns>
-    private async Task<ResponseModel<TResp>> HandleSuccessResponse<TResp>(HttpResponseMessage responseMessage)
+    /// <returns>возвращает общую модель ответа ResponseModel<T></returns>
+    private async Task<ResponseModel<T>> HandleSuccessResponse(HttpResponseMessage responseMessage)
     {
         var jsonString = await responseMessage.Content.ReadAsStringAsync();
-        var responseDto = JsonConvert.DeserializeObject<ResponseModel<TResp>>(jsonString);
+        var responseDto = JsonConvert.DeserializeObject<ResponseModel<T>>(jsonString);
                     
         return responseDto!;
     }
@@ -43,7 +43,7 @@ public class ServiceHandler
     /// </summary>
     /// <param name="route">принимает собранный Url</param>
     /// <returns>возвращает общую модель ответа ResponseModel<T></returns>
-    public async Task<ResponseModel<TResp>> GetConnectionHandler<TResp>(string route)
+    public async Task<ResponseModel<T>> GetConnectionHandler(string route)
     {
         try
         {
@@ -51,13 +51,13 @@ public class ServiceHandler
                 await HttpGetConnection(route);
 
             if (httpConnection.IsSuccessStatusCode)
-                return await HandleSuccessResponse<TResp>(httpConnection);
+                return await HandleSuccessResponse(httpConnection);
 
-            return await HandleFailResponse<TResp>(httpConnection);
+            return await HandleFailResponse(httpConnection);
         }
         catch (Exception e)
         {
-            return HandleException<TResp>(e.Message);
+            return HandleException(e.Message);
         }
     }
     
@@ -69,27 +69,23 @@ public class ServiceHandler
     /// принимаемый удаленным сервером для дальнейшей обработки.
     /// Например любая Dto сериализованная в Json методом "JsonConvert.SerializeObject(Dto)"</param>
     /// <returns>возвращает общую модель ответа ResponseModel<T></returns>
-    public async Task<ResponseModel<TResp>> PostConnectionHandler<TReq, TResp>(string route, TReq content)
+    public async Task<ResponseModel<T>> PostConnectionHandler(string route, string content)
     {
         try
         {
-            var jsonContent = await Serializer(content);
             var httpConnection = 
-                await HttpPostConnection(route, jsonContent);
+                await HttpPostConnection(route, content);
 
             if (httpConnection.IsSuccessStatusCode)
-                return await HandleSuccessResponse<TResp>(httpConnection);
+                return await HandleSuccessResponse(httpConnection);
 
-            return await HandleFailResponse<TResp>(httpConnection);
+            return await HandleFailResponse(httpConnection);
         }
         catch (Exception e)
         {
-            return HandleException<TResp>(e.Message);
+            return HandleException(e.Message);
         }
     }
-
-    private async Task<string> Serializer<TReq>(TReq content) => 
-        JsonConvert.SerializeObject(content);
     
     /// <summary>
     /// Создает подключение к удаленному серверу методом Get
@@ -124,9 +120,9 @@ public class ServiceHandler
     /// </summary>
     /// <param name="responseMessage">принимает ответ от сервера</param>
     /// <returns>возвращает общую модель ответа ResponseModel<T> с ошибками в себе, если они есть</returns>
-    private async Task<ResponseModel<TResp>> HandleFailResponse<TResp>(HttpResponseMessage responseMessage)
+    private async Task<ResponseModel<T>> HandleFailResponse(HttpResponseMessage responseMessage)
     {
-        var responseDto = ResponseModel<TResp>.CreateFailed(new List<ResponseError?>
+        var responseDto = ResponseModel<T>.CreateFailed(new List<ResponseError?>
         {
             new ()
             {
@@ -142,8 +138,8 @@ public class ServiceHandler
     /// </summary>
     /// <param name="e">принимает сообщение об ошибке</param>
     /// <returns>возвращает общую модель ответа ResponseModel<T> с ошибками Exeption e</returns>
-    private ResponseModel<TResp> HandleException<TResp>(string e) => 
-        ResponseModel<TResp>.CreateFailed(new List<ResponseError?>
+    private ResponseModel<T> HandleException(string e) => 
+        ResponseModel<T>.CreateFailed(new List<ResponseError?>
         {
             new()
             {
