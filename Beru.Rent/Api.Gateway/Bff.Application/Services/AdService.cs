@@ -14,37 +14,35 @@ using User.Dto;
 namespace Bff.Application.Services;
 
 public class AdService(
-    ServiceHandler<GuidResponse> serviceHandlerGuid, 
-    ServiceHandler<AdDto> serviceHandlerAdDto, 
-    ServiceHandler<GetMainPageDto<AdMainPageDto>> serviceHandlerMainAdDto, 
-    ServiceHandler<DecimalResponse> serviceHandlerDecimal, 
-    ServiceHandler<StringResponse> serviceHandlerString, 
+    ServiceHandler serviceHandler,
     IOptions<RequestToAdApi> jsonOptions)
     :IAdService
 
 {
     public async Task<ResponseModel<GuidResponse>> CreateAdAsync(CreateAdDto ad)
     {
-        var jsonContent = JsonConvert.SerializeObject(ad);
-        var url = serviceHandlerGuid.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/ad/create");
-        return await serviceHandlerGuid.PostConnectionHandler(url, jsonContent);
+        var url = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/ad/create");
+        return await serviceHandler.PostConnectionHandler<CreateAdDto, GuidResponse>(url, ad);
     }
 
 
     public async Task<ResponseModel<AdDto>> GetAdAsync(RequestById id)
     {
-        var url = serviceHandlerAdDto.CreateConnectionUrlWithQuery
+        var url = serviceHandler.CreateConnectionUrlWithQuery
             (jsonOptions.Value.Url, "api/ad/get/", id.Id.ToString());
-        var result = await serviceHandlerAdDto.GetConnectionHandler(url);
+        var result = await serviceHandler.GetConnectionHandler<AdDto>(url);
         return result;
     }
             
 
     public async Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(MainPageRequestDto requestDto)
     {
-        var url = serviceHandlerMainAdDto.CreateConnectionUrlWithQuery
-            (jsonOptions.Value.Url, "api/ad/get/?", $"page={requestDto.Page}&sortdate={requestDto.SortDate}&sortprice={requestDto.SortPrice}&cat={requestDto.CategoryName}");
-        var result = await serviceHandlerMainAdDto.GetConnectionHandler(url);
+        var url = serviceHandler.CreateConnectionUrlWithQuery
+        (jsonOptions.Value.Url, "api/ad/get/?", 
+            $"page={requestDto.Page}&sortdate={requestDto.SortDate}" +
+            $"&sortprice={requestDto.SortPrice}&cat={requestDto.CategoryName}");
+        var result = 
+            await serviceHandler.GetConnectionHandler<GetMainPageDto<AdMainPageDto>>(url);
         return result;
     }
 

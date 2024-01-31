@@ -5,8 +5,11 @@ using User.Application.Contracts;
 using User.Application.Extencions.Validation;
 using User.Application.Mapper;
 using User.Dto;
+using User.Dto.RequestDto;
+using User.Dto.ResponseDto;
 
 namespace User.Api.Endpoints;
+
 
 public class CreateUser(
     IUserService Service, 
@@ -51,7 +54,7 @@ public class CreateUser(
                 });
             }
             await SendAsync(responce, cancellation: ct);
-            return;
+           return;
         }
         
         var phoneValidateResult = await phoneUserValidator.ValidateAsync(manager, new Domain.Models.User
