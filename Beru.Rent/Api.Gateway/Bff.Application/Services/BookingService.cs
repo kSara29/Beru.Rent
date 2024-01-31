@@ -15,8 +15,8 @@ public class BookingService(
     IOptions<RequestToDealApi> jsonOptions,
     IOptions<RequestToAdApi>? jsonOptionsAd,
     ServiceHandler<List<GetBookingDatesResponse>>? serviceHandlerGetBookingDatesResponse,
-    ServiceHandler<GetBookingResponseDto>? serviceHandlerGetBookingResponse,
-    ServiceHandler<List<GetAllBookingsResponseDto>>? serviceHandlerGetAllBookingsResponse
+    ServiceHandler<GetBookingResponseDto>? serviceHandlerGetBookingResponse
+    // ServiceHandler<List<GetAllBookingsResponseDto>>? serviceHandlerGetAllBookingsResponse
     // ServiceHandler<List<Add>>? serviceHandlerGetListAd
     ) : IBookingService
 {
@@ -57,5 +57,6 @@ public class BookingService(
         //var url = serviceHandlerGetAllBookingsResponse.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url,
         //    "api/booking/getallbookings");
         // return await serviceHandlerGetAllBookingsResponse.PostConnectionHandler(url, jsonContent);
+        return null;
     }
 }

@@ -1,11 +1,12 @@
 using Common;
+using Deal.Application.Contracts.Deal;
 using Deal.Application.Services;
 using Deal.Dto.Booking;
 using FastEndpoints;
 
 namespace Deal.Api.Endpoints;
 
-public class GetAllDeals(DealService _service): Endpoint<RequestByUserId,ResponseModel<List<GetAllDealsResponseDto>>>
+public class GetAllDeals(IDealService _service): Endpoint<RequestByUserId,ResponseModel<List<GetAllDealsResponseDto>>>
 {
     public override void Configure()
     {
