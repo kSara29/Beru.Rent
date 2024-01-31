@@ -21,5 +21,4 @@ public class ChatController: ControllerBase
         var newChat = await _charService.CreateChatAsync(user1, user2);
         return newChat;
     }
-    
 }
