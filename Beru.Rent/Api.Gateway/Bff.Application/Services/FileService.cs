@@ -9,31 +9,29 @@ using Newtonsoft.Json;
 
 namespace Bff.Application.Services;
 
-public class FileService(ServiceHandler<byte[]?> serviceHandlerGetFile,
-    ServiceHandler<StringResponse> serviceHandlerStringResponse,
+public class FileService(ServiceHandler serviceHandler,
     IOptions<RequestToAdApi> jsonOptions
     ):IFileService
 {
     public async Task<ResponseModel<StringResponse>> UploadFileAsync(CreateFileDto dto)
     {
-        var jsonContent = JsonConvert.SerializeObject(dto);
-        var url = serviceHandlerStringResponse.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/file/upload");
-        return await serviceHandlerStringResponse.PostConnectionHandler(url, jsonContent);
+        var url = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/file/upload");
+        return await serviceHandler.PostConnectionHandler<CreateFileDto, StringResponse>(url, dto);
     }
 
     public async Task<ResponseModel<StringResponse>> RemoveFileAsync(RequestById id)
     {
-        var url = serviceHandlerStringResponse.CreateConnectionUrlWithQuery
+        var url = serviceHandler.CreateConnectionUrlWithQuery
             (jsonOptions.Value.Url, "api/file/delete/", id.Id.ToString());
-        var result = await serviceHandlerStringResponse.GetConnectionHandler(url);
+        var result = await serviceHandler.GetConnectionHandler<StringResponse>(url);
         return result;
     }
 
     public async Task<ResponseModel<byte[]>> GetFileAsync(RequestById id)
     {
-        var url = serviceHandlerGetFile.CreateConnectionUrlWithQuery
+        var url = serviceHandler.CreateConnectionUrlWithQuery
             (jsonOptions.Value.Url, "api/file/get/", id.Id.ToString());
-        var result = await serviceHandlerGetFile.GetConnectionHandler(url);
+        var result = await serviceHandler.GetConnectionHandler<byte[]>(url);
         return result;
     }
 }

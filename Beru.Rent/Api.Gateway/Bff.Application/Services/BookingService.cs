@@ -10,39 +10,35 @@ using Newtonsoft.Json;
 namespace Bff.Application.Services;
 
 public class BookingService(
-    ServiceHandler<DecimalResponse> serviceHandlerDecimal,
-    ServiceHandler<BoolResponseDto> serviceHandlerBoolResponseDto,
+    ServiceHandler serviceHandler,
     IOptions<RequestToDealApi> jsonOptions,
-    IOptions<RequestToAdApi>? jsonOptionsAd,
-    ServiceHandler<List<GetBookingDatesResponse>>? serviceHandlerGetBookingDatesResponse,
-    ServiceHandler<GetBookingResponseDto>? serviceHandlerGetBookingResponse
-    // ServiceHandler<List<GetAllBookingsResponseDto>>? serviceHandlerGetAllBookingsResponse
-    // ServiceHandler<List<Add>>? serviceHandlerGetListAd
+    IOptions<RequestToAdApi>? jsonOptionsAd
+  
     ) : IBookingService
 {
     
     public async Task<ResponseModel<BoolResponseDto>> CreateBookingAsync(CreateBookingRequestDto dto)
     {
-        var url = serviceHandlerDecimal.CreateConnectionUrlWithQuery(jsonOptionsAd.Value.Url, "api/ad/GetCost/?", $"{dto.AdId}&{dto.Dbeg}&{dto.Dend}" );
-        var cost = await serviceHandlerDecimal.GetConnectionHandler(url);
+        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptionsAd.Value.Url, "api/ad/GetCost/?", $"{dto.AdId}&{dto.Dbeg}&{dto.Dend}" );
+        var cost = await serviceHandler.GetConnectionHandler<DecimalResponse>(url);
         dto.Cost = cost.Data.Number;
         var jsonContent = JsonConvert.SerializeObject(dto);
-        var urllast = serviceHandlerBoolResponseDto.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/deal/create");
-        return await serviceHandlerBoolResponseDto.PostConnectionHandler(urllast, jsonContent);
+        var urllast = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/deal/create");
+        return await serviceHandler.PostConnectionHandler<CreateBookingRequestDto, BoolResponseDto>(urllast, dto);
     }
 
     public async Task<ResponseModel<List<GetBookingDatesResponse>>> GetBookingDatesAsync(RequestById id)
     {
-        var url = serviceHandlerGetBookingDatesResponse.CreateConnectionUrlWithQuery(jsonOptions.Value.Url,
+        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url,
             "api/booking/getbookingdates/?", $"{id}");
-        return await serviceHandlerGetBookingDatesResponse.GetConnectionHandler(url);;
+        return await serviceHandler.GetConnectionHandler<List<GetBookingDatesResponse>>(url);;
     }
 
     public async Task<ResponseModel<GetBookingResponseDto>> GetBookingAsync(RequestById id)
     {
-        var url = serviceHandlerGetBookingResponse.CreateConnectionUrlWithQuery(jsonOptions.Value.Url,
+        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url,
             "api/booking/getbooking/?", $"{id}");
-        return await serviceHandlerGetBookingResponse.GetConnectionHandler(url);;
+        return await serviceHandler.GetConnectionHandler<GetBookingResponseDto>(url);;
     }
 
     public Task<ResponseModel<List<GetAllBookingsResponseDto>>> GetAllBookingsAsync(RequestByUserId id)

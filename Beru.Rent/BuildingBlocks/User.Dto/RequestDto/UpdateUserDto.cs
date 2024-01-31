@@ -1,4 +1,4 @@
-﻿namespace User.Dto;
+﻿namespace User.Dto.RequestDto;
 
 public record UpdateUserDto
 {
