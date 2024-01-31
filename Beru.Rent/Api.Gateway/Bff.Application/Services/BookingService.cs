@@ -57,5 +57,6 @@ public class BookingService(
         //var url = serviceHandlerGetAllBookingsResponse.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url,
         //    "api/booking/getallbookings");
         // return await serviceHandlerGetAllBookingsResponse.PostConnectionHandler(url, jsonContent);
+        return null;
     }
 }
