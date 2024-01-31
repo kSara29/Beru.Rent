@@ -51,6 +51,19 @@ public class AdRepository : IAdRepository
 
    }
 
+   public async Task<List<Advertisement>?> GetAdsByUserId(Guid userId)
+   {
+      var result =  await _context.Ads
+         .Include(a => a.Category)
+         .Include(a => a.AddressExtra)
+         .Include(a => a.TimeUnit)
+         .Include(a=>a.Files)
+         .Where(a=>a.UserId == userId.ToString()).ToListAsync();
+
+      return result;
+
+   }
+
    public  async Task<GetMainPageDto<Advertisement>?> GetAllAdAsync(int page, string sortdate, string sortprice, string cat)
    {
       IQueryable<Advertisement> query = _context.Ads
@@ -121,15 +134,10 @@ public class AdRepository : IAdRepository
             TheAd = ads;
          }
       }
-
       
       decimal cost = Convert.ToDecimal((dend - dbeg) / TheAd.TimeUnit.Duration)*TheAd.Price;
       return cost;
    }
 
-   public async Task<string> GetOwnerIdAsync(Guid adId)
-   {
-      string ownerId = _context.Ads.ToList().FirstOrDefault(a => a.Id == adId).UserId;
-      return ownerId;
-   }
+
 }

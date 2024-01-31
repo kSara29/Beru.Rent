@@ -5,7 +5,7 @@ namespace Ad.Dto.GetDtos;
 
 public class AdDto
 {
-    public Guid? Id { get; set; }
+    public Guid Id { get; set; }
     public DateTime? CreatedAt { get; set; }
     public Guid? UserId { get; set; }
     public string? Title { get; set; }
