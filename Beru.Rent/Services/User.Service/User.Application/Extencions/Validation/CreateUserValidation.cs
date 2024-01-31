@@ -16,7 +16,7 @@ public class CreateUserValidation : AbstractValidator<CreateUserDto>
             .EmailAddress().WithMessage("Некорректный адрес почты.");
         RuleFor(u => u.Phone)
             .NotEmpty().WithMessage("Поле обязательно для заполнения.")
-            .Matches(new Regex(@"^\(?[+]?([0-9]{1})\)?[- ]?([0-9]{3})[- ]?([0-9]{3})[- ]?([0-9]{2})[- ]?([0-9]{2})$"))
+            .Matches(new Regex(@"^\(?([0-9]{10})$"))
             .WithMessage("Не корректный ввод номера");
         RuleFor(u => u.Password).NotEmpty().WithMessage("Поле обязательно для заполнения.")
             .Equal(u => u.ConfirmPassword).WithMessage("Пароли не совпадают.");
