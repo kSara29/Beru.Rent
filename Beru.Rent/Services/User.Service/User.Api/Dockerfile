@@ -12,7 +12,7 @@ COPY ["Services/User.Service/User.Domain/User.Domain.csproj", "Services/User.Ser
 COPY ["Services/User.Service/User.Infrastructure/User.Infrastructure.csproj", "Services/User.Service/User.Infrastructure/"]
 COPY ["BuildingBlocks/Common/Common.csproj", "BuildingBlocks/Common/"]
 COPY ["BuildingBlocks/User.Dto/User.Dto.csproj", "BuildingBlocks/User.Dto/"]
-RUN dotnet restore "Services/Ordering/Ordering.API/Ordering.API.csproj"
+RUN dotnet restore "Services/User.Service/User.Api/User.Api.csproj"
 COPY . .
 WORKDIR "/src/Services/User.Service/User.Api"
 RUN dotnet build "User.Api.csproj" -c Release -o /app/build
