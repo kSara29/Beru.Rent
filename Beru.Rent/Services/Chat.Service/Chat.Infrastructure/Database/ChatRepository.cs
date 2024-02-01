@@ -1,4 +1,5 @@
 ﻿using Chat.Application.Contracts;
+using Chat.Domain.Model;
 using MongoDB.Driver;
 
 namespace Chat.Infrastructure.Database;
@@ -22,7 +23,8 @@ public class ChatRepository: IChatRepository
         {
             CreatedAt = DateTime.UtcNow,
             Participants = new List<Guid>() { user1, user2 },
-            Id = chatId
+            Id = chatId,
+            Messages = []
         };
         try
         {
@@ -35,5 +37,24 @@ public class ChatRepository: IChatRepository
             Console.WriteLine($"Ошибка при вставке: {ex.Message}");
             return null;
         }
+    }
+
+    public async Task<Domain.Model.Chat> SaveMessageAsync(Guid chatId, Message message)
+    {
+        var filter = Builders<Domain.Model.Chat>.Filter.Eq(chat => chat.Id, chatId); 
+        var update = Builders<Domain.Model.Chat>.Update.Push(chat => chat.Messages, message); 
+
+        await _chatCollection.UpdateOneAsync(filter, update);
+        var response = await _chatCollection.Find(x => x.Id == chatId).FirstOrDefaultAsync();
+
+        return response;
+
+    }
+
+    public async Task<List<Message>> GetMessagesByChatIdAsync(Guid chatId)
+    {
+        var chat = await _chatCollection.Find(x => x.Id == chatId).FirstOrDefaultAsync();
+        var messageHistory = chat.Messages;
+        return messageHistory;
     }
 }

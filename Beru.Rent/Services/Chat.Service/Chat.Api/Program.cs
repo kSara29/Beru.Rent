@@ -1,3 +1,4 @@
+using Chat.Api.Hubs;
 using Chat.Application;
 using Chat.Application.Contracts;
 using Chat.Application.Services;
@@ -13,7 +14,24 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureServices();
 builder.Services.AddControllers();
+builder.Services.AddSignalR();
 
+#region CORS политики
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("mypolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .AllowAnyHeader();
+        
+        builder.WithOrigins("http://localhost:3000");
+    });
+});
+
+#endregion
 
 builder.Services.Configure<ChatDatabaseSettings>(
     builder.Configuration.GetSection("ConnectionStrings"));
@@ -36,5 +54,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseRouting();
+app.UseCors("mypolicy");
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();
