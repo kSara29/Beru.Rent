@@ -70,15 +70,13 @@ using Deal.Domain.Enums;
             return books; 
         }
 
-        public async Task<List<Booking>> GetAllBookingsAsync(List<GetAllBookingsRequestDto> id)
+        public async Task<List<Booking>> GetAllBookingsAsync(RequestByUserId id)
         {
             List<Booking> books = new List<Booking>();
-            foreach (var each in id)
-            {
-                List<Booking> bookings = await _db.Bookings.Where(b => b.AdId == each.AdId).ToListAsync();
-                foreach (var book in bookings)
-                 books.Add(book);   
-            }
+            List<Booking> bookings = await _db.Bookings.Where(b => b.OwnerId == id.Id).ToListAsync();
+            foreach (var book in bookings) 
+                books.Add(book);   
+            
             return books;
         }
 

@@ -10,7 +10,8 @@ public static class BookingMapper
             dto.TenantId,
             dto.Cost,
             dto.Dbeg,
-            dto.Dend);
+            dto.Dend,
+            dto.OwnerId);
     
     public static BoolResponseDto ToDto(this bool boolean)
         => new(boolean);

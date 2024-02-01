@@ -9,7 +9,7 @@ public class CreateBooking(IBookingService serviceCreate) : Endpoint<CreateBooki
 {
     public override void Configure()
     {
-        Post("/bff/deal/createBooking");
+        Post("/bff/booking/create");
         AllowAnonymous();
     }
     

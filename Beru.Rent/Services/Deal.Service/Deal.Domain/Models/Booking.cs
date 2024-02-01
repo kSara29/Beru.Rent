@@ -13,7 +13,8 @@ public class Booking: DealEntity
         string tenantId,
         decimal? cost,
         DateTime dbeg,
-        DateTime dend)
+        DateTime dend,
+        string ownerId)
     {
         AdId = adId;
         TenantId = tenantId;
@@ -22,6 +23,7 @@ public class Booking: DealEntity
         Dend = dend;
         BookingState = Enums.BookingState.InQueue.ToString();
         CreatedAt = DateTime.UtcNow;
+        OwnerId = ownerId;
     }
     
     public Booking(

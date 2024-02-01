@@ -5,7 +5,6 @@ namespace Deal.Domain.Models;
 
 public class Deal: DealEntity
 {
-     public string OwnerId { get; set; }
      public DealState DealState{ get; set; }
      public decimal Deposit { get; set; }
      public Guid ChatId { get; set; }
