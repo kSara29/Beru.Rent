@@ -6,5 +6,4 @@ namespace Deal.Dto.Booking;
 public record CreateDealResponseDto(
     [property: JsonPropertyName("dealId")] Guid DealId,
     [property: JsonPropertyName("boolean")] bool Boolean
-    
 );

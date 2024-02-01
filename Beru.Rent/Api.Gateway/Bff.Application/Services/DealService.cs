@@ -21,14 +21,14 @@ public class DealService(
 
     public async Task<ResponseModel<GetDealResponseDto>> GetDealAsync(GetDealRequestDto dto)
     {
-        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/GetDeal/?",
+        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/GetDeal/",
             $"{dto.dealId}");
         return await serviceHandler.GetConnectionHandler<GetDealResponseDto>(url);
     }
 
     public async Task<ResponseModel<List<GetAllDealsResponseDto>>> GetAllDealsAsync(RequestByUserId dto)
     {
-        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/GetAllDeals/?",
+        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/GetAllDeals/",
             $"{dto.Id}");
         return await serviceHandler.GetConnectionHandler<List<GetAllDealsResponseDto>>(url);
     }
