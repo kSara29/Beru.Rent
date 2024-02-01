@@ -4,6 +4,7 @@ using Ad.Application.DTO.CreateDtos;
 using Ad.Application.DTO.GetDtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using Common;
 
 namespace Ad.Api.Controllers;
 
@@ -52,7 +53,7 @@ public class AddressController:ControllerBase
     
     
     [HttpPost("/api/address/suggestions")]
-    public async Task<List<string>> SuggestAddress([FromBody] QueryModel model)
+    public async Task<IActionResult> SuggestAddress([FromBody] QueryModel model)
     {
         string url = $"https://suggest-maps.yandex.ru/v1/suggest?apikey={_yandexToken}&text={model.Query}&print_address=1&results=20";
 
@@ -68,7 +69,7 @@ public class AddressController:ControllerBase
                 var addresses = results.EnumerateArray()
                     .Select(result => result.GetProperty("address").GetProperty("formatted_address").GetString())
                     .ToList();
-                return addresses;
+                return Ok(ResponseModel<List<string>>.CreateSuccess(addresses));
             }
             catch (HttpRequestException e)
             {
@@ -76,6 +77,13 @@ public class AddressController:ControllerBase
             }
         }
 
-        return new List<string>();
+        var errors = new List<ResponseError>();
+        var errorModel = new ResponseError
+        {
+            Code = "404",
+            Message = "Извините, такого адреса не нашлось"
+        };
+        errors.Add(errorModel);
+        return Ok(ResponseModel<List<string>>.CreateFailed(errors));  
     }
 }

@@ -31,5 +31,9 @@
         <ProjectReference Include="..\Ad.Infrastructure\Ad.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Request\" />
+    </ItemGroup>
+
 </Project>
   
