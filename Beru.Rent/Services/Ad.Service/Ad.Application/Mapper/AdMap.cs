@@ -66,7 +66,7 @@ public static class AdMap
             Price = model.Price,
             CategoryId = model.CategoryId,
             TimeUnitId = model.TimeUnitId,
-            TimeUnit = model.TimeUnit.Title,
+            TimeUnit = model.TimeUnit,
             Street = model.AddressExtra.Street,
             City = model.AddressExtra.City,
             Category = model.Category.Title
