@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ad.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+
 public class AdController:ControllerBase
 {
     private readonly IAdService _service;
@@ -58,11 +58,13 @@ public class AdController:ControllerBase
         return Ok(result);
     }
     
-    [HttpGet("/api/ad/getOwnerId/{adId}")]
+    [HttpGet("api/ad/getAdsByUserId/{id}")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetOwnerIdAsync(Guid adId)
+    public async Task<IActionResult> GetAdsByUserId([FromRoute] Guid id)
     {
-        var result = await _service.GetOwnerIdAsync(adId);
+        var result = await _service.GetAdsByUserId(id);
         return Ok(result);
     }
+    
+
 }

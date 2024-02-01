@@ -33,6 +33,14 @@ public class AdService(
         var result = await serviceHandler.GetConnectionHandler<AdDto>(url);
         return result;
     }
+    
+    public async Task<ResponseModel<List<AdDto>>> GetAdsByUserIdAsync(RequestById userId)
+    {
+        var url = serviceHandler.CreateConnectionUrlWithQuery
+            (jsonOptions.Value.Url, "api/ad/getAdsByUserId/", userId.Id.ToString());
+        var result = await serviceHandler.GetConnectionHandler<List<AdDto>>(url);
+        return result;
+    }
             
 
     public async Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(MainPageRequestDto requestDto)

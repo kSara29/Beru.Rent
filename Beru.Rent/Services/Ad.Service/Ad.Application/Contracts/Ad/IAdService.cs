@@ -13,8 +13,8 @@ public interface IAdService
 {
     Task<ResponseModel<GuidResponse>> CreateAdAsync(CreateAdDto ad);
     Task<ResponseModel<AdDto>> GetAdAsync(Guid id);
+    Task<ResponseModel<List<AdDto>>> GetAdsByUserId(Guid userId);
     Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(int page, string sortdate, string sortprice, string cat);
     Task<ResponseModel<DecimalResponse>> GetCostAsync(Guid adId, DateTime ebeg, DateTime dend);
-    Task<ResponseModel<StringResponse>> GetOwnerIdAsync(Guid adId);    
     
 }
