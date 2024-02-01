@@ -12,12 +12,10 @@ using Deal.Domain.Enums;
     public class EfBookingRepository: IBookingRepository
     {
         private readonly DealContext _db;
-        private readonly HttpClient _httpClient;
 
-        public EfBookingRepository(DealContext db, HttpClient httpClient)
+        public EfBookingRepository(DealContext db)
         {
             _db = db;
-            _httpClient = httpClient;
         }
 
         public async Task<bool> CancelReservationAsync(Booking booking)

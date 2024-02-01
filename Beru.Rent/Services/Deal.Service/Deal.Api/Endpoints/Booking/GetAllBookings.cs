@@ -9,7 +9,7 @@ public class GetAllBookings(IBookingService _service): Endpoint<RequestByUserId,
 {
     public override void Configure()
     {
-        Post("api/booking/getallbookings/{id}");
+        Get("api/booking/getallbookings/{id}");
         AllowAnonymous();
     }
 

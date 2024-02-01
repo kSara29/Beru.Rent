@@ -30,21 +30,21 @@ public class BookingService(
     public async Task<ResponseModel<List<GetBookingDatesResponse>>> GetBookingDatesAsync(RequestById id)
     {
         var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url,
-            "api/booking/getbookingdates/?", $"{id.Id}");
+            "api/booking/getbookingdates/", $"{id.Id}");
         return await serviceHandler.GetConnectionHandler<List<GetBookingDatesResponse>>(url);;
     }
 
     public async Task<ResponseModel<GetBookingResponseDto>> GetBookingAsync(RequestById id)
     {
         var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url,
-            "api/booking/getbooking/?", $"{id.Id}");
+            "api/booking/getbooking/", $"{id.Id}");
         return await serviceHandler.GetConnectionHandler<GetBookingResponseDto>(url);;
     }
 
     public async Task<ResponseModel<List<GetAllBookingsResponseDto>>> GetAllBookingsAsync(RequestByUserId id)
     {
         var lastUrl =
-            serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/getallbookings/?",$"{id.Id}");
+            serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/getallbookings/",$"{id.Id}");
         return await serviceHandler.GetConnectionHandler<List<GetAllBookingsResponseDto>>(lastUrl);
     }
 }
