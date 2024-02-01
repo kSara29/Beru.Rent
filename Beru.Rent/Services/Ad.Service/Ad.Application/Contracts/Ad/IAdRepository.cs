@@ -1,6 +1,7 @@
 
 using Ad.Application.DTO.GetDtos;
 using Ad.Domain.Models;
+using Deal.Dto.Booking;
 
 namespace Ad.Application.Contracts.Ad;
 
@@ -12,6 +13,6 @@ public interface IAdRepository
     Task<Advertisement?> GetAdAsync(Guid id);
     Task<List<Advertisement>?> GetAdsByUserId(Guid userId);  
     Task<GetMainPageDto<Advertisement>?> GetAllAdAsync(int page, string sortdate, string sortprice, string cat);
-    Task<decimal> GetCostAsync(Guid adId, DateTime ebeg, DateTime dend);
+    Task<decimal> GetCostAsync(CreateBookingRequestDto dto);
   
 }
