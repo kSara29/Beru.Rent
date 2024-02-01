@@ -17,7 +17,14 @@ public class DealService: IDealService
     public async Task<CreateDealResponseDto> CreateDealAsync(CreateDealRequestDto dto)
     {
         var res = await _dealRepository.CreateDealAsync(dto);
-         return res.ToDto();
+        if (res.ContainsKey(true))
+        {
+            return res[true].ToDtoTrue();
+        }
+        else
+        {
+            return res[false].ToDtoFalse();
+        }
     }
 
     public async Task<ResponseModel<GetDealResponseDto>> GetDealAsync(GetDealRequestDto dto)

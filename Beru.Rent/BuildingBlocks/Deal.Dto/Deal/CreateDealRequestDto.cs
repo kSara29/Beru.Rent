@@ -6,5 +6,5 @@ namespace Deal.Dto.Booking;
 public record CreateDealRequestDto(
     [property: JsonPropertyName("bookingId")] Guid bookingId,
     [property: JsonPropertyName("isApproved")] bool isApproved,
-    [property: JsonPropertyName("isApproved")] string ownerId
+    [property: JsonPropertyName("ownerId")] string ownerId
 );
