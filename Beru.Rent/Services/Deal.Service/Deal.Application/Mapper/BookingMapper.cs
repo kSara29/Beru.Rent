@@ -16,15 +16,6 @@ public static class BookingMapper
     public static BoolResponseDto ToDto(this bool boolean)
         => new(boolean);
 
-    public static GetBookingResponseDto ToDomain(this Booking booking)
-        => new(booking.Id,
-            booking.AdId,
-            booking.TenantId,
-            booking.Dbeg,
-            booking.Dend,
-            booking.Cost,
-            booking.BookingState);
-
     public static GetBookingDatesResponse ToDateDto(this Booking booking)
         => new(
             booking.Dbeg,
@@ -47,6 +38,7 @@ public static class BookingMapper
             booking.Dbeg,
             booking.Dend,
             booking.Cost,
-            booking.BookingState
+            booking.BookingState,
+            booking.OwnerId
         );
 }

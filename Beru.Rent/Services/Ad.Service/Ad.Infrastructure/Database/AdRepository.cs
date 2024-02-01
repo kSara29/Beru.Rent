@@ -5,6 +5,7 @@ using Ad.Application.Mapper;
 using Ad.Application.DTO.GetDtos;
 using Ad.Domain.Models;
 using Ad.Infrastructure.Context;
+using Deal.Dto.Booking;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ad.Infrastructure;
@@ -123,19 +124,19 @@ public class AdRepository : IAdRepository
       return new GetMainPageDto<Advertisement>(result, totalPages);
    }
 
-   public async Task<decimal> GetCostAsync(Guid adId, DateTime dbeg, DateTime dend)
+   public async Task<decimal> GetCostAsync(CreateBookingRequestDto dto)
    {
       List<Advertisement> advertisements = _context.Ads.Include(a => a.TimeUnit).ToList();
       Advertisement TheAd = new Advertisement();
       foreach (var ads in advertisements)
       {
-         if (ads.Id == adId)
+         if (ads.Id == dto.AdId)
          {
             TheAd = ads;
          }
       }
       
-      decimal cost = Convert.ToDecimal((dend - dbeg) / TheAd.TimeUnit.Duration)*TheAd.Price;
+      decimal cost = Convert.ToDecimal((dto.Dend - dto.Dbeg) / TheAd.TimeUnit.Duration)*TheAd.Price;
       return cost;
    }
 

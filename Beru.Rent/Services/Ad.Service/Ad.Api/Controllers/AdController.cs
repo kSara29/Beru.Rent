@@ -1,6 +1,7 @@
 ﻿using Ad.Application.Contracts.File;
 using Ad.Application.Contracts.Ad;
 using Ad.Dto.CreateDtos;
+using Deal.Dto.Booking;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ad.Api.Controllers;
@@ -50,11 +51,11 @@ public class AdController:ControllerBase
         return Ok(result);
     }
     
-    [HttpGet("/api/ad/getCost/{adId}&{dbeg}&{dend}")]
+    [HttpPost("/api/ad/getCost")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetCostAsync(Guid adId, DateTime dbeg, DateTime dend)
+    public async Task<IActionResult> GetCostAsync(CreateBookingRequestDto dto)
     {
-        var result = await _service.GetCostAsync(adId, dbeg, dend);
+        var result = await _service.GetCostAsync(dto);
         return Ok(result);
     }
     

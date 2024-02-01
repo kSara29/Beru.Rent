@@ -18,14 +18,13 @@ public class BookingService(
     ) : IBookingService
 {
     
-    public async Task<ResponseModel<BoolResponseDto>> CreateBookingAsync(CreateBookingRequestDto dto)
+    public async Task<ResponseModel<GetBookingResponseDto>> CreateBookingAsync(CreateBookingRequestDto dto)
     {
-        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptionsAd.Value.Url, "api/ad/GetCost/?", $"{dto.AdId}&{dto.Dbeg}&{dto.Dend}" );
-        var cost = await serviceHandler.GetConnectionHandler<DecimalResponse>(url);
+        var url = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptionsAd.Value.Url, "api/ad/GetCost/");
+        var cost = await serviceHandler.PostConnectionHandler<CreateBookingRequestDto, DecimalResponse>(url, dto);
         dto.Cost = cost.Data.Number;
-        var jsonContent = JsonConvert.SerializeObject(dto);
         var urllast = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/booking/create");
-        return await serviceHandler.PostConnectionHandler<CreateBookingRequestDto, BoolResponseDto>(urllast, dto);
+        return await serviceHandler.PostConnectionHandler<CreateBookingRequestDto, GetBookingResponseDto>(urllast, dto);
     }
 
     public async Task<ResponseModel<List<GetBookingDatesResponse>>> GetBookingDatesAsync(RequestById id)

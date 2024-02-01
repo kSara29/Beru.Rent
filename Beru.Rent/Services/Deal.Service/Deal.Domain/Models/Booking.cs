@@ -39,4 +39,10 @@ public class Booking: DealEntity
         BookingState = Enums.BookingState.InQueue.ToString();
         CreatedAt = DateTime.UtcNow;
     }
+
+    public Booking()
+    {
+        BookingState = Enums.BookingState.Decline.ToString();
+        CreatedAt = DateTime.UtcNow;
+    }
 }

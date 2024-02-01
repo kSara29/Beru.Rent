@@ -5,11 +5,11 @@ using FastEndpoints;
 
 namespace Bff.Api.Endpoints.DealService;
 
-public class CreateBooking(IBookingService serviceCreate) : Endpoint<CreateBookingRequestDto, ResponseModel<BoolResponseDto>>
+public class CreateBooking(IBookingService serviceCreate) : Endpoint<CreateBookingRequestDto, ResponseModel<GetBookingResponseDto>>
 {
     public override void Configure()
     {
-        Post("/bff/booking/create");
+            Post("/bff/booking/create");
         AllowAnonymous();
     }
     

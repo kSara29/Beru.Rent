@@ -36,12 +36,20 @@ using Deal.Domain.Enums;
             }
         }
 
-        public async Task<bool> CreateBookingAsync(CreateBookingRequestDto dto)
+        public async Task<Dictionary<bool,Booking>> CreateBookingAsync(CreateBookingRequestDto dto)
         {
-               var bookings = _db.Bookings.ToList();
                 
-                if (dto.Dbeg < DateTime.UtcNow.AddMinutes(-1)) //Написать в сервисе + добавить ошибку и вернуть fail
-                    return false;
+               var bookings = _db.Bookings.ToList();
+               Booking falseBooking = new Booking();
+
+               if (dto.Dbeg < DateTime.UtcNow.AddMinutes(-1)) //Написать в сервисе + добавить ошибку и вернуть fail
+               {
+                   Dictionary<bool, Booking> falseresult = new Dictionary<bool, Booking>()
+                   { 
+                       [false]=falseBooking
+                   };
+                   return falseresult;
+               }
                 
                 foreach (var book in bookings)
                 {
@@ -52,7 +60,11 @@ using Deal.Domain.Enums;
                             dto.Dbeg < book.Dbeg && dto.Dend > book.Dend 
                             )
                         {
-                            return false;
+                            Dictionary<bool, Booking> falseresult = new Dictionary<bool, Booking>()
+                            { 
+                                [false]=falseBooking
+                            };
+                            return falseresult;
                         }
                     }
                 }
@@ -60,7 +72,11 @@ using Deal.Domain.Enums;
                     Booking booking = dto.ToDomain();
                     _db.Bookings.Add(booking);
                     await _db.SaveChangesAsync();
-                    return true;
+                    Dictionary<bool, Booking> result = new Dictionary<bool, Booking>()
+                    { 
+                        [true]=booking
+                    };
+                    return result;
         }
         
 
