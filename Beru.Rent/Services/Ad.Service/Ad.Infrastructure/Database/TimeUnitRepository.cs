@@ -15,6 +15,7 @@ public class TimeUnitRepository :ITimeUnitRepository
     }
     public async Task<Guid> CreateAsync(TimeUnit entity)
     {
+        entity.CreatedAt = DateTime.Now;
         await _context.TimeUnits.AddAsync(entity);
         await _context.SaveChangesAsync();
         return entity.Id;

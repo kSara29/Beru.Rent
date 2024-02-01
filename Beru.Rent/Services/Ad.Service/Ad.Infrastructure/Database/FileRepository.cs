@@ -106,6 +106,7 @@ public class FileRepository:IFileRepository
 
             #region Добавляем модель в постгресс с определенными названиями папки = bucketName
 
+            entity.CreatedAt = DateTime.Now;
             await _context.Files.AddAsync(entity);
             await _context.SaveChangesAsync();
 

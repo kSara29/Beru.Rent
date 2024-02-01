@@ -24,7 +24,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
         config.Authority = "https://localhost:7296";
     });
+#region CORS политики
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("mypolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
+#endregion
 var app = builder.Build();
 app.UseFastEndpoints();
 app.UseRouting();
