@@ -16,17 +16,24 @@ public class AddressService(
 {
     public async Task<ResponseModel<GuidResponse>> CreateAddressAsync(CreateAddressExtraDto dto)
     {
-        throw new NotImplementedException();
+        var url = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/address/extra/create");
+        return await serviceHandler.PostConnectionHandler<CreateAddressExtraDto, GuidResponse>(url, dto);
     }
 
     public async Task<ResponseModel<StringResponse>> RemoveAddressAsync(RequestById id)
     {
-        throw new NotImplementedException();
+        var url = serviceHandler.CreateConnectionUrlWithQuery
+            (jsonOptions.Value.Url, "api/address/extra/delete/", id.Id.ToString());
+        var result = await serviceHandler.GetConnectionHandler<StringResponse>(url);
+        return result;
     }
 
     public async Task<ResponseModel<AddressExtraDto?>> GetAddressAsync(RequestById id)
     {
-        throw new NotImplementedException();
+        var url = serviceHandler.CreateConnectionUrlWithQuery
+            (jsonOptions.Value.Url, "api/address/extra/get/", id.Id.ToString());
+        var result = await serviceHandler.GetConnectionHandler<AddressExtraDto?>(url);
+        return result;
     }
 
     public async Task<ResponseModel<List<string>>> SuggestAddress(QueryModel model)

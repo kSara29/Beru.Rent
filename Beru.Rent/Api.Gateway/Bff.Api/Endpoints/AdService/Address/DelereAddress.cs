@@ -1,23 +1,23 @@
-﻿using Ad.Api.Request;
+﻿using Ad.Dto.ResponseDto;
 using Bff.Application.Contracts;
 using Common;
 using FastEndpoints;
 
 namespace Bff.Api.Endpoints.AdService.Address;
 
-public class SuggestAddress(IAddressService service) : Endpoint<QueryModel, ResponseModel<List<string>>>
+public class DelereAddress(IAddressService service): Endpoint<RequestById, ResponseModel<StringResponse>>
 {
     public override void Configure()
     {
-        Get("/bff/address/suggestions");
+        Post("/bff/address/delete");
         AllowAnonymous();
     }
 
     public override async Task HandleAsync
-        (QueryModel request,CancellationToken ct)
+        (RequestById request,CancellationToken ct)
     {
         if (request is null) await SendAsync(null!, cancellation: ct);
-        var response = await service.SuggestAddress(request);
+        var response = await service.RemoveAddressAsync(request);
         await SendAsync(response, cancellation: ct);
     }
 }
