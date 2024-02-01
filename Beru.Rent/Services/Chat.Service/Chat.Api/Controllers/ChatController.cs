@@ -1,7 +1,8 @@
-﻿using Chat.Api.Dto;
-using Chat.Api.Hubs;
+﻿using Chat.Api.Hubs;
 using Chat.Application.Contracts;
 using Chat.Domain.Model;
+using Chat.Dto.RequestDto;
+using Chat.Dto.ResponseModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -20,12 +21,19 @@ public class ChatController: ControllerBase
         _chatHub = chatHub;
     }
     
-    [HttpGet("/api/chat/create/{user1}/{user2}")]
+    [HttpPost("/api/chat/create")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<Domain.Model.Chat> CreateChatAsync([FromRoute] Guid user1, Guid user2)
+    public async Task<ChatDtoResponse> CreateChatAsync([FromBody] CreateChatRequest newChat)
     {
-        var newChat = await _chatService.CreateChatAsync(user1, user2);
-        return newChat;
+        var chat = await _chatService.CreateChatAsync(newChat);
+        ChatDtoResponse model = new ChatDtoResponse()
+        {
+            Id = chat.Id,
+            Participants = chat.Participants,
+            CreatedAt = chat.CreatedAt
+        };
+        
+        return model;
     }
     
     [HttpPost("/api/chat/send")]
@@ -51,6 +59,6 @@ public class ChatController: ControllerBase
     public async Task<IActionResult> GetChatHistory(Guid chatId)
     {
         var messages = await _chatService.GetMessagesByChatIdAsync(chatId);
-        return Ok(messages);
+        return Ok();
     }
 }

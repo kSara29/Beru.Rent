@@ -22,6 +22,7 @@ public static class DependencyInjections
         service.AddSingleton<ITimeUnitService, TimeUnitService>(); 
         service.AddSingleton<IFileService, FileService>(); 
         service.AddScoped<IBookingService, BookingService>();
+        service.AddScoped<IChatService, ChatService>();
         return service;
     }
 }

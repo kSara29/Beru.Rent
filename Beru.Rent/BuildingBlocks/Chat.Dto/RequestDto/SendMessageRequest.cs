@@ -1,4 +1,4 @@
-﻿namespace Chat.Api.Dto;
+﻿namespace Chat.Dto.RequestDto;
 
 public class SendMessageRequest
 {

@@ -1,5 +1,6 @@
 ﻿using Chat.Application.Contracts;
 using Chat.Domain.Model;
+using Chat.Dto.RequestDto;
 using MongoDB.Driver;
 
 namespace Chat.Infrastructure.Database;
@@ -14,15 +15,14 @@ public class ChatRepository: IChatRepository
         _chatCollection = database.GetCollection<Domain.Model.Chat>(settings.ChatCollectionName);
     }
     
-    
-    public async Task<Domain.Model.Chat> CreateChatAsync(Guid user1, Guid user2)
+    public async Task<Domain.Model.Chat> CreateChatAsync(CreateChatRequest newChat)
     {
         var chatId = Guid.NewGuid();
         
         var initNewChat = new Domain.Model.Chat()
         {
             CreatedAt = DateTime.UtcNow,
-            Participants = new List<Guid>() { user1, user2 },
+            Participants = new List<Guid>() { newChat.User1, newChat.User2 },
             Id = chatId,
             Messages = []
         };

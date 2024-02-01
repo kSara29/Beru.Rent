@@ -1,5 +1,6 @@
 ﻿using Chat.Application.Contracts;
 using Chat.Domain.Model;
+using Chat.Dto.RequestDto;
 
 namespace Chat.Application.Services;
 
@@ -12,9 +13,9 @@ public class CharService: IChatService
         _chatRepository = chatRepository;
     }
     
-    public async Task<Domain.Model.Chat> CreateChatAsync(Guid user1, Guid user2)
+    public async Task<Domain.Model.Chat> CreateChatAsync(CreateChatRequest newChat)
     {
-        var response = await _chatRepository.CreateChatAsync(user1, user2);
+        var response = await _chatRepository.CreateChatAsync(newChat);
         return response;
     }
 
