@@ -14,6 +14,7 @@ public class AdMainPageDto
     public string Category { get; set; }
     public Guid? CategoryId { get; set; }
     public Guid? TimeUnitId { get; set; }
+    public string? TimeUnit { get; set; }
     public string? City { get; set; }
     public string Street { get; set; }
     public List<byte[]>? Files { get; set; }
