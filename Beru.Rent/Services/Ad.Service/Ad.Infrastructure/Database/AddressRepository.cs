@@ -20,6 +20,7 @@ namespace Ad.Infrastructure.Database;
 
         public async Task<Guid> CreateAsync(AddressExtra entity)
         {
+            entity.CreatedAt = DateTime.Now;
             await _context.AddressExtras.AddAsync(entity);
             await _context.SaveChangesAsync();
             var result = entity.Id;

@@ -34,6 +34,7 @@ public class AdRepository : IAdRepository
 
    public async Task<Guid> CreateAdAsync(Advertisement ad)
    { 
+      ad.CreatedAt = DateTime.Now;
       await _context.Ads.AddAsync(ad); 
       await _context.SaveChangesAsync(); 
       return ad.Id;

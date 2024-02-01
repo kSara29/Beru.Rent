@@ -15,6 +15,7 @@ public class CategoryRepository:ICategoryRepository
     }
     public async Task<Guid> CreateAsync(Category entity)
     {
+        entity.CreatedAt = DateTime.Now;
         await _context.Categories.AddAsync(entity);
         await _context.SaveChangesAsync();
         return entity.Id;
