@@ -1,12 +1,14 @@
 ﻿using Ad.Application.DTO.CreateDtos;
 using Ad.Application.DTO.GetDtos;
 using Ad.Application.Responses;
+using Ad.Dto.ResponseDto;
+using Common;
 
 namespace Ad.Application.Contracts.TimeUnit;
 
 public interface ITimeUnitService
 {
-    Task<BaseApiResponse<Guid>> CreateAsync(CreateTimeUnitDto dto);
-    Task<BaseApiResponse<TimeUnitDto?>> GetAsync(Guid id);
-    Task<BaseApiResponse<List<TimeUnitDto?>>> GetAllAsync();
+    Task<ResponseModel<GuidResponse>> CreateAsync(CreateTimeUnitDto dto);
+    Task<ResponseModel<TimeUnitDto?>> GetAsync(Guid id);
+    Task<ResponseModel<List<TimeUnitDto?>>> GetAllAsync();
 }

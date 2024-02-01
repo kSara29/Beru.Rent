@@ -141,7 +141,7 @@ public class FileRepository:IFileRepository
 
     }
 
-    public async Task<byte[]> GetFileAsync(Guid id)
+    public async Task<byte[]?> GetFileAsync(Guid id)
     {
         try
         {
@@ -161,8 +161,6 @@ public class FileRepository:IFileRepository
                 await stream.CopyToAsync(memoryStream);
                 var bytes = memoryStream.ToArray();
                 return bytes;
-
-               
             }
         }
         catch (Exception e)
@@ -172,7 +170,7 @@ public class FileRepository:IFileRepository
         }
     }
 
-    public async Task<List<byte[]>> GetAllFilesAsync(Guid bucketId)
+    public async Task<List<byte[]?>> GetAllFilesAsync(Guid bucketId)
     {
         #region идем в Postgress И забираем массив id файлов внутри бакета с BucketId
 
@@ -187,7 +185,7 @@ public class FileRepository:IFileRepository
 
         #region идем в Minio и по очереди забираем файлы, записываем в массив байтов
 
-        var files = new List<byte[]>();
+        var files = new List<byte[]?>();
         foreach (var fileId in fileIds)
         {
             files.Add(await GetFileAsync(fileId));

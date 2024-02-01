@@ -25,10 +25,13 @@ public class AdService : IAdService
         _repository = repository;
         _fileRepository = fileRepository;
     }
-    public async Task<ResponseModel<Guid>> CreateAdAsync(CreateAdDto ad)
+    public async Task<ResponseModel<GuidResponse>> CreateAdAsync(CreateAdDto ad)
     {
        var result =await _repository.CreateAdAsync(ad.ToDomain());
-       return ResponseModel<Guid>.CreateSuccess(result);
+       return ResponseModel<GuidResponse>.CreateSuccess(new GuidResponse
+       {
+           Id = result
+       });
     }
 
     public async Task<ResponseModel<AdDto>> GetAdAsync(Guid id)
@@ -40,24 +43,55 @@ public class AdService : IAdService
               var files = await _fileRepository.GetAllFilesAsync(id);
               data.Files = files;
               var response = ResponseModel<AdDto>.CreateSuccess(data);
+              return response;
         }
-
-        var errors = new List<ResponseError>();
-        var errorModel = new ResponseError
+        else
         {
-            Code = "404",
-            Message = "С таким Id объявления не найдено"
-        };
-        errors.Add(errorModel);
-
-        return ResponseModel<AdDto>.CreateFailed(errors);
+          var errors = new List<ResponseError>();
+                  var errorModel = new ResponseError
+                  {
+                      Code = "404",
+                      Message = "С таким Id объявления не найдено"
+                  };
+                  errors.Add(errorModel);
+                  return ResponseModel<AdDto>.CreateFailed(errors);  
+        }
     }
-    
 
-    public async Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(int page, string sortdate, string sortprice, string cat)
+    public async Task<ResponseModel<List<AdDto>>> GetAdsByUserId(Guid userId)
+    {
+        var result = await _repository.GetAdsByUserId(userId);
+        if (result != null)
+        {
+            var data = result.Select(a=>a.ToDto()).ToList();
+            foreach (var ad in data)
+            {
+                var files = await _fileRepository.GetAllFilesAsync(ad.Id);
+                ad.Files = files;
+            }
+            
+            var response = ResponseModel<List<AdDto>>.CreateSuccess(data);
+            return response;
+        }
+        else
+        {
+            var errors = new List<ResponseError>();
+            var errorModel = new ResponseError
+            {
+                Code = "404",
+                Message = "Ни одного объявления не найдено"
+            };
+            errors.Add(errorModel);
+            return ResponseModel<List<AdDto>>.CreateFailed(errors);  
+        }
+    }
+
+    public async Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(
+        int page, string sortdate, string sortprice, string cat)
     {
         var result = await _repository.GetAllAdAsync(page,sortdate,sortprice,cat);
-        var mainPageDto = new GetMainPageDto<AdMainPageDto>(result.MainPageDto.Select(ad => ad.ToMainPageDto()).ToList(), result.TotalPage);
+        var mainPageDto = new GetMainPageDto<AdMainPageDto>(result.MainPageDto.Select(ad => 
+            ad.ToMainPageDto()).ToList(), result.TotalPage);
         
         foreach (var dto in mainPageDto.MainPageDto)
         {
@@ -68,16 +102,14 @@ public class AdService : IAdService
         return ResponseModel<GetMainPageDto<AdMainPageDto>>.CreateSuccess(mainPageDto);
     }
 
-    public async Task<ResponseModel<decimal>> GetCostAsync(Guid adId, DateTime dbeg, DateTime dend)
+    public async Task<ResponseModel<DecimalResponse>> GetCostAsync(Guid adId, DateTime dbeg, DateTime dend)
     {
         var result =await _repository.GetCostAsync(adId, dbeg,dend);
-        return ResponseModel<decimal>.CreateSuccess(result);
+        return ResponseModel<DecimalResponse>.CreateSuccess(new DecimalResponse
+        {
+            Number = result
+        });
     }
 
-    public async Task<ResponseModel<string>> GetOwnerIdAsync(Guid adId)
-    {
-        var result =await _repository.GetOwnerIdAsync(adId);
-        
-        return ResponseModel<string>.CreateSuccess(result);
-    }
+   
 }

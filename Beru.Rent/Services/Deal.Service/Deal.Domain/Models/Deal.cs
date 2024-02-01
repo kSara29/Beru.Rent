@@ -8,11 +8,11 @@ public class Deal: DealEntity
      public string OwnerId { get; set; }
      public DealState DealState{ get; set; }
      public decimal Deposit { get; set; }
-     public string ChatId { get; set; }
+     public Guid ChatId { get; set; }
 
      public Deal(
           Guid adId,
-          Guid tenantId,
+          string tenantId,
           decimal? cost,
           string ownerId,
           DateTime dbeg,
@@ -28,6 +28,10 @@ public class Deal: DealEntity
          Dbeg = dbeg;
          Dend = dend;
      }
-     
-     private Deal(){}
+
+     public Deal()
+     {
+         CreatedAt = DateTime.UtcNow;
+     }
+
 }

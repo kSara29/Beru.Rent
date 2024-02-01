@@ -1,8 +1,11 @@
-﻿using Deal.Application.Contracts.Booking;
-    using Deal.Domain.Enums;
+﻿using Common;
+using Deal.Application.Contracts.Booking;
+using Deal.Application.Mapper;
+using Deal.Domain.Enums;
     using Deal.Domain.Models;
     using Deal.Dto.Booking;
     using Deal.Infrastructure.Persistance;
+    using Microsoft.EntityFrameworkCore;
 
     namespace Deal.Infrastructure.EfCoreDb;
 
@@ -33,22 +36,20 @@
             }
         }
 
-        public async Task<bool> CreateBookingAsync(Booking booking)
+        public async Task<bool> CreateBookingAsync(CreateBookingRequestDto dto)
         {
-            try
-            {
-                List<Booking> bookings = _db.Bookings.ToList();
+               var bookings = _db.Bookings.ToList();
                 
-                if (booking.Dbeg < DateTime.UtcNow.AddMinutes(-1))
+                if (dto.Dbeg < DateTime.UtcNow.AddMinutes(-1)) //Написать в сервисе + добавить ошибку и вернуть fail
                     return false;
                 
                 foreach (var book in bookings)
                 {
-                    if (booking.AdId == book.AdId && book.BookingState == BookingState.Accept.ToString())
+                    if (book.AdId == dto.AdId && book.BookingState == BookingState.Accept.ToString())
                     {
-                        if (booking.Dbeg > book.Dbeg && booking.Dbeg < book.Dend || 
-                            booking.Dend > book.Dbeg && booking.Dend < book.Dend ||
-                            booking.Dbeg < book.Dbeg && booking.Dend > book.Dend 
+                        if (dto.Dbeg > book.Dbeg && dto.Dbeg < book.Dend || 
+                            dto.Dend > book.Dbeg && dto.Dend < book.Dend ||
+                            dto.Dbeg < book.Dbeg && dto.Dend > book.Dend 
                             )
                         {
                             return false;
@@ -56,71 +57,33 @@
                     }
                 }
 
-                HttpResponseMessage response = await _httpClient.GetAsync($"http://localhost:5105/api/ad/getCost/{booking.AdId}&{booking.Dbeg.ToString().Replace('/', '-')}&{booking.Dend.ToString().Replace('/', '-')}");
-                if (response.IsSuccessStatusCode)
-                {
-                    booking.Cost = decimal.Parse(await response.Content.ReadAsStringAsync());
+                    Booking booking = dto.ToDomain();
                     _db.Bookings.Add(booking);
                     await _db.SaveChangesAsync();
-                    return true; 
-                }
-                else
-                {
-                    return false;
-                }
-                
-                
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+                    return true;
         }
         
 
-        public async Task<DateTime[,]> GetAllBookingsAsync(Guid id)
+        public async Task<List<Booking>> GetBookingDatesAsync(RequestById id)
         {
-            List<Booking> bookings = _db.Bookings.ToList();
-            int size = 0;
-            List<Booking> newbookings = new List<Booking>();
-            foreach (var book in bookings)
-            {
-                if (book.AdId == id)
-                {
-                    size++;
-                    newbookings.Add(book);
-                }
-            }
-            
-            DateTime[,] result = new DateTime[size,2];
-
-            for (int i = 0; i < newbookings.Count; i++)
-            {
-                result[i, 0] = newbookings[i].Dbeg;
-                result[i, 1] = newbookings[i].Dend;
-            }
-                return result; 
-            
+            var books = await _db.Bookings.Where(b => b.AdId == id.Id).ToListAsync();
+            return books; 
         }
 
-        public async Task<List<BookingDto>> GetBookingsAsync(Guid id)
+        public async Task<List<Booking>> GetAllBookingsAsync(List<GetAllBookingsRequestDto> id)
         {
-            List<Booking> bookings =_db.Bookings.ToList();
-            List<BookingDto> theBooking = new List<BookingDto>();
-            foreach (var books in bookings)
+            List<Booking> books = new List<Booking>();
+            foreach (var each in id)
             {
-                // if (id == books.TenantId)
-                // {
-                //     theBooking.Add(new BookingDto{
-                //         AdId = books.AdId,
-                //         TenantId = books.TenantId,
-                //         Dbeg = books.Dbeg,
-                //         Dend = books.Dend,
-                //         Cost = books.Cost,
-                //         BookingState = books.BookingState
-                //         });
-                // }   
+                List<Booking> bookings = await _db.Bookings.Where(b => b.AdId == each.AdId).ToListAsync();
+                foreach (var book in bookings)
+                 books.Add(book);   
             }
-            return theBooking;
+            return books;
+        }
+
+        public async Task<Booking> GetBookingAsync(RequestById id)
+        {
+            return await _db.Bookings.FirstOrDefaultAsync(b => b.Id == id.Id);
         }
     }

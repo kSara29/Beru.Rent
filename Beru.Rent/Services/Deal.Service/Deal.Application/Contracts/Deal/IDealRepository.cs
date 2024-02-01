@@ -1,8 +1,11 @@
-using Deal.Dto.Deal;
+using Common;
+using Deal.Dto.Booking;
 
 namespace Deal.Application.Contracts.Deal;
 
 public interface IDealRepository
 {
-    Task<CreateDealDto> CreateDealAsync(Guid id);
+    Task<Guid> CreateDealAsync(CreateDealRequestDto dto);
+    Task<Domain.Models.Deal> GetDealAsync(GetDealRequestDto dto);
+    Task<List<Domain.Models.Deal>> GetAllDealsAsync(RequestByUserId id);
 }

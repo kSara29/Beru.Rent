@@ -5,7 +5,7 @@ namespace Ad.Infrastructure.Database;
 
 public class TagRepository: ITagRepository
 {
-    public Task<bool> CreateTagAsync(Tag tag)
+    public Task<Guid> CreateTagAsync(Tag tag)
     {
         // after db connection there will be saving in db
         Console.WriteLine("saving tag in db");
