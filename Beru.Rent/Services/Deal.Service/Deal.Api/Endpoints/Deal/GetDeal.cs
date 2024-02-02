@@ -9,7 +9,7 @@ public class GetDeal(IDealService _service): Endpoint<GetDealRequestDto, Respons
 {
     public override void Configure()
     {
-        Get("api/booking/GetDeal/{idbooking}");
+        Get("api/booking/GetDeal/{DealId}");
         AllowAnonymous();
     }
 

@@ -17,22 +17,35 @@ public class EfDealRepository: IDealRepository
         _db = db;
     }
 
-    public async Task<Guid> CreateDealAsync(CreateDealRequestDto dto)
+    public async Task<Dictionary<bool, Guid>> CreateDealAsync(CreateDealRequestDto dto)
     {
             Booking? book = await _db.Bookings.FirstOrDefaultAsync(b => b.Id == dto.bookingId);
-            Domain.Models.Deal deal = new Domain.Models.Deal(
-                book.AdId,
-                book.TenantId,
-                book.Cost,
-                dto.ownerId,
-                book.Dbeg,
-                book.Dend
-            );
             if (dto.isApproved)
-                deal.DealState = DealState.Open;
+            {
+                Domain.Models.Deal deal = new Domain.Models.Deal(
+                    book.AdId,
+                    book.TenantId,
+                    book.Cost,
+                    dto.ownerId,
+                    book.Dbeg,
+                    book.Dend
+                );
+                
+                deal.DealState = DealState.Open.ToString();
+                book.BookingState = BookingState.Accept.ToString();
+                _db.Deals.Add(deal);
+                _db.SaveChanges();
+                Dictionary<bool, Guid> trueres = new Dictionary<bool, Guid>() {[true] = deal.Id };
+                return trueres;
+            }
             else
-                deal.DealState = DealState.Close;
-            return deal.Id;
+            {
+                book.BookingState = BookingState.Decline.ToString();
+                Domain.Models.Deal deal = new Domain.Models.Deal();
+                Dictionary<bool, Guid> falseres = new Dictionary<bool, Guid>() {[false] = deal.Id };
+                return falseres;
+            }
+            
     }
 
     public async Task<Domain.Models.Deal> GetDealAsync(GetDealRequestDto dto)

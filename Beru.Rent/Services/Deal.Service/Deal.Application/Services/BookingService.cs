@@ -19,7 +19,7 @@ public class BookingService: IBookingService
         return await (_bookingRepository.CancelReservationAsync(booking));
     }
 
-    public async Task<ResponseModel<BoolResponseDto>> CreateBookingAsync(CreateBookingRequestDto dto)
+    public async Task<ResponseModel<GetBookingResponseDto>> CreateBookingAsync(CreateBookingRequestDto dto)
     {
         if (dto.Dbeg < DateTime.UtcNow.AddMinutes(-1)) //Написать в сервисе + добавить ошибку и вернуть fail
         {
@@ -30,14 +30,15 @@ public class BookingService: IBookingService
                 Message = "Ввели прошедшую дату"
             };
             errors.Add(errorModel);
-            return ResponseModel<BoolResponseDto>.CreateFailed(errors);
+            return ResponseModel<GetBookingResponseDto>.CreateFailed(errors);
         }
-
-
-        bool boolean = await _bookingRepository.CreateBookingAsync(dto);
-        if (boolean)
-            return ResponseModel<BoolResponseDto>.CreateSuccess(boolean.ToDto());
-        else
+        var dictionary = await _bookingRepository.CreateBookingAsync(dto);
+        if (dictionary.ContainsKey(true))
+        {
+            var booking = dictionary[true];
+            return ResponseModel<GetBookingResponseDto>.CreateSuccess(booking.ToDto());
+        }
+        else 
         {
             var errors = new List<ResponseError>();
             var errorModel = new ResponseError()
@@ -46,7 +47,7 @@ public class BookingService: IBookingService
                 Message = "Забронирванные даты недоступны"
             };
             errors.Add(errorModel);
-            return ResponseModel<BoolResponseDto>.CreateFailed(errors); 
+            return ResponseModel<GetBookingResponseDto>.CreateFailed(errors); 
         }
         
     }
@@ -60,7 +61,7 @@ public class BookingService: IBookingService
         return list;
     }
 
-    public async Task<List<GetAllBookingsResponseDto>> GetAllBookingsAsync(List<GetAllBookingsRequestDto> id)
+    public async Task<List<GetAllBookingsResponseDto>> GetAllBookingsAsync(RequestByUserId id)
     {
         var list = await _bookingRepository.GetAllBookingsAsync(id);
         List<GetAllBookingsResponseDto> result = new List<GetAllBookingsResponseDto>();

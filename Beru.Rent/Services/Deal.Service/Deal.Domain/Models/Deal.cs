@@ -5,8 +5,7 @@ namespace Deal.Domain.Models;
 
 public class Deal: DealEntity
 {
-     public string OwnerId { get; set; }
-     public DealState DealState{ get; set; }
+     public string DealState{ get; set; }
      public decimal Deposit { get; set; }
      public Guid ChatId { get; set; }
 
@@ -23,7 +22,6 @@ public class Deal: DealEntity
          TenantId = tenantId;
          Cost = cost;
          OwnerId = ownerId;
-         DealState = DealState.Open;
          CreatedAt = DateTime.UtcNow;
          Dbeg = dbeg;
          Dend = dend;
