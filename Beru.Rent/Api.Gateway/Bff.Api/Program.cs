@@ -32,7 +32,10 @@ builder.Services.AddCors(options =>
     {
         builder.AllowAnyOrigin()
             .AllowAnyMethod()
+            .AllowCredentials()
             .AllowAnyHeader();
+        
+        builder.WithOrigins("http://localhost:3000");
     });
 });
 
@@ -40,6 +43,8 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 app.UseFastEndpoints();
 app.UseRouting();
+app.UseCors("mypolicy");
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
