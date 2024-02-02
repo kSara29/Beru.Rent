@@ -54,6 +54,17 @@ public class AdService(
         return result;
     }
 
+    public async Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllFindAdAsync(FindMainPageRequestDto requestDto)
+    {
+        var url = serviceHandler.CreateConnectionUrlWithQuery
+        (jsonOptions.Value.Url, "api/ad/get/?", 
+            $"page={requestDto.Page}&sortdate={requestDto.SortDate}" +
+            $"&sortprice={requestDto.SortPrice}&cat={requestDto.CategoryName}");
+        var result = 
+            await serviceHandler.GetConnectionHandler<GetMainPageDto<AdMainPageDto>>(url);
+        return result;
+    }
+
     public Task<ResponseModel<DecimalResponse>> GetCostAsync(RequestById adId, DateTime ebeg, DateTime dend)
     {
         throw new NotImplementedException();

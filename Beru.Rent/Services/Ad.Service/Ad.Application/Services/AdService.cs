@@ -103,6 +103,24 @@ public class AdService : IAdService
         return ResponseModel<GetMainPageDto<AdMainPageDto>>.CreateSuccess(mainPageDto);
     }
 
+    public async Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllFindAdAsync(int page, string sortdate,
+        string sortprice, string cat, string finder)
+    {
+        {
+            var result = await _repository.GetAllFindAdAsync(page, sortdate, sortprice, cat, finder);
+            var mainPageDto = new GetMainPageDto<AdMainPageDto>(result.MainPageDto.Select(ad =>
+                ad.ToMainPageDto()).ToList(), result.TotalPage);
+
+            foreach (var dto in mainPageDto.MainPageDto)
+            {
+                var files = await _fileRepository.GetAllFilesAsync(dto.Id);
+                dto.Files = files;
+            }
+
+            return ResponseModel<GetMainPageDto<AdMainPageDto>>.CreateSuccess(mainPageDto);
+        }
+    }
+
     public async Task<ResponseModel<DecimalResponse>> GetCostAsync(CreateBookingRequestDto dto)
     {
         var result =await _repository.GetCostAsync(dto);

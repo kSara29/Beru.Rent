@@ -125,6 +125,73 @@ public class AdRepository : IAdRepository
       return new GetMainPageDto<Advertisement>(result, totalPages);
    }
 
+   public async Task<GetMainPageDto<Advertisement>?> GetAllFindAdAsync(int page, string sortdate, string sortprice, string cat, string finder)
+   {
+      IQueryable<Advertisement> query = _context.Ads
+         .Include(a => a.Category)
+         .Include(a => a.AddressExtra)
+         .Include(a => a.TimeUnit)
+         .Include(a=>a.Files);
+
+      #region Сортировка по категории
+      if (cat != "all")
+      {
+         query = query.Where(a => a.Category.Title == cat);
+      }
+      #endregion
+
+      #region Сортировка по дате
+      switch (sortdate.ToLower())
+      {
+         case "fromnew":
+            query = query.OrderByDescending(a => a.CreatedAt);
+            break;
+         case "fromold":
+            query = query.OrderBy(a => a.CreatedAt);
+            break;
+      }
+      #endregion
+      
+      #region Сортировка по цене
+      switch (sortprice.ToLower())
+      {
+         case "fromhigh":
+            query = query.OrderByDescending(a => a.Price); 
+            break;
+         case "fromlow":
+            query = query.OrderBy(a => a.Price);
+            break;
+      }
+      #endregion
+
+      #region Пагинация
+      int totalItems = await query.CountAsync();
+      int totalPages = 0;
+      if (page > 0)
+      {
+         const int pageSize = 9;
+         int skip = (page - 1) * pageSize;
+         query = query.Skip(skip).Take(pageSize);
+         totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+      }
+      
+      #endregion
+      
+      #region Поисковик
+
+      if (!string.IsNullOrWhiteSpace(finder))
+      {
+         query = query.Where(o => o.Title.ToLower().Contains(finder.Trim().ToLower()));
+         query = query.Where(o => o.Description.ToLower().Contains(finder.Trim().ToLower()));
+      }
+      #endregion
+      
+      var result = await query.ToListAsync();
+
+
+      return new GetMainPageDto<Advertisement>(result, totalPages);
+   }
+
    public async Task<decimal> GetCostAsync(CreateBookingRequestDto dto)
    {
       List<Advertisement> advertisements = _context.Ads.Include(a => a.TimeUnit).ToList();
