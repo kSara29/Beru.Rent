@@ -18,7 +18,7 @@ WORKDIR "/src/Services/User.Service/User.Api"
 RUN dotnet build "User.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "User.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "User.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app

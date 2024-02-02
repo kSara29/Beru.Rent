@@ -1,0 +1,78 @@
+version: '3.4'
+
+services:
+  userdb:
+    container_name: userdb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_DB=UserService
+    restart: always
+    ports:
+      - "5430:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/userData
+        
+  dealdb:
+    container_name: dealdb
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin1234
+      - POSTGRES_DB=Deal
+    restart: always
+    ports:
+      - "5431:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/dealData
+        
+  addb:
+    container_name: addb
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin1234
+      - POSTGRES_DB=AdDatabase
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/adData
+  
+  user.api:
+    container_name: user.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:Postgres=Host=userdb;Port=5432;Database=UserService;User Id=postgres;Password=12345678"
+    depends_on:
+      - userdb
+    ports:
+      - "8000:8080"
+        
+  deal.api:
+    container_name: deal.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:DefaultConnection=127.0.0.1=localhost;Port=5432;Database=Deal;Username=postgres;Password=12345678"
+    depends_on:
+      - dealdb
+    ports:
+      - "8001:8080"
+        
+  ad.api:
+    container_name: ad.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:Postgres=Host=userdb;Port=5432;Database=UserService;Username=postgres;Password=12345678"
+    depends_on:
+      - addb
+    ports:
+      - "8002:8080"
+        
+  bff.api:
+    container_name: bff.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "UserServiceUrl:Url=http://user.api:8080/"
+    depends_on:
+      - user.api
+    ports:
+      - "8003:8080"

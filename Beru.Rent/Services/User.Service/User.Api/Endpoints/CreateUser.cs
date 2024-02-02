@@ -12,7 +12,7 @@ namespace User.Api.Endpoints;
 
 
 public class CreateUser(
-    IUserService Service, 
+    IUserService service, 
     CreateUserValidation createUserValidation,
     PhoneNumberValidation phoneUserValidator,
     UserManager<Domain.Models.User> manager) : Endpoint<CreateUserDto, ResponseModel<UserDtoResponce>>
@@ -26,7 +26,7 @@ public class CreateUser(
     public override async Task HandleAsync
         (CreateUserDto model, CancellationToken ct)
     {
-        var userEmail = await Service.GetUserByMailAsync(model.Mail);
+        var userEmail = await service.GetUserByMailAsync(model.Mail);
         if (userEmail is not null)
         {
             var responce = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError?>
@@ -78,7 +78,7 @@ public class CreateUser(
             await SendAsync(responce, cancellation: ct);
             return;
         }
-        var user = await Service.CreateUserAsync(model, model.Password);
+        var user = await service.CreateUserAsync(model, model.Password);
         
         var res = ResponseModel<UserDtoResponce>.CreateSuccess(user.ToUserDto()!);
         await SendAsync(res, cancellation: ct);
