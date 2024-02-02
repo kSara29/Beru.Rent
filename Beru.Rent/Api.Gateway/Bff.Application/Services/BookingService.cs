@@ -1,3 +1,4 @@
+using Ad.Dto.GetDtos;
 using Ad.Dto.ResponseDto;
 using Bff.Application.Contracts;
 using Bff.Application.Handlers;
@@ -17,42 +18,33 @@ public class BookingService(
     ) : IBookingService
 {
     
-    public async Task<ResponseModel<BoolResponseDto>> CreateBookingAsync(CreateBookingRequestDto dto)
+    public async Task<ResponseModel<GetBookingResponseDto>> CreateBookingAsync(CreateBookingRequestDto dto)
     {
-        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptionsAd.Value.Url, "api/ad/GetCost/?", $"{dto.AdId}&{dto.Dbeg}&{dto.Dend}" );
-        var cost = await serviceHandler.GetConnectionHandler<DecimalResponse>(url);
+        var url = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptionsAd.Value.Url, "api/ad/GetCost/");
+        var cost = await serviceHandler.PostConnectionHandler<CreateBookingRequestDto, DecimalResponse>(url, dto);
         dto.Cost = cost.Data.Number;
-        var jsonContent = JsonConvert.SerializeObject(dto);
-        var urllast = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/deal/create");
-        return await serviceHandler.PostConnectionHandler<CreateBookingRequestDto, BoolResponseDto>(urllast, dto);
+        var urllast = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/booking/create");
+        return await serviceHandler.PostConnectionHandler<CreateBookingRequestDto, GetBookingResponseDto>(urllast, dto);
     }
 
     public async Task<ResponseModel<List<GetBookingDatesResponse>>> GetBookingDatesAsync(RequestById id)
     {
         var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url,
-            "api/booking/getbookingdates/?", $"{id}");
+            "api/booking/getbookingdates/", $"{id.Id}");
         return await serviceHandler.GetConnectionHandler<List<GetBookingDatesResponse>>(url);;
     }
 
     public async Task<ResponseModel<GetBookingResponseDto>> GetBookingAsync(RequestById id)
     {
         var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url,
-            "api/booking/getbooking/?", $"{id}");
+            "api/booking/getbooking/", $"{id.Id}");
         return await serviceHandler.GetConnectionHandler<GetBookingResponseDto>(url);;
     }
 
-    public Task<ResponseModel<List<GetAllBookingsResponseDto>>> GetAllBookingsAsync(RequestByUserId id)
+    public async Task<ResponseModel<List<GetAllBookingsResponseDto>>> GetAllBookingsAsync(RequestByUserId id)
     {
-        //создать метод в adService для получения list<AdId> принимая OwnerId и отправить туда запрос
-        //var url = serviceHandlerGetListAd.CreateConnectionUrlWithQuery(jsonOptionsAd.Value.Url, "api/ad/GetListAd/?", $"{id}" );
-        //var ads = await serviceHandlerGetListAd.GetConnectionHandler(url); 
-        
-        //Далее уже работаем с методом по получению списка бронирований
-        // var jsonContent = JsonConvert.SerializeObject(ads);
-        //
-        //var url = serviceHandlerGetAllBookingsResponse.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url,
-        //    "api/booking/getallbookings");
-        // return await serviceHandlerGetAllBookingsResponse.PostConnectionHandler(url, jsonContent);
-        return null;
+        var lastUrl =
+            serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/getallbookings/",$"{id.Id}");
+        return await serviceHandler.GetConnectionHandler<List<GetAllBookingsResponseDto>>(lastUrl);
     }
 }

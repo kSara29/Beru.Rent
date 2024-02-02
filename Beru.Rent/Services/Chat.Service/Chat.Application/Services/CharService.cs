@@ -1,6 +1,8 @@
 ﻿using Chat.Application.Contracts;
 using Chat.Domain.Model;
 using Chat.Dto.RequestDto;
+using Chat.Dto.ResponseModel;
+using Common;
 
 namespace Chat.Application.Services;
 
@@ -25,7 +27,7 @@ public class CharService: IChatService
         return response;
     }
 
-    public async Task<List<Message>> GetMessagesByChatIdAsync(Guid chatId)
+    public async Task<ResponseModel<List<MessageDto>>> GetMessagesByChatIdAsync(Guid chatId)
     {
         var response = await _chatRepository.GetMessagesByChatIdAsync(chatId);
         return response;

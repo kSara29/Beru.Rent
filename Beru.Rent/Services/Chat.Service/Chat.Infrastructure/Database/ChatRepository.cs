@@ -1,6 +1,8 @@
 ﻿using Chat.Application.Contracts;
 using Chat.Domain.Model;
 using Chat.Dto.RequestDto;
+using Chat.Dto.ResponseModel;
+using Common;
 using MongoDB.Driver;
 
 namespace Chat.Infrastructure.Database;
@@ -51,10 +53,33 @@ public class ChatRepository: IChatRepository
 
     }
 
-    public async Task<List<Message>> GetMessagesByChatIdAsync(Guid chatId)
+    
+    public async  Task<ResponseModel<List<MessageDto>>> GetMessagesByChatIdAsync(Guid chatId)
     {
         var chat = await _chatCollection.Find(x => x.Id == chatId).FirstOrDefaultAsync();
-        var messageHistory = chat.Messages;
-        return messageHistory;
+        var messageHistory = new List<MessageDto>();
+        
+        foreach (var mes in chat.Messages)
+        {
+            var mesDto = new MessageDto()
+            {
+                SenderId = mes.SenderId,
+                MessageId = mes.MessageId,
+                CreatedAt = mes.CreatedAt,
+                Text = mes.Text
+            };
+            
+            messageHistory.Add(mesDto);
+        }
+        if (messageHistory != null)
+        {
+            return ResponseModel<List<MessageDto>>.CreateSuccess(messageHistory);
+        }
+        else
+        {
+            var errors = new List<ResponseError?> { new ResponseError { Code = "NotFound", Message = "Chat history not found." } };
+            return ResponseModel<List<MessageDto>>.CreateFailed(errors);
+        }
+        
     }
 }

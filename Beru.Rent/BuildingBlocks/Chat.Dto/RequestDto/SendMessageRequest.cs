@@ -1,7 +1,9 @@
-﻿namespace Chat.Dto.RequestDto;
+﻿using System.Text.Json.Serialization;
+
+namespace Chat.Dto.RequestDto;
 
 public class SendMessageRequest
 {
-    public string Message { get; set; }
-    public Guid ChatId { get; set; }
+    [JsonPropertyName("message")] public string Message { get; set; }
+    [JsonPropertyName("chatId")] public Guid ChatId { get; set; }
 }

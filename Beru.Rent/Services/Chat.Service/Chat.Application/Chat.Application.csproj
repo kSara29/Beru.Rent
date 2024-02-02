@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\BuildingBlocks\Chat.Dto\Chat.Dto.csproj" />
+      <ProjectReference Include="..\..\..\BuildingBlocks\Common\Common.csproj" />
       <ProjectReference Include="..\Chat.Domain\Chat.Domain.csproj" />
     </ItemGroup>
 

@@ -10,6 +10,7 @@ using Ad.Dto;
 using Ad.Dto.GetDtos;
 using Ad.Dto.ResponseDto;
 using Common;
+using Deal.Dto.Booking;
 using Microsoft.AspNetCore.Http;
 using CreateAdDto = Ad.Dto.CreateDtos.CreateAdDto;
 
@@ -102,9 +103,9 @@ public class AdService : IAdService
         return ResponseModel<GetMainPageDto<AdMainPageDto>>.CreateSuccess(mainPageDto);
     }
 
-    public async Task<ResponseModel<DecimalResponse>> GetCostAsync(Guid adId, DateTime dbeg, DateTime dend)
+    public async Task<ResponseModel<DecimalResponse>> GetCostAsync(CreateBookingRequestDto dto)
     {
-        var result =await _repository.GetCostAsync(adId, dbeg,dend);
+        var result =await _repository.GetCostAsync(dto);
         return ResponseModel<DecimalResponse>.CreateSuccess(new DecimalResponse
         {
             Number = result

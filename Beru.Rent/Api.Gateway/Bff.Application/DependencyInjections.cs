@@ -18,11 +18,13 @@ public static class DependencyInjections
         service.AddSingleton<ServiceHandler>();
         service.AddSingleton<IUserService, UserService>();
         service.AddSingleton<IAdService, AdService>(); 
+        service.AddSingleton<IAddressService, AddressService>(); 
         service.AddSingleton<ICategoryService, CategoryService>(); 
         service.AddSingleton<ITimeUnitService, TimeUnitService>(); 
         service.AddSingleton<IFileService, FileService>(); 
-        service.AddScoped<IBookingService, BookingService>();
-        service.AddScoped<IChatService, ChatService>();
+        service.AddSingleton<IBookingService, BookingService>();
+        service.AddSingleton<IDealService, DealService>();
+        service.AddSingleton<IChatService, ChatService>();
         return service;
     }
 }

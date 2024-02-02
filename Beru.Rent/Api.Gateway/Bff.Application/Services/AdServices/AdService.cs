@@ -59,8 +59,5 @@ public class AdService(
         throw new NotImplementedException();
     }
 
-    public Task<ResponseModel<StringResponse>> GetOwnerIdAsync(RequestById adId)
-    {
-        throw new NotImplementedException();
-    }
+  
 }

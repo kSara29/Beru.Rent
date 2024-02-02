@@ -50,8 +50,13 @@ namespace Deal.Infrastructure.Migrations
                     b.Property<DateTime>("Dend")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<Guid>("TenantId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -100,9 +105,8 @@ namespace Deal.Infrastructure.Migrations
                     b.Property<DateTime?>("CancelAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("ChatId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid");
 
                     b.Property<decimal?>("Cost")
                         .HasColumnType("numeric");
@@ -123,11 +127,13 @@ namespace Deal.Infrastructure.Migrations
                     b.Property<decimal>("Deposit")
                         .HasColumnType("numeric");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<Guid>("TenantId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

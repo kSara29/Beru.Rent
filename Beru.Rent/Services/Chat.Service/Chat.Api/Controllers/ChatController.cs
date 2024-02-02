@@ -3,6 +3,7 @@ using Chat.Application.Contracts;
 using Chat.Domain.Model;
 using Chat.Dto.RequestDto;
 using Chat.Dto.ResponseModel;
+using Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -37,7 +38,7 @@ public class ChatController: ControllerBase
     }
     
     [HttpPost("/api/chat/send")]
-    public async Task<Domain.Model.Chat> SendMessage([FromBody] SendMessageRequest request)
+    public async Task<Domain.Model.Chat> SendMessage( SendMessageRequest request)
     {
         var newMessage = new Message()
         {
@@ -56,9 +57,9 @@ public class ChatController: ControllerBase
     
     
     [HttpGet("/api/chat/history/{chatId}")]
-    public async Task<IActionResult> GetChatHistory(Guid chatId)
+    public async Task<ResponseModel<List<MessageDto>>> GetChatHistory(Guid chatId)
     {
         var messages = await _chatService.GetMessagesByChatIdAsync(chatId);
-        return Ok();
+        return messages;
     }
 }

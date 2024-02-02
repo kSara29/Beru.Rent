@@ -8,7 +8,7 @@ using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace Deal.Api.Endpoints;
 
-public class CreateBooking(IBookingService service) : Endpoint<CreateBookingRequestDto, ResponseModel<BoolResponseDto>>
+public class CreateBooking(IBookingService service) : Endpoint<CreateBookingRequestDto, ResponseModel<GetBookingResponseDto>>
 {
     public override void Configure()
     {
@@ -23,7 +23,7 @@ public class CreateBooking(IBookingService service) : Endpoint<CreateBookingRequ
         ValidationResult valresult = createBookingValidation.Validate(model);
         if (!valresult.IsValid && valresult.Errors.Count >0)
         {
-            var responce = ResponseModel<BoolResponseDto>.CreateFailed(new List<ResponseError?>());
+            var responce = ResponseModel<GetBookingResponseDto>.CreateFailed(new List<ResponseError?>());
             foreach (var validationFailure in valresult.Errors)
             {
                 responce.Errors!.Add(new ResponseError

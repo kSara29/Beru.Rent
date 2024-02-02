@@ -10,5 +10,6 @@ public record GetBookingResponseDto(
     [property: JsonPropertyName("dbeg")]DateTime Dbeg,
     [property: JsonPropertyName("dend")]DateTime Dend,
     [property: JsonPropertyName("cost")]decimal? Cost,
-    [property: JsonPropertyName("bookingState")]string BookingState
+    [property: JsonPropertyName("bookingState")]string BookingState, 
+    [property: JsonPropertyName("OwnerId")]string OwnerId
     );

@@ -1,5 +1,7 @@
 ﻿using Chat.Domain.Model;
 using Chat.Dto.RequestDto;
+using Chat.Dto.ResponseModel;
+using Common;
 
 namespace Chat.Application.Contracts;
 
@@ -7,5 +9,5 @@ public interface IChatRepository
 {
     public Task<Domain.Model.Chat> CreateChatAsync(CreateChatRequest newChat);
     public Task<Domain.Model.Chat> SaveMessageAsync(Guid ChatId, Message message);
-    public Task<List<Message>> GetMessagesByChatIdAsync(Guid chatId);
+    public Task<ResponseModel<List<MessageDto>>> GetMessagesByChatIdAsync(Guid chatId);
 }
