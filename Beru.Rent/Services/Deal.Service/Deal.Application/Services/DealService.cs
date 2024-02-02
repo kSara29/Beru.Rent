@@ -59,4 +59,15 @@ public class DealService: IDealService
 
         return ResponseModel<List<GetAllDealsResponseDto>>.CreateSuccess(lists);
     }
+    public async Task<ResponseModel<List<GetAllDealsResponseDto>>> GetAllTenantDealsAsync(RequestByUserId id)
+    {
+        var deals = await _dealRepository.GetAllTenantDealsAsync(id);
+        List<GetAllDealsResponseDto> lists = new List<GetAllDealsResponseDto>();
+        foreach (var deal in deals)
+        {
+            lists.Add(deal.ToDtoDeals());
+        }
+
+        return ResponseModel<List<GetAllDealsResponseDto>>.CreateSuccess(lists);
+    }
 }

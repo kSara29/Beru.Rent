@@ -8,4 +8,5 @@ public interface IDealService
     Task<ResponseModel<CreateDealResponseDto>> CreateDealAsync(CreateDealRequestDto dto);
     Task<ResponseModel<GetDealResponseDto>> GetDealAsync(GetDealRequestDto dto);
     Task<ResponseModel<List<GetAllDealsResponseDto>>> GetAllDealsAsync(RequestByUserId dto);
+    Task<ResponseModel<List<GetAllDealsResponseDto>>> GetAllTenantDealsAsync(RequestByUserId dto);
 }

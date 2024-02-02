@@ -28,7 +28,8 @@ public class EfDealRepository: IDealRepository
                     book.Cost,
                     dto.ownerId,
                     book.Dbeg,
-                    book.Dend
+                    book.Dend,
+                    book.Id
                 );
                 
                 deal.DealState = DealState.Open.ToString();
@@ -64,5 +65,10 @@ public class EfDealRepository: IDealRepository
     public async Task<List<Domain.Models.Deal>> GetAllDealsAsync(RequestByUserId id)
     {
         return await _db.Deals.Where(d => d.OwnerId == id.Id).ToListAsync();
+    }
+    
+    public async Task<List<Domain.Models.Deal>> GetAllTenantDealsAsync(RequestByUserId id)
+    {
+        return await _db.Deals.Where(d => d.TenantId == id.Id).ToListAsync();
     }
 }

@@ -32,4 +32,11 @@ public class DealService(
             $"{dto.Id}");
         return await serviceHandler.GetConnectionHandler<List<GetAllDealsResponseDto>>(url);
     }
+
+    public async Task<ResponseModel<List<GetAllDealsResponseDto>>> GetAllTenantDealsAsync(RequestByUserId dto)
+    {
+        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/GetAllTenantDeals/",
+            $"{dto.Id}");
+        return await serviceHandler.GetConnectionHandler<List<GetAllDealsResponseDto>>(url);
+    }
 }
