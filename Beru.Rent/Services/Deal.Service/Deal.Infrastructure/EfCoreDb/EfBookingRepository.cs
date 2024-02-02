@@ -98,4 +98,14 @@ using Deal.Domain.Enums;
         {
             return await _db.Bookings.FirstOrDefaultAsync(b => b.Id == id.Id);
         }
+
+        public async Task<List<Booking>> GetAllTenantBookingsAsync(RequestByUserId id)
+        {
+            List<Booking> books = new List<Booking>();
+            List<Booking> bookings = await _db.Bookings.Where(b => b.TenantId == id.Id).ToListAsync();
+            foreach (var book in bookings) 
+                books.Add(book);   
+            
+            return books;
+        }
     }

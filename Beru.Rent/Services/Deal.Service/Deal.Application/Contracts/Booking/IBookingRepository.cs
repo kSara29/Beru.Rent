@@ -11,4 +11,5 @@ public interface IBookingRepository
     Task<List<Domain.Models.Booking>> GetBookingDatesAsync(RequestById id);
     Task<List<Domain.Models.Booking>> GetAllBookingsAsync(RequestByUserId id);
     Task<Domain.Models.Booking> GetBookingAsync(RequestById id);
+    Task<List<Domain.Models.Booking>> GetAllTenantBookingsAsync(RequestByUserId id);
 }

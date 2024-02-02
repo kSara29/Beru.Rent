@@ -9,4 +9,5 @@ public interface IBookingService
     Task<ResponseModel<List<GetBookingDatesResponse>>> GetBookingDatesAsync(RequestById dto);
     Task<ResponseModel<GetBookingResponseDto>> GetBookingAsync(RequestById dto);
     Task<ResponseModel<List<GetAllBookingsResponseDto>>> GetAllBookingsAsync(RequestByUserId dto);
+    Task<ResponseModel<List<GetAllBookingsResponseDto>>> GetAllTenantBookingsAsync(RequestByUserId dto);
 }

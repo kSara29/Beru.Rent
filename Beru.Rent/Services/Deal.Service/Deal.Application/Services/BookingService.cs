@@ -75,4 +75,13 @@ public class BookingService: IBookingService
         var res = await _bookingRepository.GetBookingAsync(id);
         return res.ToDto();
     }
+
+    public async Task<List<GetAllBookingsResponseDto>> GetAllTenantBookingsAsync(RequestByUserId id)
+    {
+        var list = await _bookingRepository.GetAllTenantBookingsAsync(id);
+        List<GetAllBookingsResponseDto> result = new List<GetAllBookingsResponseDto>();
+        foreach (var book in list) 
+            result.Add(book.ToDtoes());
+        return result;
+    }
 }
