@@ -9,7 +9,7 @@ public class LoadChatHistory(IChatService service): Endpoint<RequestById, Respon
 {
     public override void Configure()
     {
-        Post("/bff/chat/loahChatHistoryById");
+        Get("/bff/chat/loahChatHistoryById/");
         AllowAnonymous();
     }
     
