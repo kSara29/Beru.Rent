@@ -1,16 +1,14 @@
 ﻿using Common;
 using FastEndpoints;
-using FluentValidation.Results;
 using User.Application.Contracts;
-using User.Application.Extencions.Validation;
 using User.Application.Mapper;
-using User.Dto;
+using User.Application.Validation;
 using User.Dto.RequestDto;
 using User.Dto.ResponseDto;
 
 namespace User.Api.Endpoints;
 
-public class UpdateUser(IUserService service) : Endpoint<UpdateUserDto, ResponseModel<UserDtoResponce>>
+public class UpdateUser(IUserService service, UpdateUserValidation updateUserValidation) : Endpoint<UpdateUserDto, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
@@ -21,24 +19,7 @@ public class UpdateUser(IUserService service) : Endpoint<UpdateUserDto, Response
     public override async Task HandleAsync
         (UpdateUserDto? model, CancellationToken ct)
     {
-        UpdateUserValidation updateUserValidation = new UpdateUserValidation();
-        ValidationResult result = updateUserValidation.Validate(model);
-        
-        if (!result.IsValid && result.Errors.Count > 0)
-        {
-            var responseFailed = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError?>());
-            foreach (var validationFailure in result.Errors)
-            {
-                responseFailed.Errors!.Add(new ResponseError
-                {
-                    Code = validationFailure.PropertyName,
-                    Message = validationFailure.ErrorMessage
-                });
-            }
-            await SendAsync(responseFailed, cancellation: ct);
-        }
-        var results = await service.UpdateUserAsync(model!);
-        var responseSuccess = ResponseModel<UserDtoResponce>.CreateSuccess(results.ToUserDto()!);
-        await SendAsync(responseSuccess, cancellation: ct);
+        var results = await service.UpdateUserAsync(model);
+        await SendAsync(results, cancellation: ct);
     }
 }

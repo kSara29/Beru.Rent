@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using User.Application.Contracts;
 using User.Application.Extencions.Validation;
 using User.Application.Services;
+using User.Application.Validation;
 
 namespace User.Application;
 

@@ -55,20 +55,18 @@ public static class UserMapper
 
     public static Domain.Models.User UpdateUser(this Domain.Models.User user, UpdateUserDto model)
     {
-        if (!string.IsNullOrWhiteSpace(model.FirstName))
+        if (!string.IsNullOrWhiteSpace(model.FirstName) && user.FirstName != model.FirstName)
             user.FirstName = model.FirstName;
-
-        if (!string.IsNullOrWhiteSpace(model.Mail))
-            user.Email = model.Mail;
-        
-        if (!string.IsNullOrWhiteSpace(model.UserName))
-            user.UserName = model.UserName;
-
-        if (!string.IsNullOrWhiteSpace(model.LastName))
+        if (!string.IsNullOrWhiteSpace(model.LastName) && user.LastName != model.LastName)
             user.LastName = model.LastName;
-
-        if (!string.IsNullOrWhiteSpace(model.Iin))
+        if (!string.IsNullOrWhiteSpace(model.UserName) && user.UserName != model.UserName)
+            user.UserName = model.UserName;
+        if (!string.IsNullOrWhiteSpace(model.Iin) && user.Iin != model.Iin)
             user.Iin = model.Iin;
+        if (!string.IsNullOrWhiteSpace(model.Mail) && user.Email != model.Mail)
+            user.Email = model.Mail;
+        if (!string.IsNullOrWhiteSpace(model.Phone) && user.PhoneNumber != model.Phone)
+            user.PhoneNumber = model.Phone;
 
         return user;
     }

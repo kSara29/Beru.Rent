@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using User.Application.Contracts;
 using User.Infrastructure.Context;
 
@@ -40,7 +41,13 @@ public class EfCoreRepository : IUserRepository
         var user = await _userManager.FindByNameAsync(userName);
         return user;
     }
-    
+
+    public async Task<bool> GetUserByPhoneAsync(string phone)
+    {
+        return await _db.Users.AnyAsync(u => u.PhoneNumber == phone);
+        
+    }
+
     public async Task<Domain.Models.User> UpdateUserAsync(Domain.Models.User user)
     {
         await _userManager.UpdateAsync(user);

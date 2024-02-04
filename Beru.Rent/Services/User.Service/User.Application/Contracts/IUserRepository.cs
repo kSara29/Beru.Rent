@@ -6,6 +6,7 @@ public interface IUserRepository
     Task<Domain.Models.User> GetUserByIdAsync(string id);
     Task<Domain.Models.User> GetUserByMailAsync(string mail);
     Task<Domain.Models.User> GetUserByNameAsync(string userName);
+    Task<bool> GetUserByPhoneAsync(string phone);
     Task<Domain.Models.User> UpdateUserAsync(Domain.Models.User user);
     Task<Domain.Models.User> DeleteUserAsync(Domain.Models.User id);
 }
