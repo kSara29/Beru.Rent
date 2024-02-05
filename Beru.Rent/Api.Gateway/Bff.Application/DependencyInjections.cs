@@ -18,6 +18,7 @@ public static class DependencyInjections
         service.AddSingleton<IFileService, FileService>(); 
         service.AddScoped<IBookingService, BookingService>();
         service.AddScoped<CreateUserValidation>();
+        service.AddScoped<UpdateUserValidation>();
         return service;
     }
 }
