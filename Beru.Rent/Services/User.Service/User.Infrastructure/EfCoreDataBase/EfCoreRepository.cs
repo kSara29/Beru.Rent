@@ -20,11 +20,10 @@ public class EfCoreRepository : IUserRepository
         var result = await _userManager.CreateAsync(model, password);
         if (result.Succeeded)
             await _userManager.AddToRoleAsync(model, "user");
-        
         return model;
     }
 
-    public async Task<Domain.Models.User> GetUserByIdAsync(string id)
+    public async Task<Domain.Models.User?> GetUserByIdAsync(string id)
     {
         var user = await _userManager.FindByIdAsync(id);
         return user;
@@ -36,7 +35,7 @@ public class EfCoreRepository : IUserRepository
         return user;
     }
 
-    public async Task<Domain.Models.User> GetUserByNameAsync(string userName)
+    public async Task<Domain.Models.User> GetUserByUserNameAsync(string userName)
     {
         var user = await _userManager.FindByNameAsync(userName);
         return user;
@@ -45,7 +44,6 @@ public class EfCoreRepository : IUserRepository
     public async Task<bool> GetUserByPhoneAsync(string phone)
     {
         return await _db.Users.AnyAsync(u => u.PhoneNumber == phone);
-        
     }
 
     public async Task<Domain.Models.User> UpdateUserAsync(Domain.Models.User user)

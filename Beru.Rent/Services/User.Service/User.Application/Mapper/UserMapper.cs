@@ -21,6 +21,22 @@ public static class UserMapper
             };
     }
     
+    public static UpdateUserDto? ToUpdateUserDto(this Domain.Models.User? model)
+    {
+        return model is null
+            ? null
+            : new UpdateUserDto
+            {
+                FirstName = model.FirstName,
+                Mail = model.Email,
+                Iin = model.Iin,
+                LastName = model.LastName,
+                Phone = model.PhoneNumber,
+                UserName = model.UserName,
+                UserId = model.Id
+            };
+    }
+    
     public static Domain.Models.User? ToUser(this UserDtoResponce? model)
     {
         return model is null
@@ -37,7 +53,7 @@ public static class UserMapper
             };
     }
     
-    public static UserDtoResponce? ToUserDto(this Domain.Models.User? model)
+    public static UserDtoResponce? ToUserDtoResponse(this Domain.Models.User? model)
     {
         return model is null
             ? null

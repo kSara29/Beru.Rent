@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 using FluentValidation;
 using User.Dto.RequestDto;
 
-namespace User.Application.Extencions.Validation;
+namespace User.Application.Validation;
 
 public class CreateUserValidation : AbstractValidator<CreateUserDto>
 {
