@@ -2,7 +2,6 @@
 using Bff.Application.Validations;
 using Common;
 using FastEndpoints;
-using FluentValidation;
 using User.Dto.RequestDto;
 using User.Dto.ResponseDto;
 
@@ -19,10 +18,10 @@ public class CreateUser(IUserService service, CreateUserValidation userValidatio
     public override async Task HandleAsync
         (CreateUserDto? request, CancellationToken ct)
     { 
-        var result = await userValidation.ValidateAsync(request);
+        var result = await userValidation.ValidateAsync(request, ct);
         if (!result.IsValid && result.Errors.Any())
         {
-            var responce = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError?>());
+            var responce = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError>());
             foreach (var validationFailure in result.Errors)
             {
                 responce.Errors!.Add(new ResponseError
