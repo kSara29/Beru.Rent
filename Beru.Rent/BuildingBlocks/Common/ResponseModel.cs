@@ -29,7 +29,7 @@ public class ResponseModel<T>
         };
     }
 
-    public static ResponseModel<T> CreateFailed(List<ResponseError?>? errors)
+    public static ResponseModel<T> CreateFailed(List<ResponseError> errors)
     {
         return new ResponseModel<T>(errors)
         {
