@@ -1,3 +1,5 @@
+using Common;
+using DbMigrator;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using User.Application;
@@ -58,13 +60,12 @@ builder.Services.AddCors(config =>
 var app = builder.Build();
 
 app.UseFastEndpoints();
-
 using var scope = app.Services.CreateScope();
 
 var services = scope.ServiceProvider;
-
 try
 {
+    services.Migrate<UserContext>();
     var userManager = services.GetRequiredService<UserManager<User.Domain.Models.User>>();
     var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     await Adminitializer.SeedAdminUserAsync(rolesManager, userManager);

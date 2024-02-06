@@ -1,6 +1,28 @@
 version: '3.4'
 
 services:
+  
+  mongodb:
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongoAdmin
+      - MONGO_INITDB_ROOT_PASSWORD=mongoAdmin123
+      - MONGO_INITDB_DATABASE=ChatService
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/var/lib/mongo/idCollection
+  
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+    #RabbitMq interface
+      - "5672:5672"
+    #Web interface
+      - "15672:15672"
+  
   userdb:
     container_name: userdb
     environment:
@@ -18,7 +40,7 @@ services:
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin1234
-      - POSTGRES_DB=Deal
+      - POSTGRES_DB=DealDb
     restart: always
     ports:
       - "5431:5432"
@@ -51,7 +73,7 @@ services:
     container_name: deal.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:DefaultConnection=127.0.0.1=localhost;Port=5432;Database=Deal;Username=postgres;Password=12345678"
+      - "ConnectionStrings:DefaultConnection=Host=dealdb;Port=5432;Database=DealDb;Username=admin;Password=admin1234"
     depends_on:
       - dealdb
     ports:
@@ -61,18 +83,34 @@ services:
     container_name: ad.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:Postgres=Host=userdb;Port=5432;Database=UserService;Username=postgres;Password=12345678"
+      - "ConnectionStrings:Postgres=Host=addb;Port=5432;Database=AdDatabase;Username=admin;Password=admin1234"
     depends_on:
       - addb
     ports:
       - "8002:8080"
+      
+  chat.api:
+    container_name: chat.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:DefaultConnection=mongodb://mongoAdmin:mongoAdmin123@mongodb:27017/ChatService"
+    depends_on:
+      - mongodb
+    ports:
+      - "8004:8080"
         
   bff.api:
     container_name: bff.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "UserServiceUrl:Url=http://user.api:8080/"
+      - "AdService:Url=http://localhost:8080/"
+      - "DealService:Url=http://localhost:8080/"
+      - "ChatServiceUrl:Url=http://localhost:8080/"
     depends_on:
       - user.api
+      - ad.api
+      - deal.api
+      - chat.api
     ports:
       - "8003:8080"

@@ -30,6 +30,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\BuildingBlocks\Common\Common.csproj" />
+      <ProjectReference Include="..\..\..\BuildingBlocks\DbMigrator\DbMigrator.csproj" />
       <ProjectReference Include="..\..\..\BuildingBlocks\User.Dto\User.Dto.csproj" />
       <ProjectReference Include="..\User.Infrastructure\User.Infrastructure.csproj" />
     </ItemGroup>
