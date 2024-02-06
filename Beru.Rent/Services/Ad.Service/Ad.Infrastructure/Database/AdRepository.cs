@@ -181,8 +181,8 @@ public class AdRepository : IAdRepository
 
       if (!string.IsNullOrWhiteSpace(finder))
       {
-         query = query.Where(o => o.Title.ToLower().Contains(finder.Trim().ToLower()));
-         query = query.Where(o => o.Description.ToLower().Contains(finder.Trim().ToLower()));
+         query = query.Where(o => o.Title.ToLower().Contains(finder.Trim().ToLower()) || 
+                                  o.Description.ToLower().Contains(finder.Trim().ToLower()));
       }
       #endregion
       
