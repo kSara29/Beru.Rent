@@ -9,7 +9,7 @@ public class SuggestAddress(IAddressService service) : Endpoint<QueryModel, Resp
 {
     public override void Configure()
     {
-        Get("/bff/address/suggestions");
+        Post("/bff/address/suggestions");
         AllowAnonymous();
     }
 
