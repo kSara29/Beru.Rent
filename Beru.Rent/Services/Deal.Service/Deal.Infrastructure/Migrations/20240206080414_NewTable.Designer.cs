@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deal.Infrastructure.Migrations
 {
     [DbContext(typeof(DealContext))]
-    [Migration("20240202054323_NewTable")]
+    [Migration("20240206080414_NewTable")]
     partial class NewTable
     {
         /// <inheritdoc />

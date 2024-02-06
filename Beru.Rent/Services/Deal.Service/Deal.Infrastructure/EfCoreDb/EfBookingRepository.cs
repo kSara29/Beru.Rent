@@ -80,7 +80,7 @@ using Deal.Domain.Enums;
 
         public async Task<List<Booking>> GetBookingDatesAsync(RequestById id)
         {
-            var books = await _db.Bookings.Where(b => b.AdId == id.Id).ToListAsync();
+            var books = await _db.Bookings.Where(b => b.AdId == id.Id).Where(b => b.BookingState == BookingState.Accept.ToString()).ToListAsync();
             return books; 
         }
 

@@ -42,6 +42,7 @@ public class EfDealRepository: IDealRepository
             else
             {
                 book.BookingState = BookingState.Decline.ToString();
+                _db.SaveChanges();
                 Domain.Models.Deal deal = new Domain.Models.Deal();
                 Dictionary<bool, Guid> falseres = new Dictionary<bool, Guid>() {[false] = deal.Id };
                 return falseres;
