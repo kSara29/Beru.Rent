@@ -1,7 +1,6 @@
 using Common;
 using FastEndpoints;
 using User.Application.Contracts;
-using User.Dto;
 using User.Dto.RequestDto;
 using User.Dto.ResponseDto;
 
@@ -21,7 +20,7 @@ public class GetUserByMail(IUserService service): Endpoint<GetUserByEmailRequest
         
         if (result is null)
         {
-            var responseFail = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError?>
+            var responseFail = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError>
                 {
                     new()
                     {

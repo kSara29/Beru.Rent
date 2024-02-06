@@ -1,11 +1,7 @@
-﻿using Ad.Application.DTO.GetDtos;
-using Ad.Dto.GetDtos;
-using Ad.Dto.ResponseDto;
-using Bff.Application.Contracts;
+﻿using Bff.Application.Contracts;
 using Bff.Application.Handlers;
 using Bff.Application.Services;
-using Common;
-using Deal.Dto.Booking;
+using Bff.Application.Validations;
 using Microsoft.Extensions.DependencyInjection;
 using User.Dto;
 
@@ -22,6 +18,9 @@ public static class DependencyInjections
         service.AddSingleton<ICategoryService, CategoryService>(); 
         service.AddSingleton<ITimeUnitService, TimeUnitService>(); 
         service.AddSingleton<IFileService, FileService>(); 
+        service.AddScoped<IBookingService, BookingService>();
+        service.AddScoped<CreateUserValidation>();
+        service.AddScoped<UpdateUserValidation>();
         service.AddSingleton<IBookingService, BookingService>();
         service.AddSingleton<IDealService, DealService>();
         return service;

@@ -1,61 +1,80 @@
+using Common;
 using User.Application.Contracts;
 using User.Application.Mapper;
-using User.Dto;
+using User.Application.Validation;
 using User.Dto.RequestDto;
 using User.Dto.ResponseDto;
 
 namespace User.Application.Services;
 
-public class UserService : IUserService
+public class UserService(IUserRepository userRepository, 
+    UpdateUserValidation updateUserValidation) : IUserService
 {
-    private readonly IUserRepository _userRepository;
-    public UserService(IUserRepository userRepository)
-    {
-        _userRepository = userRepository;
-    }
-    
     public async Task<Domain.Models.User> CreateUserAsync(CreateUserDto model, string password)
     {
-        var user = await _userRepository.CreateUserAsync(model.ToUser()!, password);
+        var user = await userRepository.CreateUserAsync(model.ToUser()!, password);
         return user;
     }
 
-    public async Task<Domain.Models.User> UpdateUserAsync(UpdateUserDto model)
+    public async Task<ResponseModel<UserDtoResponce>> UpdateUserAsync(UpdateUserDto model)
     {
-        var user = await _userRepository.GetUserByIdAsync(model.UserId);
-        if (user is null) return null;
+        Domain.Models.User? user = await userRepository.GetUserByIdAsync(model.UserId);
+        if (user is null)
+        {
+            //TODO: корректно вернуть ответ
+            throw new NullReferenceException();
+        }
+        user = user.UpdateUser(model);
         
-        user.UpdateUser(model);
-        await _userRepository.UpdateUserAsync(user);
-
-        return user;
+        var result = await updateUserValidation.ValidateAsync(user.ToUpdateUserDto()!);
+        if (!result.IsValid && result.Errors.Count > 0)
+        {
+            var responseFailed = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError>());
+            foreach (var validationFailure in result.Errors)
+            {
+                responseFailed.Errors!.Add(new ResponseError
+                {
+                    Code = validationFailure.PropertyName,
+                    Message = validationFailure.ErrorMessage
+                });
+            }
+            return responseFailed;
+        }
+        
+        await userRepository.UpdateUserAsync(user);
+        return new ResponseModel<UserDtoResponce>
+        {
+            Status = ResponseStatus.Success,
+            Data = user.ToUserDtoResponse(),
+            Errors = null
+        };
     }
 
     public async Task<UserDtoResponce> GetUserByIdAsync(string userId)
     {
-        var user = await _userRepository.GetUserByIdAsync(userId);
-        return user.ToUserDto();
+        Domain.Models.User? user = await userRepository.GetUserByIdAsync(userId);
+        return user.ToUserDtoResponse();
     }
     
     public async Task<UserDtoResponce> GetUserByMailAsync(string mail)
     {
-        var user = await _userRepository.GetUserByMailAsync(mail);
-        return user.ToUserDto();
+        var user = await userRepository.GetUserByMailAsync(mail);
+        return user.ToUserDtoResponse();
     }
     
     public async Task<UserDtoResponce> GetUserByNameAsync(string userName)
     {
-        var user = await _userRepository.GetUserByNameAsync(userName);
-        return user.ToUserDto();
+        var user = await userRepository.GetUserByUserNameAsync(userName);
+        return user.ToUserDtoResponse();
     }
 
     public async Task<UserDtoResponce?> DeleteUserAsync(string userId)
     {
-        var user = await _userRepository.GetUserByIdAsync(userId);
+        var user = await userRepository.GetUserByIdAsync(userId);
         if (user is not null)
         {
-            var result = await _userRepository.DeleteUserAsync(user);
-            return result.ToUserDto();
+            var result = await userRepository.DeleteUserAsync(user);
+            return result.ToUserDtoResponse();
         }
         return null;
     }
