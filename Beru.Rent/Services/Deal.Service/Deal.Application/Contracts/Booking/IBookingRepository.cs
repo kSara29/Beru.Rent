@@ -9,7 +9,7 @@ public interface IBookingRepository
     Task<Dictionary<bool, Domain.Models.Booking>> CreateBookingAsync(CreateBookingRequestDto dto);
     
     Task<List<Domain.Models.Booking>> GetBookingDatesAsync(RequestById id);
-    Task<List<Domain.Models.Booking>> GetAllBookingsAsync(RequestByUserId id);
+    Task<GetDealPagesDto<Domain.Models.Booking>> GetAllBookingsAsync(GetDealPagesRequestDto id);
     Task<Domain.Models.Booking> GetBookingAsync(RequestById id);
-    Task<List<Domain.Models.Booking>> GetAllTenantBookingsAsync(RequestByUserId id);
+    Task<GetDealPagesDto<Domain.Models.Booking>> GetAllTenantBookingsAsync(GetDealPagesRequestDto id);
 }
