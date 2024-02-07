@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Bff.Application.Handlers;
 
-public class ServiceHandler
+public class ServiceHandler(IHttpClientFactory httpClientFactory)
 {
     /// <summary>
     /// Создает Url для соединения c query параметрами
@@ -97,7 +97,7 @@ public class ServiceHandler
     /// <returns>возвращает ответ от сервера</returns>
     private async Task<HttpResponseMessage> HttpGetConnection(string connectionString)
     {
-        using var client = new HttpClient();
+        using var client = httpClientFactory.CreateClient();
         var connection = 
             await client.GetAsync(connectionString);
         return connection;
@@ -111,7 +111,7 @@ public class ServiceHandler
     /// <returns>возвращает ответ от сервера</returns>
     private async Task<HttpResponseMessage> HttpPostConnection(string connectionString, string content)
     {
-        using var client = new HttpClient();
+        using var client = httpClientFactory.CreateClient();
         var contentRequest = new StringContent(content, Encoding.UTF8, "application/json");
         var connection = 
             await client.PostAsync(connectionString, contentRequest);

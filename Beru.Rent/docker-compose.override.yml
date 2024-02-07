@@ -2,17 +2,13 @@ version: '3.4'
 
 services:
   
-  mongodb:
-    container_name: mongodb
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=mongoAdmin
-      - MONGO_INITDB_ROOT_PASSWORD=mongoAdmin123
-      - MONGO_INITDB_DATABASE=ChatService
-    restart: always
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/var/lib/mongo/idCollection
+#  mongodb:
+#    container_name: mongodb
+#    restart: always
+#    ports:
+#      - "27017:27017"
+#    volumes:
+#      - mongo_data:/var/lib/mongo/idCollection
   
   rabbitmq:
     container_name: rabbitmq
@@ -83,7 +79,7 @@ services:
     container_name: ad.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:Postgres=Host=addb;Port=5432;Database=AdDatabase;Username=admin;Password=admin1234"
+      - "ConnectionStrings:DefaultConnection=Host=addb;Port=5432;Database=AdDatabase;Username=admin;Password=admin1234"
     depends_on:
       - addb
     ports:
@@ -93,7 +89,6 @@ services:
     container_name: chat.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:DefaultConnection=mongodb://mongoAdmin:mongoAdmin123@mongodb:27017/ChatService"
     depends_on:
       - mongodb
     ports:

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deal.Infrastructure.Migrations
 {
     [DbContext(typeof(DealContext))]
-    [Migration("20240202074242_Update")]
-    partial class Update
+    [Migration("20240207102120_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
