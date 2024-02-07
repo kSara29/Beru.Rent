@@ -37,7 +37,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         config.TokenValidationParameters = new TokenValidationParameters
         {
-            ClockSkew = TimeSpan.FromSeconds(5)
+            ClockSkew = TimeSpan.FromSeconds(15)
         };
         config.Authority = "https://localhost:7296";
     });

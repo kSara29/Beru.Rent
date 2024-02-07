@@ -1,0 +1,51 @@
+version: '3.4'
+
+services:
+  mongodb:
+    image: mongo
+  
+  rabbitmq:
+    image: rabbitmq:3.8-management-alpine
+      
+  userdb:
+    image: postgres
+    
+  dealdb:
+    image: postgres
+    
+  addb:
+    image: postgres
+    
+  user.api:
+    image: ${DOCKER_REGISTRY-}userapi
+    build:
+      context: .
+      dockerfile: Services/User.Service/User.Api/Dockerfile
+  
+  deal.api:
+    image: ${DOCKER_REGISTRY-}dealapi
+    build:
+      context: .
+      dockerfile: Services/Deal.Service/Deal.Api/Dockerfile
+      
+  ad.api:
+    image: ${DOCKER_REGISTRY-}adapi
+    build:
+      context: .
+      dockerfile: Services/Ad.Service/Ad.Api/Dockerfile
+      
+  chat.api:
+    image: ${DOCKER_REGISTRY-}chatapi
+    build:
+      context: .
+      dockerfile: Services/Chat.Service/Chat.Api/Dockerfile
+      
+  bff.api:
+    image: ${DOCKER_REGISTRY-}bffapi
+    build:
+      context: .
+      dockerfile: Api.Gateway/Bff.Api/Dockerfile
+      
+volumes:
+  postgres_data:
+  mongo_data:

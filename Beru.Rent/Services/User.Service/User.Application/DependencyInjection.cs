@@ -17,4 +17,6 @@ public static class DependencyInjection
         service.AddScoped<UpdateUserValidation>();
         return service;
     }
+    
+    
 }

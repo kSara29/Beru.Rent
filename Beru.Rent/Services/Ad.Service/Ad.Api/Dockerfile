@@ -5,10 +5,15 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["Ad.Api/Ad.Api.csproj", "Ad.Api/"]
-RUN dotnet restore "Ad.Api/Ad.Api.csproj"
+COPY ["Services/Ad.Service/Ad.Api/Ad.Api.csproj", "Services/Ad.Service/Ad.Api/"]
+COPY ["Services/Ad.Service/Ad.Application/Ad.Application.csproj", "Services/Ad.Service/Ad.Application/"]
+COPY ["Services/Ad.Service/Ad.Domain/Ad.Domain.csproj", "Services/Ad.Service/Ad.Domain/"]
+COPY ["Services/Ad.Service/Ad.Infrastructure/Ad.Infrastructure.csproj", "Services/Ad.Service/Ad.Infrastructure/"]
+COPY ["BuildingBlocks/Common/Common.csproj", "BuildingBlocks/Common/"]
+COPY ["BuildingBlocks/Ad.Dto/Ad.Dto.csproj", "BuildingBlocks/Ad.Dto/"]
+RUN dotnet restore "Services/Ad.Service/Ad.Api/Ad.Api.csproj"
 COPY . .
-WORKDIR "/src/Ad.Api"
+WORKDIR "/src/Services/Ad.Service/Ad.Api"
 RUN dotnet build "Ad.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish

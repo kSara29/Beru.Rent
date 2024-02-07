@@ -60,6 +60,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Domain", "Services\Cha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Infrastructure", "Services\Chat.Service\Chat.Infrastructure\Chat.Infrastructure.csproj", "{2B88617D-0FE1-466D-A3D9-912FA84FDE11}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbMigrator", "BuildingBlocks\DbMigrator\DbMigrator.csproj", "{50BDFE95-D393-486F-80C1-74971F94D4F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,7 @@ Global
 		{4BF3DF8E-CAF1-4EBE-AC6B-4DDA82E12120} = {D4CB0EA5-4EEE-4F1B-80DA-41B18A288871}
 		{B2B2D626-6EE5-4A15-8904-1A45467D80D2} = {D4CB0EA5-4EEE-4F1B-80DA-41B18A288871}
 		{2B88617D-0FE1-466D-A3D9-912FA84FDE11} = {D4CB0EA5-4EEE-4F1B-80DA-41B18A288871}
+		{50BDFE95-D393-486F-80C1-74971F94D4F4} = {5BF05422-58D3-40DA-9AE7-324600E76A61}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{78BB67B8-B0C8-4E44-AA86-C9B035F359C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -187,5 +190,9 @@ Global
 		{2B88617D-0FE1-466D-A3D9-912FA84FDE11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B88617D-0FE1-466D-A3D9-912FA84FDE11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B88617D-0FE1-466D-A3D9-912FA84FDE11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50BDFE95-D393-486F-80C1-74971F94D4F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50BDFE95-D393-486F-80C1-74971F94D4F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50BDFE95-D393-486F-80C1-74971F94D4F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50BDFE95-D393-486F-80C1-74971F94D4F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

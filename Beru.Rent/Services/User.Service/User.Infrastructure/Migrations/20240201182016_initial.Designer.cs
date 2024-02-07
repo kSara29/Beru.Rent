@@ -12,15 +12,15 @@ using User.Infrastructure.Context;
 namespace User.Infrastructure.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20231220131240_Initial")]
-    partial class Initial
+    [Migration("20240201182016_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -201,7 +201,7 @@ namespace User.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("IIN")
+                    b.Property<string>("Iin")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -318,8 +318,7 @@ namespace User.Infrastructure.Migrations
 
             modelBuilder.Entity("User.Domain.Models.User", b =>
                 {
-                    b.Navigation("UserAvatar")
-                        .IsRequired();
+                    b.Navigation("UserAvatar");
                 });
 #pragma warning restore 612, 618
         }

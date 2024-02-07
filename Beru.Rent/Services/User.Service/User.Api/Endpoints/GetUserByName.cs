@@ -12,7 +12,7 @@ public class GetUserByName(IUserService service): Endpoint<GetUserByUserNameRequ
     public override void Configure()
     {
         Get("/api/user/getByName");
-        AllowAnonymous();
+        
     }
     public override async Task HandleAsync
         (GetUserByUserNameRequest? request, CancellationToken ct)

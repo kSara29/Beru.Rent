@@ -1,3 +1,5 @@
+using Common;
+using DbMigrator;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using User.Application;
@@ -6,6 +8,7 @@ using User.Infrastructure;
 using User.Infrastructure.Context;
 using FastEndpoints;
 using User.Api.IdentityConfiguration;
+using ValidationOptions = IdentityServer4.Configuration.ValidationOptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,13 +61,15 @@ builder.Services.AddCors(config =>
 var app = builder.Build();
 
 app.UseFastEndpoints();
-
 using var scope = app.Services.CreateScope();
 
 var services = scope.ServiceProvider;
-
 try
 {
+    Thread.Sleep(15000);
+    var dbContext = scope.ServiceProvider.GetRequiredService<UserContext>();
+    dbContext.Database.Migrate();
+    Thread.Sleep(15000);
     var userManager = services.GetRequiredService<UserManager<User.Domain.Models.User>>();
     var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     await Adminitializer.SeedAdminUserAsync(rolesManager, userManager);

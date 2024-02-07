@@ -1,6 +1,7 @@
 using Ad.Application;
 using Ad.Infrastructure;
 using Ad.Infrastructure.Context;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using Minio;
@@ -63,7 +64,20 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
+using var scope = app.Services.CreateScope();
 
+var services = scope.ServiceProvider;
+try
+{
+    Thread.Sleep(15000);
+    var dbContext = scope.ServiceProvider.GetRequiredService<AdContext>();
+    dbContext.Database.Migrate();
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occurred while seeding the database.");
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
