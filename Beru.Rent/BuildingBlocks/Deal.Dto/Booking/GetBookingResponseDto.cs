@@ -11,5 +11,7 @@ public record GetBookingResponseDto(
     [property: JsonPropertyName("dend")]DateTime Dend,
     [property: JsonPropertyName("cost")]decimal? Cost,
     [property: JsonPropertyName("bookingState")]string BookingState, 
-    [property: JsonPropertyName("ownerId")]string OwnerId
+    [property: JsonPropertyName("ownerId")]string OwnerId,
+[property: JsonPropertyName("ownerName")] string? OwnerName,
+[property: JsonPropertyName("tenantName")] string? TenantName
     );

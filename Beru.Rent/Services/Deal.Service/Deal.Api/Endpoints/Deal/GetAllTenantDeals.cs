@@ -6,17 +6,17 @@ using FastEndpoints;
 namespace Deal.Api.Endpoints;
 
 
-public class GetAllTenantDeals(IDealService _service): Endpoint<RequestByUserId,ResponseModel<List<GetAllDealsResponseDto>>>
+public class GetAllTenantDeals(IDealService _service): Endpoint<GetDealPagesRequestDto,ResponseModel<GetDealPagesDto<GetDealResponseDto>>>
 {
     public override void Configure()
     {
-        Get("api/booking/GetAllTenantDeals/{Id}");
+        Get("api/booking/GetAllTenantDeals/");
         AllowAnonymous();
     }
 
-    public override async Task HandleAsync(RequestByUserId Id, CancellationToken ct)
+    public override async Task HandleAsync(GetDealPagesRequestDto dto, CancellationToken ct)
     {
-        var results = await _service.GetAllTenantDealsAsync(Id);
+        var results = await _service.GetAllTenantDealsAsync(dto);
         await SendAsync(results, cancellation: ct);
     }
 }

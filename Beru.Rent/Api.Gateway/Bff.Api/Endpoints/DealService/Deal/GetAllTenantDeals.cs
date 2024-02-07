@@ -6,16 +6,16 @@ using FastEndpoints;
 namespace Bff.Api.Endpoints.DealService.Deal;
 
 
-public class GetAllTenantDeals(IDealService _service) : Endpoint<RequestByUserId, ResponseModel<List<GetAllDealsResponseDto>>>
+public class GetAllTenantDeals(IDealService _service) : Endpoint<GetDealPagesRequestDto, ResponseModel<GetDealPagesDto<GetDealResponseDto>>>
 {
     public override void Configure()
     {
-        Get("/bff/deal/GetAllTenantDeals/{Id}");
+        Get("/bff/deal/GetAllTenantDeals/");
         AllowAnonymous();
     }
     
     public override async Task HandleAsync
-        (RequestByUserId? request, CancellationToken ct)
+        (GetDealPagesRequestDto? request, CancellationToken ct)
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
         var response = await _service.GetAllTenantDealsAsync(request!);

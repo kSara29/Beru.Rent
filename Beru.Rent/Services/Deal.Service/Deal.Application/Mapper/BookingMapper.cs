@@ -39,6 +39,8 @@ public static class BookingMapper
             booking.Dend,
             booking.Cost,
             booking.BookingState,
-            booking.OwnerId
+            booking.OwnerId,
+            "NoOwnerName",
+            "NoTenantName"
         );
 }

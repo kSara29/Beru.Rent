@@ -11,5 +11,5 @@ public class CreateBookingRequestDto
     [property: JsonPropertyName("dbeg")] public DateTime Dbeg { get; set; }
     [property: JsonPropertyName("dend")] public DateTime Dend { get; set; }
     
-    [property: JsonPropertyName("OwnerId")] public string OwnerId { get; set; }
+    [property: JsonPropertyName("ownerId")] public string OwnerId { get; set; }
 }

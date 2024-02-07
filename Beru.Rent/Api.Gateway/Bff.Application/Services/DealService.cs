@@ -22,21 +22,21 @@ public class DealService(
     public async Task<ResponseModel<GetDealResponseDto>> GetDealAsync(GetDealRequestDto dto)
     {
         var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/GetDeal/",
-            $"{dto.dealId}");
+            $"{dto.DealId}");
         return await serviceHandler.GetConnectionHandler<GetDealResponseDto>(url);
     }
 
-    public async Task<ResponseModel<List<GetAllDealsResponseDto>>> GetAllDealsAsync(RequestByUserId dto)
+    public async Task<ResponseModel<GetDealPagesDto<GetDealResponseDto>>> GetAllDealsAsync(GetDealPagesRequestDto dto)
     {
-        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/GetAllDeals/",
-            $"{dto.Id}");
-        return await serviceHandler.GetConnectionHandler<List<GetAllDealsResponseDto>>(url);
+        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/GetAllDeals/?",
+            $"id={dto.Id}&page={dto.Page}");
+        return await serviceHandler.GetConnectionHandler<GetDealPagesDto<GetDealResponseDto>>(url);
     }
 
-    public async Task<ResponseModel<List<GetAllDealsResponseDto>>> GetAllTenantDealsAsync(RequestByUserId dto)
+    public async Task<ResponseModel<GetDealPagesDto<GetDealResponseDto>>> GetAllTenantDealsAsync(GetDealPagesRequestDto dto)
     {
-        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/GetAllTenantDeals/",
-            $"{dto.Id}");
-        return await serviceHandler.GetConnectionHandler<List<GetAllDealsResponseDto>>(url);
+        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/GetAllTenantDeals/?",
+            $"id={dto.Id}&page={dto.Page}");
+        return await serviceHandler.GetConnectionHandler<GetDealPagesDto<GetDealResponseDto>>(url);
     }
 }

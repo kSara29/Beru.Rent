@@ -13,14 +13,17 @@ public static class DealMapper
     
     public static GetDealResponseDto ToDto(this Domain.Models.Deal deal)
         => new(
-            deal.AdId,
+            deal.Id,
             deal.AdId,
             deal.TenantId,
             deal.Dbeg,
             deal.Dend,
             deal.Cost,
             deal.Deposit,
-            deal.ChatId
+            deal.ChatId,
+            deal.OwnerId,
+            "NoOwnerName",
+            "NoTenantName"
             );
 
     public static GetAllDealsResponseDto ToDtoDeals(this Domain.Models.Deal deal)
