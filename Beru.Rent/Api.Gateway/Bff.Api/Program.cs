@@ -37,10 +37,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         config.TokenValidationParameters = new TokenValidationParameters
         {
+            ValidateAudience = false,
             ClockSkew = TimeSpan.FromSeconds(15)
         };
-        config.Authority = "https://localhost:7296";
+        config.Authority = "https://localhost:7258";
     });
+builder.Services.AddAuthorization();
 #region CORS политики
 
 builder.Services.AddCors(options =>
@@ -52,7 +54,8 @@ builder.Services.AddCors(options =>
             .AllowCredentials()
             .AllowAnyHeader();
         
-        builder.WithOrigins("http://localhost:3000");
+        builder.WithOrigins("https://localhost:3000");
+        //builder.WithOrigins("http://localhost:3000");
     });
 });
 
@@ -60,6 +63,9 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 app.UseFastEndpoints();
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseCors("mypolicy");
 
 // Configure the HTTP request pipeline.

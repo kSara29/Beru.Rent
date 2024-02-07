@@ -1,4 +1,5 @@
-﻿using Ad.Dto.CreateDtos;
+﻿using System.Security.Claims;
+using Ad.Dto.CreateDtos;
 using Ad.Dto.ResponseDto;
 using Bff.Application.Contracts;
 using Common;
@@ -13,12 +14,13 @@ public class CreateAd(IAdService service) : Endpoint<CreateAdDto, ResponseModel<
     public override void Configure()
     {
         Post("/bff/ad/create");
-        AllowAnonymous();
+        
     }
     
     public override async Task HandleAsync
         (CreateAdDto? request, CancellationToken ct)
-    { 
+    {
+        var id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         if (request is null) await SendAsync(null!, cancellation: ct);
         var response = await service.CreateAdAsync(request);
         await SendAsync(response, cancellation: ct);
