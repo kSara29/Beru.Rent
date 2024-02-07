@@ -41,17 +41,17 @@ public class BookingService(
         return await serviceHandler.GetConnectionHandler<GetBookingResponseDto>(url);;
     }
 
-    public async Task<ResponseModel<List<GetAllBookingsResponseDto>>> GetAllBookingsAsync(RequestByUserId id)
+    public async Task<ResponseModel<List<GetBookingResponseDto>>> GetAllBookingsAsync(RequestByUserId id)
     {
         var lastUrl =
             serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/getallbookings/",$"{id.Id}");
-        return await serviceHandler.GetConnectionHandler<List<GetAllBookingsResponseDto>>(lastUrl);
+        return await serviceHandler.GetConnectionHandler<List<GetBookingResponseDto>>(lastUrl);
     }
 
-    public async Task<ResponseModel<List<GetAllBookingsResponseDto>>> GetAllTenantBookingsAsync(RequestByUserId id)
+    public async Task<ResponseModel<List<GetBookingResponseDto>>> GetAllTenantBookingsAsync(RequestByUserId id)
     {
         var lastUrl =
             serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/getalltenantbookings/",$"{id.Id}");
-        return await serviceHandler.GetConnectionHandler<List<GetAllBookingsResponseDto>>(lastUrl);
+        return await serviceHandler.GetConnectionHandler<List<GetBookingResponseDto>>(lastUrl);
     }
 }

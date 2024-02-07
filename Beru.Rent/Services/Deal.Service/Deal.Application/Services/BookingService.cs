@@ -61,12 +61,12 @@ public class BookingService: IBookingService
         return list;
     }
 
-    public async Task<List<GetAllBookingsResponseDto>> GetAllBookingsAsync(RequestByUserId id)
+    public async Task<List<GetBookingResponseDto>> GetAllBookingsAsync(RequestByUserId id)
     {
         var list = await _bookingRepository.GetAllBookingsAsync(id);
-        List<GetAllBookingsResponseDto> result = new List<GetAllBookingsResponseDto>();
+        List<GetBookingResponseDto> result = new List<GetBookingResponseDto>();
         foreach (var book in list) 
-            result.Add(book.ToDtoes());
+            result.Add(book.ToDto());
         return result;
     }
 
@@ -76,12 +76,12 @@ public class BookingService: IBookingService
         return res.ToDto();
     }
 
-    public async Task<List<GetAllBookingsResponseDto>> GetAllTenantBookingsAsync(RequestByUserId id)
+    public async Task<List<GetBookingResponseDto>> GetAllTenantBookingsAsync(RequestByUserId id)
     {
         var list = await _bookingRepository.GetAllTenantBookingsAsync(id);
-        List<GetAllBookingsResponseDto> result = new List<GetAllBookingsResponseDto>();
+        List<GetBookingResponseDto> result = new List<GetBookingResponseDto>();
         foreach (var book in list) 
-            result.Add(book.ToDtoes());
+            result.Add(book.ToDto());
         return result;
     }
 }

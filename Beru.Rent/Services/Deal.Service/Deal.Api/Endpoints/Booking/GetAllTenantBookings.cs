@@ -5,7 +5,7 @@ using FastEndpoints;
 
 namespace Deal.Api.Endpoints;
 
-public class GetAllTenantBookings(IBookingService _service): Endpoint<RequestByUserId, ResponseModel<List<GetAllBookingsResponseDto>>>
+public class GetAllTenantBookings(IBookingService _service): Endpoint<RequestByUserId, ResponseModel<List<GetBookingResponseDto>>>
 {
     public override void Configure()
     {
@@ -16,7 +16,7 @@ public class GetAllTenantBookings(IBookingService _service): Endpoint<RequestByU
     public override async Task HandleAsync(RequestByUserId id, CancellationToken ct)
     {
         var list = await _service.GetAllTenantBookingsAsync(id);
-        var result = ResponseModel<List<GetAllBookingsResponseDto>>.CreateSuccess(list);
+        var result = ResponseModel<List<GetBookingResponseDto>>.CreateSuccess(list);
         await SendAsync(result, cancellation: ct);
     }
 }

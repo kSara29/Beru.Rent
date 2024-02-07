@@ -5,7 +5,7 @@ using FastEndpoints;
 
 namespace Bff.Api.Endpoints.DealService;
 
-public class GetAllBookings(IBookingService _service) : Endpoint<RequestByUserId, ResponseModel<List<GetAllBookingsResponseDto>>>
+public class GetAllBookings(IBookingService _service) : Endpoint<RequestByUserId, ResponseModel<List<GetBookingResponseDto>>>
 {
     public override void Configure()
     {
