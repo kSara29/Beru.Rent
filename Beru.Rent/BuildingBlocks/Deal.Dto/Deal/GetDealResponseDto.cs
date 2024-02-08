@@ -3,19 +3,17 @@ using System.Text.Json.Serialization;
 namespace Deal.Dto.Booking;
 
 [Serializable]
-public record GetDealResponseDto(
-    [property: JsonPropertyName("id")] Guid Id,
-    [property: JsonPropertyName("adId")] Guid AdId,
-    [property: JsonPropertyName("tenantId")] string TenantId,
-    [property: JsonPropertyName("dbeg")] DateTime Dbeg,
-    [property: JsonPropertyName("dend")] DateTime Dend,
-    [property: JsonPropertyName("cost")] decimal? Cost,
-    [property: JsonPropertyName("deposit")] decimal? Deposit,
-    [property: JsonPropertyName("chatId")] Guid? ChatId, 
-    [property: JsonPropertyName("ownerId")] string OwnerId,
-    [property: JsonPropertyName("ownerName")] string? OwnerName,
-    [property: JsonPropertyName("tenantName")] string? TenantName
-
-
-    
-);
+public class GetDealResponseDto
+{
+     [property: JsonPropertyName("id")] public Guid Id { get; set; }
+    [property: JsonPropertyName("adId")]  public Guid AdId { get; set; }
+    [property: JsonPropertyName("tenantId")]  public string TenantId { get; set; }
+    [property: JsonPropertyName("dbeg")]  public DateTime Dbeg { get; set; }
+    [property: JsonPropertyName("dend")]  public DateTime Dend { get; set; }
+    [property: JsonPropertyName("cost")]  public decimal? Cost { get; set; }
+    [property: JsonPropertyName("deposit")]  public decimal? Deposit { get; set; }
+    [property: JsonPropertyName("chatId")]  public Guid? ChatId { get; set; }
+    [property: JsonPropertyName("ownerId")]  public string OwnerId { get; set; }
+    [property: JsonPropertyName("ownerName")]  public string? OwnerName { get; set; }
+    [property: JsonPropertyName("tenantName")]  public string? TenantName { get; set; }
+}

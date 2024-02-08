@@ -16,7 +16,6 @@ public class BookingService(
     ServiceHandler serviceHandler,
     IOptions<RequestToDealApi> jsonOptions,
     IOptions<RequestToAdApi>? jsonOptionsAd,
-    IOptions<RequestToUserApi>? jsonOptionsUser,
     IUserService userService) : IBookingService
 {
     
@@ -52,16 +51,13 @@ public class BookingService(
 
         foreach (var variable in result.Data.DealPageDto)
         {
-            var user = await userService.GetUserByIdAsync(variable.OwnerId);
-            // var urlForOwnerName = serviceHandler.CreateConnectionUrlWithQuery(jsonOptionsUser.Value.Url,
-            //     "api/user/getById?Id=", id);
-            // var resultOwnerName = await serviceHandler.GetConnectionHandler<UserDtoResponce>(urlForOwnerName);
-            variable.OwnerName = user.Data.UserName;
+            var resultOwnerName = await userService.GetUserByIdAsync(variable.OwnerId);
+            if (resultOwnerName is not null)
+                variable.OwnerName = resultOwnerName.Data.UserName;
             
-            var urlForTenantName = serviceHandler.CreateConnectionUrlWithQuery(jsonOptionsUser.Value.Url,
-                "api/user/getById/?", $"Id={variable.TenantId}");
-            var resultTenantName = await serviceHandler.GetConnectionHandler<UserDtoResponce>(urlForTenantName);
-            variable.TenantId = resultTenantName.Data.UserName;
+            var resultTenantName = await userService.GetUserByIdAsync(variable.TenantId);
+            if (resultTenantName is not null) 
+                variable.TenantName = resultTenantName.Data.UserName;
         }
         
         return result;
@@ -72,6 +68,19 @@ public class BookingService(
         var lastUrl =
             serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, 
                 "api/booking/getalltenantbookings/?",$"id={dto.Id}&page={dto.Page}");
-        return await serviceHandler.GetConnectionHandler<GetDealPagesDto<GetBookingResponseDto>>(lastUrl);
+
+        var result = await serviceHandler.GetConnectionHandler<GetDealPagesDto<GetBookingResponseDto>>(lastUrl);
+        
+        foreach (var variable in result.Data.DealPageDto)
+        {
+            var resultOwnerName = await userService.GetUserByIdAsync(variable.OwnerId);
+            if (resultOwnerName is not null)
+                variable.OwnerName = resultOwnerName.Data.UserName;
+            
+            var resultTenantName = await userService.GetUserByIdAsync(variable.TenantId);
+            if (resultTenantName is not null) 
+                variable.TenantName = resultTenantName.Data.UserName;
+        }
+        return result;
     }
 }

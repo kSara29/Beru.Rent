@@ -10,7 +10,7 @@ namespace Bff.Application.Services;
 public class DealService(
     ServiceHandler serviceHandler,
     IOptions<RequestToDealApi> jsonOptions,
-    IOptions<RequestToAdApi>? jsonOptionsAd
+    IUserService userService
     ) : IDealService
 {
     public async Task<ResponseModel<CreateDealResponseDto>> CreateDealAsync(CreateDealRequestDto dto)
@@ -30,13 +30,38 @@ public class DealService(
     {
         var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/GetAllDeals/?",
             $"id={dto.Id}&page={dto.Page}");
-        return await serviceHandler.GetConnectionHandler<GetDealPagesDto<GetDealResponseDto>>(url);
+
+        var result = await serviceHandler.GetConnectionHandler<GetDealPagesDto<GetDealResponseDto>>(url);
+        foreach (var variable in result.Data.DealPageDto)
+        {
+            var resultOwnerName = await userService.GetUserByIdAsync(variable.OwnerId);
+            if (resultOwnerName is not null)
+                variable.OwnerName = resultOwnerName.Data.UserName;
+            
+            var resultTenantName = await userService.GetUserByIdAsync(variable.TenantId);
+            if (resultTenantName is not null) 
+                variable.TenantName = resultTenantName.Data.UserName;
+        }
+        
+        return result;
     }
 
     public async Task<ResponseModel<GetDealPagesDto<GetDealResponseDto>>> GetAllTenantDealsAsync(GetDealPagesRequestDto dto)
     {
         var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/GetAllTenantDeals/?",
             $"id={dto.Id}&page={dto.Page}");
-        return await serviceHandler.GetConnectionHandler<GetDealPagesDto<GetDealResponseDto>>(url);
+        var result = await serviceHandler.GetConnectionHandler<GetDealPagesDto<GetDealResponseDto>>(url);
+        foreach (var variable in result.Data.DealPageDto)
+        {
+            var resultOwnerName = await userService.GetUserByIdAsync(variable.OwnerId);
+            if (resultOwnerName is not null)
+                variable.OwnerName = resultOwnerName.Data.UserName;
+            
+            var resultTenantName = await userService.GetUserByIdAsync(variable.TenantId);
+            if (resultTenantName is not null) 
+                variable.TenantName = resultTenantName.Data.UserName;
+        }
+        
+        return result;
     }
 }

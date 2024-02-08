@@ -58,7 +58,7 @@ public class DealService: IDealService
     }
     public async Task<ResponseModel<GetDealPagesDto<GetDealResponseDto>>> GetAllTenantDealsAsync(GetDealPagesRequestDto dto)
     {
-        var deals = await _dealRepository.GetAllDealsAsync(dto);
+        var deals = await _dealRepository.GetAllTenantDealsAsync(dto);
         var result = new GetDealPagesDto<GetDealResponseDto>(deals.DealPageDto.Select(d =>
             d.ToDto()).ToList(), deals.TotalPage);
 
