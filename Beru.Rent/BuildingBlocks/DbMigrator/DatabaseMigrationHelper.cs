@@ -1,23 +1,33 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Npgsql;
 
 namespace DbMigrator;
 
-    public static class DatabaseMigrationHelper
+public static class DatabaseMigrationHelper
+{
+    public static async Task<IServiceProvider> ApplyMigrations<TContext>(this IServiceProvider serviceProvider, byte? retryValue = 0)
+        where TContext : DbContext
     {
-        // public static void ApplyMigrations<TContext>(this IServiceProvider serviceProvider)
-        //     where TContext : DbContext
-        // {
-        //     try
-        //     {
-        //         Thread.Sleep(15000);
-        //         var dbContext = serviceProvider.GetRequiredService<TContext>();
-        //         dbContext.Database.Migrate();
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         Console.WriteLine(ex);
-        //     }
-        // }
+        try
+        {
+            using var scope = serviceProvider.CreateScope();
+            var services = scope.ServiceProvider;
+
+            var dbContext = services.GetRequiredService<TContext>();
+            await dbContext.Database.MigrateAsync();
+            return serviceProvider;
+        }
+        catch (NpgsqlException)
+        {
+            if (retryValue < 11)
+            {
+                retryValue++;
+                await Task.Delay(2000);
+                await serviceProvider.ApplyMigrations<TContext>(retryValue);
+            }
+        }
+
+        return serviceProvider;
     }
+}

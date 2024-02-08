@@ -48,24 +48,8 @@ builder.Services.AddCors(options =>
 #endregion
 
 var app = builder.Build();
-// using var scope = app.Services.CreateScope();
-// var services = scope.ServiceProvider;
-// services.ApplyMigrations<DealContext>();
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    try
-    {
-        Thread.Sleep(15000);
-        var dbContext = scope.ServiceProvider.GetRequiredService<DealContext>();
-        dbContext.Database.Migrate();
-    }
-    catch (Exception ex)
-    {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while seeding the database.");
-    }
-}
+app.Services.ApplyMigrations<DealContext>();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

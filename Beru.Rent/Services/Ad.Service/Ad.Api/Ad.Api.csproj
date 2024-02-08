@@ -27,6 +27,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <ProjectReference Include="..\..\..\BuildingBlocks\DbMigrator\DbMigrator.csproj" />
         <ProjectReference Include="..\Ad.Application\Ad.Application.csproj" />
         <ProjectReference Include="..\Ad.Infrastructure\Ad.Infrastructure.csproj" />
     </ItemGroup>
