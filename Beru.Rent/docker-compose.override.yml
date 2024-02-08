@@ -108,4 +108,4 @@ services:
       - deal.api
       - chat.api
     ports:
-      - "8003:8080"
+      - "5174:8080"
