@@ -1,10 +1,11 @@
 using Ad.Application;
+using Ad.Application.JsonOptions;
 using Ad.Infrastructure;
 using Ad.Infrastructure.Context;
 using DbMigrator;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Options;
 using Minio;
 
 
@@ -28,15 +29,14 @@ builder.Services.AddHttpClient();
 builder.Services.AddSwaggerGen();
 
 #region Подключаю Minio
-var endpoint = "play.min.io";
-var accessKey = "Q3AM3UQ867SPQQA43P2F";
-var secretKey = "zuf+tfteSlswRu7BJ86wtrueekitnifILbZam1KYY3TG";
+builder.Services.Configure<MinioOptions>(builder.Configuration.GetSection(MinioOptions.Name));
+var minioOptions = builder.Configuration.GetSection(MinioOptions.Name).Get<MinioOptions>()!;
 
 // Add Minio using the custom endpoint and configure additional settings for default MinioClient initialization
 builder.Services.AddMinio(configureClient => configureClient
-    .WithEndpoint(endpoint)
-    .WithCredentials(accessKey, secretKey));
-builder.Services.AddMinio(accessKey, secretKey);
+    .WithEndpoint(minioOptions.Endpoint)
+    .WithCredentials(minioOptions.AccessKey, minioOptions.SecretKey));
+builder.Services.AddMinio(minioOptions.AccessKey, minioOptions.SecretKey);
 
 // NOTE: SSL and Build are called by the build-in services already.
 #endregion
