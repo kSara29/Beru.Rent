@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Common;
 using Deal.Application.Contracts.Deal;
 using Deal.Application.Extencions.Validation;

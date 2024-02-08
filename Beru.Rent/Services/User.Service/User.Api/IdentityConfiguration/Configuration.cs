@@ -1,4 +1,5 @@
-﻿using IdentityServer4;
+﻿using IdentityModel;
+using IdentityServer4;
 using IdentityServer4.Models;
 
 namespace User.Api.IdentityConfiguration;
@@ -10,6 +11,7 @@ public static class Configuration
         new()
         {
             ClientId = "client_id_vue",
+            ClientSecrets = { new Secret("client_secret_vue".ToSha256()) },
             RequireClientSecret = false,
             RequireConsent = false, 
             RequirePkce = true,
@@ -23,7 +25,7 @@ public static class Configuration
             PostLogoutRedirectUris = { "https://localhost:3000/" },
             AllowedScopes =
             {
-                "User.Api",
+                "Bff.Api",
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
                 IdentityServerConstants.StandardScopes.OfflineAccess
@@ -34,9 +36,9 @@ public static class Configuration
     public static IEnumerable<ApiResource> GetApiResources() =>
         new List<ApiResource>
         {
-            new("User.Api", "My User Api")
+            new("Bff.Api", "My Bff Api")
             {
-                Scopes = {"User.Api"}
+                Scopes = {"Bff.Api"}
             }
         };
 
@@ -51,7 +53,7 @@ public static class Configuration
     {
         return new List<ApiScope>
         {
-            new("User.Api", "User.Api")
+            new("Bff.Api", "Bff.Api")
         };
     }
 }

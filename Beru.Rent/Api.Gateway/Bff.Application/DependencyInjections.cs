@@ -11,6 +11,7 @@ public static class DependencyInjections
 {
     public static IServiceCollection AddApplicationService(this IServiceCollection service)
     {
+        service.AddHttpClient();
         service.AddSingleton<ServiceHandler>();
         service.AddSingleton<IUserService, UserService>();
         service.AddSingleton<IAdService, AdService>(); 

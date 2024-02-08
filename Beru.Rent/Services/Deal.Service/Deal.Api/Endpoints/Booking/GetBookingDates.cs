@@ -2,6 +2,7 @@ using Common;
 using Deal.Application.Contracts.Booking;
 using Deal.Dto.Booking;
 using FastEndpoints;
+
 namespace Deal.Api.Endpoints;
 
 public class GetBookingDates(IBookingService service): Endpoint<RequestById, ResponseModel<List<GetBookingDatesResponse>>>    

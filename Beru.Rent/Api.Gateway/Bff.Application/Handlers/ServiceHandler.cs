@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Bff.Application.Handlers;
 
-public class ServiceHandler
+public class ServiceHandler(IHttpClientFactory httpClientFactory)
 {
     /// <summary>
     /// Создает Url для соединения c query параметрами
@@ -97,7 +97,7 @@ public class ServiceHandler
     /// <returns>возвращает ответ от сервера</returns>
     private async Task<HttpResponseMessage> HttpGetConnection(string connectionString)
     {
-        using var client = new HttpClient();
+        using var client = httpClientFactory.CreateClient();
         var connection = 
             await client.GetAsync(connectionString);
         return connection;
@@ -111,7 +111,7 @@ public class ServiceHandler
     /// <returns>возвращает ответ от сервера</returns>
     private async Task<HttpResponseMessage> HttpPostConnection(string connectionString, string content)
     {
-        using var client = new HttpClient();
+        using var client = httpClientFactory.CreateClient();
         var contentRequest = new StringContent(content, Encoding.UTF8, "application/json");
         var connection = 
             await client.PostAsync(connectionString, contentRequest);
@@ -125,13 +125,12 @@ public class ServiceHandler
     /// <returns>возвращает общую модель ответа ResponseModel<T> с ошибками в себе, если они есть</returns>
     private async Task<ResponseModel<TResp>> HandleFailResponse<TResp>(HttpResponseMessage responseMessage)
     {
-        var responseDto = ResponseModel<TResp>.CreateFailed(new List<ResponseError?>
-        {
-            new ()
+        var responseDto = ResponseModel<TResp>.CreateFailed([
+            new ResponseError
             {
                 Code = "server"
             }
-        });
+        ]);
                     
         return responseDto;
     }
@@ -142,12 +141,11 @@ public class ServiceHandler
     /// <param name="e">принимает сообщение об ошибке</param>
     /// <returns>возвращает общую модель ответа ResponseModel<T> с ошибками Exeption e</returns>
     private ResponseModel<TResp> HandleException<TResp>(string e) => 
-        ResponseModel<TResp>.CreateFailed(new List<ResponseError?>
-        {
-            new()
+        ResponseModel<TResp>.CreateFailed([
+            new ResponseError
             {
                 Code = "server",
                 Message = e
             }
-        });
+        ]);
 }

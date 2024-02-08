@@ -1,8 +1,9 @@
-using Deal.Infrastructure.Persistance;
-using Microsoft.EntityFrameworkCore;
+using DbMigrator;
 using Deal.Application;
 using Deal.Infrastructure;
+using Deal.Infrastructure.Persistance;
 using FastEndpoints;
+using Microsoft.EntityFrameworkCore;
 using Minio;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,6 +48,7 @@ builder.Services.AddCors(options =>
 #endregion
 
 var app = builder.Build();
+app.Services.ApplyMigrations<DealContext>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

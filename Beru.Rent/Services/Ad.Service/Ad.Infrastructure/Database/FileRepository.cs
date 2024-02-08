@@ -1,8 +1,10 @@
 ﻿using Ad.Application.Contracts.File;
+using Ad.Application.JsonOptions;
 using Ad.Domain.Models;
 using Ad.Infrastructure.Context;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Minio;
 using Minio.DataModel;
 using Minio.DataModel.Args;
@@ -11,31 +13,32 @@ using Minio.DataModel.Encryption;
 
 namespace Ad.Infrastructure.Database;
 
-public class FileRepository:IFileRepository
+public class FileRepository : IFileRepository
 {
  private readonly AdContext _context;
  private readonly IMinioClient _client;
- private string endpoint = "play.min.io";
- private string accessKey = "Q3AM3UQ867SPQQA43P2F";
- private string secretKey = "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG";
+ private readonly string _endpoint;
+ private readonly string _accessKey;
+ private readonly string _secretKey;
 
- public FileRepository(AdContext context, IMinioClient client)
+ public FileRepository(AdContext context, IMinioClient client, IOptions<MinioOptions> minioOptions)
  {
-        
      #region Задаем тестовые эндпоинты куда стучаться и создаем минио клиент для связи с сервером минио
-        
+     _endpoint = minioOptions.Value.Endpoint;
+     _accessKey = minioOptions.Value.AccessKey;
+     _secretKey = minioOptions.Value.SecretKey;
      // Initialize Minio client
      var minio = new MinioClient()
-         .WithEndpoint(endpoint)
-         .WithCredentials(accessKey, secretKey)
-         .WithSSL()
+         .WithSSL(false)
+         .WithEndpoint(_endpoint)
+         .WithCredentials(_accessKey, _secretKey)
          .Build();
      #endregion
      _context = context;
      _client = minio;
  }
 
-    public static async Task PutObjectsToMinioAsync(IMinioClient minio,
+ private static async Task PutObjectsToMinioAsync(IMinioClient minio,
         string bucketName,
         string objectName, //my obj name
         Stream filestream, //stream

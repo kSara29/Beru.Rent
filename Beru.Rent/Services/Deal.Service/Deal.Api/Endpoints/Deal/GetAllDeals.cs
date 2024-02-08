@@ -1,6 +1,5 @@
 using Common;
 using Deal.Application.Contracts.Deal;
-using Deal.Application.Services;
 using Deal.Dto.Booking;
 using FastEndpoints;
 

@@ -6,11 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Deal.Infrastructure.Migrations
 {
     /// <inheritdoc />
-
-    public partial class NewTable : Migration{}
-
-    public partial class Update : Migration
-
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -59,7 +55,6 @@ namespace Deal.Infrastructure.Migrations
                     DealState = table.Column<string>(type: "text", nullable: false),
                     Deposit = table.Column<decimal>(type: "numeric", nullable: false),
                     ChatId = table.Column<Guid>(type: "uuid", nullable: false),
-                    BookingId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     AdId = table.Column<Guid>(type: "uuid", nullable: false),
                     TenantId = table.Column<string>(type: "text", nullable: false),
