@@ -24,19 +24,18 @@ public class FileRepository : IFileRepository
  public FileRepository(AdContext context, IMinioClient client, IOptions<MinioOptions> minioOptions)
  {
      #region Задаем тестовые эндпоинты куда стучаться и создаем минио клиент для связи с сервером минио
-        
+     _endpoint = minioOptions.Value.Endpoint;
+     _accessKey = minioOptions.Value.AccessKey;
+     _secretKey = minioOptions.Value.SecretKey;
      // Initialize Minio client
      var minio = new MinioClient()
+         .WithSSL(false)
          .WithEndpoint(_endpoint)
          .WithCredentials(_accessKey, _secretKey)
-         .WithSSL()
          .Build();
      #endregion
      _context = context;
      _client = minio;
-     _endpoint = minioOptions.Value.Endpoint;
-     _accessKey = minioOptions.Value.AccessKey;
-     _secretKey = minioOptions.Value.SecretKey;
  }
 
  private static async Task PutObjectsToMinioAsync(IMinioClient minio,
