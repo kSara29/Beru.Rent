@@ -83,4 +83,11 @@ public class BookingService(
         }
         return result;
     }
+
+    public async Task<ResponseModel<BoolResponseDto>> BookingCancelAsync(RequestById dto)
+    {
+        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url,
+            "api/booking/cancel/?", $"id={dto.Id}");
+        return await serviceHandler.GetConnectionHandler<BoolResponseDto>(url);;
+    }
 }

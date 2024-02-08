@@ -144,4 +144,27 @@ using Deal.Domain.Enums;
             
             return new GetDealPagesDto<Booking>(result,totalPages);
         }
+
+        public async Task<bool> CancelBookingsAsync(RequestById id)
+        {
+            try
+            {
+                var booking = await _db.Bookings.FirstOrDefaultAsync(b => b.Id == id.Id);
+                if (booking.BookingState == BookingState.InQueue.ToString())
+                {
+                    booking.BookingState = BookingState.Close.ToString();
+                    _db.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            
+        }
     }

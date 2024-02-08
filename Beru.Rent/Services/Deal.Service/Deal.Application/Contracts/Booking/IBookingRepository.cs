@@ -12,4 +12,5 @@ public interface IBookingRepository
     Task<GetDealPagesDto<Domain.Models.Booking>> GetAllBookingsAsync(GetDealPagesRequestDto id);
     Task<Domain.Models.Booking> GetBookingAsync(RequestById id);
     Task<GetDealPagesDto<Domain.Models.Booking>> GetAllTenantBookingsAsync(GetDealPagesRequestDto id);
+    Task<bool> CancelBookingsAsync(RequestById id);
 }

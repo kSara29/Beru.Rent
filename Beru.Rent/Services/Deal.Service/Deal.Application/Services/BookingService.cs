@@ -84,4 +84,10 @@ public class BookingService: IBookingService
         
         return result;
     }
+
+    public async Task<BoolResponseDto> CancelBookingsAsync(RequestById dto)
+    {
+        var list = await _bookingRepository.CancelBookingsAsync(dto);
+        return list.ToDto() ;
+    }
 }
