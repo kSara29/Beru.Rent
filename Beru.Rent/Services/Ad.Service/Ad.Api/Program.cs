@@ -1,6 +1,7 @@
 using Ad.Application;
 using Ad.Infrastructure;
 using Ad.Infrastructure.Context;
+using DbMigrator;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,8 +26,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpClient();
 
 builder.Services.AddSwaggerGen();
-
-
 
 #region Подключаю Minio
 var endpoint = "play.min.io";
@@ -64,20 +63,8 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
-using var scope = app.Services.CreateScope();
 
-var services = scope.ServiceProvider;
-try
-{
-    Thread.Sleep(15000);
-    var dbContext = scope.ServiceProvider.GetRequiredService<AdContext>();
-    dbContext.Database.Migrate();
-}
-catch (Exception ex)
-{
-    var logger = services.GetRequiredService<ILogger<Program>>();
-    logger.LogError(ex, "An error occurred while seeding the database.");
-}
+app.Services.ApplyMigrations<AdContext>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

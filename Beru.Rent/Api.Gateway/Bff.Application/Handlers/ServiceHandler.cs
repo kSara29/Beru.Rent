@@ -125,13 +125,12 @@ public class ServiceHandler(IHttpClientFactory httpClientFactory)
     /// <returns>возвращает общую модель ответа ResponseModel<T> с ошибками в себе, если они есть</returns>
     private async Task<ResponseModel<TResp>> HandleFailResponse<TResp>(HttpResponseMessage responseMessage)
     {
-        var responseDto = ResponseModel<TResp>.CreateFailed(new List<ResponseError?>
-        {
-            new ()
+        var responseDto = ResponseModel<TResp>.CreateFailed([
+            new ResponseError
             {
                 Code = "server"
             }
-        });
+        ]);
                     
         return responseDto;
     }
@@ -142,12 +141,11 @@ public class ServiceHandler(IHttpClientFactory httpClientFactory)
     /// <param name="e">принимает сообщение об ошибке</param>
     /// <returns>возвращает общую модель ответа ResponseModel<T> с ошибками Exeption e</returns>
     private ResponseModel<TResp> HandleException<TResp>(string e) => 
-        ResponseModel<TResp>.CreateFailed(new List<ResponseError?>
-        {
-            new()
+        ResponseModel<TResp>.CreateFailed([
+            new ResponseError
             {
                 Code = "server",
                 Message = e
             }
-        });
+        ]);
 }
