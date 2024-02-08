@@ -21,14 +21,14 @@ public class DealService(
 
     public async Task<ResponseModel<GetDealResponseDto>> GetDealAsync(GetDealRequestDto dto)
     {
-        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/GetDeal/",
+        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/deal/GetDeal/",
             $"{dto.DealId}");
         return await serviceHandler.GetConnectionHandler<GetDealResponseDto>(url);
     }
 
     public async Task<ResponseModel<GetDealPagesDto<GetDealResponseDto>>> GetAllDealsAsync(GetDealPagesRequestDto dto)
     {
-        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/GetAllDeals/?",
+        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/deal/GetAllDeals/?",
             $"id={dto.Id}&page={dto.Page}");
 
         var result = await serviceHandler.GetConnectionHandler<GetDealPagesDto<GetDealResponseDto>>(url);
@@ -48,7 +48,7 @@ public class DealService(
 
     public async Task<ResponseModel<GetDealPagesDto<GetDealResponseDto>>> GetAllTenantDealsAsync(GetDealPagesRequestDto dto)
     {
-        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/GetAllTenantDeals/?",
+        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/deal/GetAllTenantDeals/?",
             $"id={dto.Id}&page={dto.Page}");
         var result = await serviceHandler.GetConnectionHandler<GetDealPagesDto<GetDealResponseDto>>(url);
         foreach (var variable in result.Data.DealPageDto)
@@ -63,5 +63,12 @@ public class DealService(
         }
         
         return result;
+    }
+
+    public async Task<ResponseModel<CloseDealResponseDto>> CloseDealAsync(CloseDealRequestDto dto)
+    {
+        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/deal/close/?",
+            $"id={dto.Id}&userId={dto.UserId}");
+        return await serviceHandler.GetConnectionHandler<CloseDealResponseDto>(url);
     }
 }

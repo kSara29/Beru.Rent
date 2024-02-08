@@ -36,4 +36,9 @@ public static class DealMapper
         deal.Dend,
         deal.Cost
             );
+
+    public static CloseDealResponseDto ToDtoForClose(this bool Bool)
+        => new(
+            Bool
+            );
 }

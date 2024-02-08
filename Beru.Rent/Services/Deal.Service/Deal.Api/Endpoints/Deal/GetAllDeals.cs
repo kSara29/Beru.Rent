@@ -10,7 +10,7 @@ public class GetAllDeals(IDealService _service): Endpoint<GetDealPagesRequestDto
 {
     public override void Configure()
     {
-        Get("api/booking/GetAllDeals/");
+        Get("api/deal/GetAllDeals/");
         AllowAnonymous();
     }
 

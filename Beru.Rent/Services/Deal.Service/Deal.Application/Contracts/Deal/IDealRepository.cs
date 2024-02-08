@@ -9,4 +9,6 @@ public interface IDealRepository
     Task<Domain.Models.Deal> GetDealAsync(GetDealRequestDto dto);
     Task<GetDealPagesDto<Domain.Models.Deal>> GetAllDealsAsync(GetDealPagesRequestDto dto);
     Task<GetDealPagesDto<Domain.Models.Deal>> GetAllTenantDealsAsync(GetDealPagesRequestDto dto);
+    Task<bool> CloseDealAsync(CloseDealRequestDto dto);
+
 }

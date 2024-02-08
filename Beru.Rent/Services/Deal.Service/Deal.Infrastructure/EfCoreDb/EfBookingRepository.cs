@@ -87,7 +87,9 @@ using Deal.Domain.Enums;
         public async Task<GetDealPagesDto<Booking>> GetAllBookingsAsync(GetDealPagesRequestDto dto)
         {
             List<Booking> books = new List<Booking>();
-            var bookings = _db.Bookings.Where(b => b.OwnerId == dto.Id);
+            var bookings = _db.Bookings
+                .Where(b => b.OwnerId == dto.Id)
+                .Where(b => b.BookingState != BookingState.Decline.ToString());
             foreach (var book in bookings) 
                 books.Add(book);
 
@@ -117,7 +119,11 @@ using Deal.Domain.Enums;
         public async Task<GetDealPagesDto<Booking>> GetAllTenantBookingsAsync(GetDealPagesRequestDto dto)
         {
             List<Booking> books = new List<Booking>();
-            var bookings = _db.Bookings.Where(b => b.TenantId == dto.Id);
+            var bookings = _db.Bookings
+                .Where(b => b.TenantId == dto.Id)
+                .Where(b => b.BookingState != BookingState.Decline.ToString() 
+                            || b.BookingState != BookingState.Close.ToString());
+            
             foreach (var book in bookings) 
                 books.Add(book);   
             

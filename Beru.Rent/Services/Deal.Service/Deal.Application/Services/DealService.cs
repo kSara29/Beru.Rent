@@ -64,4 +64,11 @@ public class DealService: IDealService
 
         return ResponseModel<GetDealPagesDto<GetDealResponseDto>>.CreateSuccess(result);
     }
+
+    public async Task<ResponseModel<CloseDealResponseDto>> CloseDealAsync(CloseDealRequestDto dto)
+    {
+        bool boolean = await _dealRepository.CloseDealAsync(dto);
+        return ResponseModel<CloseDealResponseDto>.CreateSuccess(boolean.ToDtoForClose())
+        ;
+    }
 }

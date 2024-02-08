@@ -10,7 +10,7 @@ public class GetAllTenantDeals(IDealService _service): Endpoint<GetDealPagesRequ
 {
     public override void Configure()
     {
-        Get("api/booking/GetAllTenantDeals/");
+        Get("api/deal/GetAllTenantDeals/");
         AllowAnonymous();
     }
 

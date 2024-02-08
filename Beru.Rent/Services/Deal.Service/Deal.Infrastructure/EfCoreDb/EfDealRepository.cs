@@ -65,7 +65,9 @@ public class EfDealRepository: IDealRepository
 
     public async Task<GetDealPagesDto<Domain.Models.Deal>> GetAllDealsAsync(GetDealPagesRequestDto dto)
     {
-        var deals = _db.Deals.Where(d => d.OwnerId == dto.Id);
+        var deals = _db.Deals
+                .Where(d => d.OwnerId == dto.Id)
+                .Where(d => d.DealState != DealState.Close.ToString());
         #region Пагинация
 
         int totalItems = deals.Count();
@@ -86,7 +88,8 @@ public class EfDealRepository: IDealRepository
     
     public async Task<GetDealPagesDto<Domain.Models.Deal>> GetAllTenantDealsAsync(GetDealPagesRequestDto dto)
     {
-        var deals = _db.Deals.Where(d => d.TenantId == dto.Id);
+        var deals = _db.Deals.Where(d => d.TenantId == dto.Id)
+            .Where(d => d.DealState != DealState.Close.ToString());
         #region Пагинация
 
         int totalItems = deals.Count();
@@ -103,5 +106,70 @@ public class EfDealRepository: IDealRepository
         var result = await deals.ToListAsync();
 
         return new GetDealPagesDto<Domain.Models.Deal>(result, totalPages);
+    }
+
+    public async Task<bool> CloseDealAsync(CloseDealRequestDto dto)
+    {
+        try
+        {
+          
+            Domain.Models.Deal deal = await _db.Deals.FirstOrDefaultAsync(d => d.Id == dto.Id);
+            Booking booking = await _db.Bookings.FirstOrDefaultAsync(b => b.Id == deal.BookingId);
+
+            if (deal.DealState == DealState.Open.ToString())
+            {
+                if (dto.UserId == deal.TenantId)
+                {
+                    deal.DealState = DealState.TenantOffer.ToString();
+                    _db.SaveChanges();
+                    return true;
+                }
+
+                if (dto.UserId == deal.OwnerId)
+                {
+                    deal.DealState = DealState.OwnerOffer.ToString();
+                    _db.SaveChanges();
+                    return true;
+                }
+            }
+
+            if (deal.DealState == DealState.TenantOffer.ToString())
+            {
+                if (dto.UserId == deal.TenantId)
+                {
+                    return false;
+                }
+
+                if (dto.UserId == deal.OwnerId)
+                {
+                    deal.DealState = DealState.Close.ToString();
+                    booking.BookingState = BookingState.Close.ToString();
+                    _db.SaveChanges();
+                    return true;
+                }
+            }
+            
+            if (deal.DealState == DealState.OwnerOffer.ToString())
+            {
+                if (dto.UserId == deal.OwnerId)
+                {
+                    return false;
+                }
+
+                if (dto.UserId == deal.TenantId)
+                {
+                    deal.DealState = DealState.Close.ToString();
+                    booking.BookingState = BookingState.Close.ToString();
+                    _db.SaveChanges();
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
     }
 }
