@@ -4,5 +4,5 @@ namespace Deal.Dto.Booking;
 
 [Serializable]
 public record GetDealRequestDto(
-    [property: JsonPropertyName("DealId")] Guid dealId
+    [property: JsonPropertyName("dealId")] Guid DealId
 );

@@ -61,12 +61,12 @@ public class BookingService: IBookingService
         return list;
     }
 
-    public async Task<List<GetAllBookingsResponseDto>> GetAllBookingsAsync(RequestByUserId id)
+    public async Task<GetDealPagesDto<GetBookingResponseDto>> GetAllBookingsAsync(GetDealPagesRequestDto dto)
     {
-        var list = await _bookingRepository.GetAllBookingsAsync(id);
-        List<GetAllBookingsResponseDto> result = new List<GetAllBookingsResponseDto>();
-        foreach (var book in list) 
-            result.Add(book.ToDtoes());
+        var list = await _bookingRepository.GetAllBookingsAsync(dto);
+        var result = new GetDealPagesDto<GetBookingResponseDto>(list.DealPageDto.Select(ad => 
+            ad.ToDto()).ToList(),list.TotalPage);
+        
         return result;
     }
 
@@ -76,12 +76,18 @@ public class BookingService: IBookingService
         return res.ToDto();
     }
 
-    public async Task<List<GetAllBookingsResponseDto>> GetAllTenantBookingsAsync(RequestByUserId id)
+    public async Task<GetDealPagesDto<GetBookingResponseDto>> GetAllTenantBookingsAsync(GetDealPagesRequestDto dto)
     {
-        var list = await _bookingRepository.GetAllTenantBookingsAsync(id);
-        List<GetAllBookingsResponseDto> result = new List<GetAllBookingsResponseDto>();
-        foreach (var book in list) 
-            result.Add(book.ToDtoes());
+        var list = await _bookingRepository.GetAllTenantBookingsAsync(dto);
+        var result = new GetDealPagesDto<GetBookingResponseDto>(list.DealPageDto.Select(ad => 
+            ad.ToDto()).ToList(),list.TotalPage);
+        
         return result;
+    }
+
+    public async Task<BoolResponseDto> CancelBookingsAsync(RequestById dto)
+    {
+        var list = await _bookingRepository.CancelBookingsAsync(dto);
+        return list.ToDto() ;
     }
 }

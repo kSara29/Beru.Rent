@@ -19,7 +19,7 @@ public class GetUserById(IUserService service) : Endpoint<GetUserByIdRequest, Re
         (GetUserByIdRequest? request, CancellationToken ct)
     {
         if (request is null) await SendAsync(null!, cancellation: ct);
-        var response = await service.GetUserByIdAsync(request!);
+        var response = await service.GetUserByIdAsync(request!.Id);
         await SendAsync(response, cancellation: ct);
     }
 }

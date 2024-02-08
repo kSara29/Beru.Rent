@@ -7,15 +7,16 @@ using Common;
 using Deal.Dto.Booking;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using User.Dto.RequestDto;
+using User.Dto.ResponseDto;
 
 namespace Bff.Application.Services;
 
 public class BookingService(
     ServiceHandler serviceHandler,
     IOptions<RequestToDealApi> jsonOptions,
-    IOptions<RequestToAdApi>? jsonOptionsAd
-  
-    ) : IBookingService
+    IOptions<RequestToAdApi>? jsonOptionsAd,
+    IUserService userService) : IBookingService
 {
     
     public async Task<ResponseModel<GetBookingResponseDto>> CreateBookingAsync(CreateBookingRequestDto dto)
@@ -41,17 +42,52 @@ public class BookingService(
         return await serviceHandler.GetConnectionHandler<GetBookingResponseDto>(url);;
     }
 
-    public async Task<ResponseModel<List<GetAllBookingsResponseDto>>> GetAllBookingsAsync(RequestByUserId id)
+    public async Task<ResponseModel<GetDealPagesDto<GetBookingResponseDto>>> GetAllBookingsAsync(GetDealPagesRequestDto dto)
     {
-        var lastUrl =
-            serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/getallbookings/",$"{id.Id}");
-        return await serviceHandler.GetConnectionHandler<List<GetAllBookingsResponseDto>>(lastUrl);
+        var url =
+            serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, 
+                "api/booking/getallbookings/?",$"id={dto.Id}&page={dto.Page}");
+        var result = await serviceHandler.GetConnectionHandler<GetDealPagesDto<GetBookingResponseDto>>(url);
+
+        foreach (var variable in result.Data.DealPageDto)
+        {
+            var resultOwnerName = await userService.GetUserByIdAsync(variable.OwnerId);
+            if (resultOwnerName is not null)
+                variable.OwnerName = resultOwnerName.Data.UserName;
+            
+            var resultTenantName = await userService.GetUserByIdAsync(variable.TenantId);
+            if (resultTenantName is not null) 
+                variable.TenantName = resultTenantName.Data.UserName;
+        }
+        
+        return result;
     }
 
-    public async Task<ResponseModel<List<GetAllBookingsResponseDto>>> GetAllTenantBookingsAsync(RequestByUserId id)
+    public async Task<ResponseModel<GetDealPagesDto<GetBookingResponseDto>>> GetAllTenantBookingsAsync(GetDealPagesRequestDto dto)
     {
         var lastUrl =
-            serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/booking/getalltenantbookings/",$"{id.Id}");
-        return await serviceHandler.GetConnectionHandler<List<GetAllBookingsResponseDto>>(lastUrl);
+            serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, 
+                "api/booking/getalltenantbookings/?",$"id={dto.Id}&page={dto.Page}");
+
+        var result = await serviceHandler.GetConnectionHandler<GetDealPagesDto<GetBookingResponseDto>>(lastUrl);
+        
+        foreach (var variable in result.Data.DealPageDto)
+        {
+            var resultOwnerName = await userService.GetUserByIdAsync(variable.OwnerId);
+            if (resultOwnerName is not null)
+                variable.OwnerName = resultOwnerName.Data.UserName;
+            
+            var resultTenantName = await userService.GetUserByIdAsync(variable.TenantId);
+            if (resultTenantName is not null) 
+                variable.TenantName = resultTenantName.Data.UserName;
+        }
+        return result;
+    }
+
+    public async Task<ResponseModel<BoolResponseDto>> BookingCancelAsync(RequestById dto)
+    {
+        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url,
+            "api/booking/cancel/?", $"id={dto.Id}");
+        return await serviceHandler.GetConnectionHandler<BoolResponseDto>(url);;
     }
 }
