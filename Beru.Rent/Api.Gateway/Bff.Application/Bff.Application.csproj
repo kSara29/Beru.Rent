@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Aspose.Words" Version="24.2.0" />
       <PackageReference Include="FluentValidation" Version="11.9.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
@@ -19,6 +20,10 @@
       <ProjectReference Include="..\..\BuildingBlocks\Common\Common.csproj" />
       <ProjectReference Include="..\..\BuildingBlocks\Deal.Dto\Deal.Dto.csproj" />
       <ProjectReference Include="..\..\BuildingBlocks\User.Dto\User.Dto.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="DealDocTemplate\" />
     </ItemGroup>
 
 </Project>
