@@ -5,7 +5,7 @@ using FastEndpoints;
 
 namespace Bff.Api.Endpoints.DealService;
 
-public class GetAllBookings(IBookingService _service) : Endpoint<GetDealPagesRequestDto, ResponseModel<GetDealPagesDto<GetBookingResponseDto>>>
+public class GetAllBookings(IBookingService service) : Endpoint<GetDealPagesRequestDto, ResponseModel<GetDealPagesDto<GetBookingResponseDto>>>
 {
     public override void Configure()
     {
@@ -17,7 +17,7 @@ public class GetAllBookings(IBookingService _service) : Endpoint<GetDealPagesReq
         (GetDealPagesRequestDto? dto, CancellationToken ct)
     { 
         if (dto is null) await SendAsync(null!, cancellation: ct);
-        var response = await _service.GetAllBookingsAsync(dto!);
+        var response = await service.GetAllBookingsAsync(dto!);
         await SendAsync(response, cancellation: ct);
     }
 }

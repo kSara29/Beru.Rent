@@ -19,7 +19,7 @@ public class GetUserByName(IUserService service) : Endpoint<GetUserByUserNameReq
         (GetUserByUserNameRequest? request, CancellationToken ct)
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
-        var response = await service.GetUserByNameAsync(request!);
+        var response = await service.GetUserByNameAsync(request!.UserName);
         await SendAsync(response, cancellation: ct);
     }
 }

@@ -7,6 +7,7 @@ using Common;
 using Deal.Dto.Booking;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using User.Dto.RequestDto;
 using User.Dto.ResponseDto;
 
 namespace Bff.Application.Services;
@@ -15,7 +16,8 @@ public class BookingService(
     ServiceHandler serviceHandler,
     IOptions<RequestToDealApi> jsonOptions,
     IOptions<RequestToAdApi>? jsonOptionsAd,
-    IOptions<RequestToUserApi>? jsonOptionsUser) : IBookingService
+    IOptions<RequestToUserApi>? jsonOptionsUser,
+    IUserService userService) : IBookingService
 {
     
     public async Task<ResponseModel<GetBookingResponseDto>> CreateBookingAsync(CreateBookingRequestDto dto)
@@ -50,11 +52,11 @@ public class BookingService(
 
         foreach (var variable in result.Data.DealPageDto)
         {
-            var id = variable.OwnerId;
-            var urlForOwnerName = serviceHandler.CreateConnectionUrlWithQuery(jsonOptionsUser.Value.Url,
-                "api/user/getById?Id=", id);
-            var resultOwnerName = await serviceHandler.GetConnectionHandler<UserDtoResponce>(urlForOwnerName);
-            variable.OwnerName = resultOwnerName.Data.UserName;
+            var user = await userService.GetUserByIdAsync(variable.OwnerId);
+            // var urlForOwnerName = serviceHandler.CreateConnectionUrlWithQuery(jsonOptionsUser.Value.Url,
+            //     "api/user/getById?Id=", id);
+            // var resultOwnerName = await serviceHandler.GetConnectionHandler<UserDtoResponce>(urlForOwnerName);
+            variable.OwnerName = user.Data.UserName;
             
             var urlForTenantName = serviceHandler.CreateConnectionUrlWithQuery(jsonOptionsUser.Value.Url,
                 "api/user/getById/?", $"Id={variable.TenantId}");
