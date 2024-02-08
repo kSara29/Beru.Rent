@@ -10,21 +10,24 @@ public static class DealMapper
 
     public static CreateDealResponseDto ToDtoFalse(this Guid id)
         => new(id, false);
-    
+
     public static GetDealResponseDto ToDto(this Domain.Models.Deal deal)
-        => new(
-            deal.Id,
-            deal.AdId,
-            deal.TenantId,
-            deal.Dbeg,
-            deal.Dend,
-            deal.Cost,
-            deal.Deposit,
-            deal.ChatId,
-            deal.OwnerId,
-            "NoOwnerName",
-            "NoTenantName"
-            );
+    {
+        return new GetDealResponseDto()
+        {
+            Id = deal.Id,
+            AdId = deal.AdId,
+            TenantId = deal.TenantId,
+            Dbeg = deal.Dbeg,
+            Dend = deal.Dend,
+            Cost = deal.Cost,
+            Deposit = deal.Deposit,
+            ChatId = deal.ChatId,
+            OwnerId = deal.OwnerId,
+            OwnerName = "NoOwnerName",
+            TenantName = "NoTenantName"
+        };
+    }
 
     public static GetAllDealsResponseDto ToDtoDeals(this Domain.Models.Deal deal)
         => new(
