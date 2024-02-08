@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deal.Infrastructure.Migrations
 {
     [DbContext(typeof(DealContext))]
-    [Migration("20240207102120_initial")]
-    partial class initial
+    [Migration("20240208181851_UpdateDb")]
+    partial class UpdateDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,6 +103,9 @@ namespace Deal.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("AdId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BookingId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("CancelAt")

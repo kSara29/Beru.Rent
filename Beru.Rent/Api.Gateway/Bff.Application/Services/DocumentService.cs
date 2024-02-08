@@ -24,83 +24,98 @@ public class DocumentService  (ServiceHandler serviceHandler,
 {
         public async Task<ResponseModel<byte[]>> GenerateDoc(RequestById dto)
     {
-        //получаю данные по сделке по id в Deal Service
-        var deal = await dealService.GetDealAsync(new GetDealRequestDto(dto.Id));
-        
-        //получаю данные о товаре из объявления в Ad Service
-        var ad = await adService.GetAdAsync(new RequestById{Id = deal.Data.adId});
-        
-        //получаю данные владельца в User Service
-        var ownerId = ad.Data.UserId;
-        var owner = await userService.GetUserByIdAsync
-            (new GetUserByIdRequest { Id = ownerId.ToString() });
-        //получаю данные арендатора в User Service
-        var tenantId = deal.Data.tenantId; 
-        var tenant = await userService.GetUserByIdAsync
-            (new GetUserByIdRequest { Id = tenantId });
-
-        
-        //Создаю модель с данными документа
-        var doc = new DocDataDto
+        try
         {
-            DocNumber = deal.Data.dealId.ToString() ?? "Не указано",
-            // заменить на дату создания сделки!!!!
-            TodayDate = DateTime.Today.Date.ToString("dd-MM-yyyy"), 
-            DocTown = ad.Data.AddressExtra.City ?? "Не указано",
-            
-            ItemTitle = ad.Data.Title ?? "Не указано",
-            ItemDesc = ad.Data.Description ?? "Не указано",
-            ExtraConditions = ad.Data.ExtraConditions ?? "Не указано",
-            
-            DealCost = deal.Data.cost.ToString() ?? "Не указано",
-            DealDepositCost = deal.Data.Deposit.ToString() ?? "Не указано",
-            DealDateBegin = deal.Data.dbeg.ToString() ?? "Не указано",
-            DealDateEnd = deal.Data.dend.ToString() ?? "Не указано",
-            DealAddress = $"{ad.Data.AddressExtra.City} {ad.Data.AddressExtra.Street}" +
-                          $" {ad.Data.AddressExtra.House} {ad.Data.AddressExtra.Apartment}" ?? "Не указано",
-            DealHourBegin= deal.Data.dbeg.ToString() ?? "Не указано",
-            DealHourEnd = deal.Data.dend.ToString() ?? "Не указано",
-           
-            OwnerFio = $"{owner.Data.FirstName} {owner.Data.LastName}" ?? "Не указано",
-            OwnerIin = owner.Data.Iin ?? "Не указано",
-            OwnerIdNumber = owner.Data.Iin ?? "Не указано",
-            OwnerEmail = owner.Data.Mail ?? "Не указано",
-            OwnerPhone = "+7"+ owner.Data.Phone ?? "Не указано",
-            
-            
-            TenantFio = $"{tenant.Data.FirstName} {tenant.Data.LastName}" ?? "Не указано",
-            TenantIin = tenant.Data.Iin ?? "Не указано",
-            TenantIdNumber = tenant.Data.Iin ?? "Не указано",
-            TenantEmail = tenant.Data.Mail ?? "Не указано",
-            TenantPhone = "+7"+ tenant.Data.Phone ?? "Не указано"
+            //получаю данные по сделке по id в Deal Service
+            var deal = await dealService.GetDealAsync(new GetDealRequestDto(dto.Id));
 
-        };
-        //Создаю заполненный файл
-        var dataDir = "../../../DealDocTemplate/";
-        Document file = new Document(dataDir + "rentDoc.docx");
-        var docProperties = typeof(DocDataDto).GetProperties();
+            //получаю данные о товаре из объявления в Ad Service
+            var ad = await adService.GetAdAsync(new RequestById { Id = deal.Data.adId });
 
-        foreach (var property in docProperties)
+            //получаю данные владельца в User Service
+            var ownerId = ad.Data.UserId;
+            var owner = await userService.GetUserByIdAsync
+                (new GetUserByIdRequest { Id = ownerId.ToString() });
+            //получаю данные арендатора в User Service
+            var tenantId = deal.Data.tenantId;
+            var tenant = await userService.GetUserByIdAsync
+                (new GetUserByIdRequest { Id = tenantId });
+
+
+            //Создаю модель с данными документа
+            var doc = new DocDataDto();
+            doc.DocNumber = deal.Data.dealId.ToString();
+                // заменить на дату создания сделки!!!!
+                doc.TodayDate = DateTime.Today.Date.ToString("dd-MM-yyyy");
+                doc.DocTown = ad.Data.AddressExtra.City;
+                doc.ItemTitle = ad.Data.Title;
+                doc.ItemDesc = ad.Data.Description;
+                doc.ExtraConditions = ad.Data.ExtraConditions;
+                
+                doc.DealCost = deal.Data.cost.ToString();
+                doc.DealDepositCost = deal.Data.Deposit.ToString();
+                doc.DealDateBegin = deal.Data.dbeg.ToString();
+                doc.DealDateEnd = deal.Data.dend.ToString();
+                doc.DealAddress = $"{ad.Data.AddressExtra.City} {ad.Data.AddressExtra.Street}" +
+                                  $" {ad.Data.AddressExtra.House} {ad.Data.AddressExtra.Apartment}";
+                doc.DealHourBegin = deal.Data.dbeg.ToString();
+                doc.DealHourEnd = deal.Data.dend.ToString();
+
+                doc.OwnerFio = $"{owner.Data.FirstName} {owner.Data.LastName}";
+                doc.OwnerIin = owner.Data.Iin;
+                doc.OwnerIdNumber = owner.Data.Iin;
+                doc.OwnerEmail = owner.Data.Mail;
+                doc.OwnerPhone = "+7" + owner.Data.Phone;
+
+
+                doc.TenantFio = $"{tenant.Data.FirstName} {tenant.Data.LastName}";
+                doc.TenantIin = tenant.Data.Iin;
+                doc.TenantIdNumber = tenant.Data.Iin;
+                doc.TenantEmail = tenant.Data.Mail;
+                doc.TenantPhone = "+7" + tenant.Data.Phone;
+
+            
+            var i = doc;
+            
+            //Создаю заполненный файл
+            //var dataDir = "../../../DealDocTemplate/";
+            var dataDir ="/DealDocTemplate/";
+            Document file = new Document(dataDir + "rentDoc.docx");
+            var docProperties = typeof(DocDataDto).GetProperties();
+
+            foreach (var property in docProperties)
+            {
+                var placeholder = $"_{property.Name}_";
+                var value = property.GetValue(doc)?.ToString() ?? "Не указано";
+                file.Range.Replace(placeholder, value, new FindReplaceOptions());
+            }
+
+            file.Save(dataDir + DateTime.Today.ToFileTime());
+
+            //Отправляю заполненный файл на фронт
+
+            byte[] pdfBytes = ConvertToPdf(file);
+
+            // Отправить PDF на фронтенд
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            result.Content = new ByteArrayContent(pdfBytes);
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = doc.DocNumber + ".pdf"
+            };
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+
+            return ResponseModel<byte[]>.CreateSuccess(pdfBytes);
+        }
+        catch (Exception ex)
         {
-            var placeholder = $"_{property.Name}_";
-            var value = property.GetValue(doc)?.ToString() ?? "Не указано";
-            file.Range.Replace(placeholder, value, new FindReplaceOptions());
+            var errors = new List<ResponseError>();
+            var error = new ResponseError();
+            error.Message = ex.Message;
+            errors.Add(error);
+        return ResponseModel<byte[]>.CreateFailed(errors); 
         }
 
-        //Отправляю заполненный файл на фронт
-        
-        byte[] pdfBytes = ConvertToPdf(file);
-
-        // Отправить PDF на фронтенд
-        HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-        result.Content = new ByteArrayContent(pdfBytes);
-        result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-        {
-            FileName = doc.DocNumber+".pdf"
-        };
-        result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-
-        return ResponseModel<byte[]>.CreateSuccess(pdfBytes);
     }
         
 
