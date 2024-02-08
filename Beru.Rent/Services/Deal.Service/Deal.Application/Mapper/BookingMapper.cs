@@ -29,18 +29,21 @@ public static class BookingMapper
             booking.Dend,
             booking.Cost
         );
-    
+
     public static GetBookingResponseDto ToDto(this Booking booking)
-        => new(
-            booking.Id,
-            booking.AdId,
-            booking.TenantId,
-            booking.Dbeg,
-            booking.Dend,
-            booking.Cost,
-            booking.BookingState,
-            booking.OwnerId,
-            "NoOwnerName",
-            "NoTenantName"
-        );
+    {
+        return new GetBookingResponseDto()
+        {
+            Id = booking.Id,
+            AdId = booking.AdId,
+            TenantId = booking.TenantId,
+            Dbeg = booking.Dbeg,
+            Dend = booking.Dend,
+            Cost = booking.Cost,
+            BookingState = booking.BookingState,
+            OwnerId = booking.OwnerId,
+            OwnerName = "NoOwnerName",
+            TenantName = "NoTenantName"
+        };
+    }
 }

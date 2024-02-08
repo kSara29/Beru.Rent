@@ -7,15 +7,15 @@ using Common;
 using Deal.Dto.Booking;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using User.Dto.ResponseDto;
 
 namespace Bff.Application.Services;
 
 public class BookingService(
     ServiceHandler serviceHandler,
     IOptions<RequestToDealApi> jsonOptions,
-    IOptions<RequestToAdApi>? jsonOptionsAd
-  
-    ) : IBookingService
+    IOptions<RequestToAdApi>? jsonOptionsAd,
+    IOptions<RequestToUserApi>? jsonOptionsUser) : IBookingService
 {
     
     public async Task<ResponseModel<GetBookingResponseDto>> CreateBookingAsync(CreateBookingRequestDto dto)
@@ -43,10 +43,26 @@ public class BookingService(
 
     public async Task<ResponseModel<GetDealPagesDto<GetBookingResponseDto>>> GetAllBookingsAsync(GetDealPagesRequestDto dto)
     {
-        var lastUrl =
+        var url =
             serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, 
                 "api/booking/getallbookings/?",$"id={dto.Id}&page={dto.Page}");
-        return await serviceHandler.GetConnectionHandler<GetDealPagesDto<GetBookingResponseDto>>(lastUrl);
+        var result = await serviceHandler.GetConnectionHandler<GetDealPagesDto<GetBookingResponseDto>>(url);
+
+        foreach (var variable in result.Data.DealPageDto)
+        {
+            var id = variable.OwnerId;
+            var urlForOwnerName = serviceHandler.CreateConnectionUrlWithQuery(jsonOptionsUser.Value.Url,
+                "api/user/getById?Id=", id);
+            var resultOwnerName = await serviceHandler.GetConnectionHandler<UserDtoResponce>(urlForOwnerName);
+            variable.OwnerName = resultOwnerName.Data.UserName;
+            
+            var urlForTenantName = serviceHandler.CreateConnectionUrlWithQuery(jsonOptionsUser.Value.Url,
+                "api/user/getById/?", $"Id={variable.TenantId}");
+            var resultTenantName = await serviceHandler.GetConnectionHandler<UserDtoResponce>(urlForTenantName);
+            variable.TenantId = resultTenantName.Data.UserName;
+        }
+        
+        return result;
     }
 
     public async Task<ResponseModel<GetDealPagesDto<GetBookingResponseDto>>> GetAllTenantBookingsAsync(GetDealPagesRequestDto dto)
