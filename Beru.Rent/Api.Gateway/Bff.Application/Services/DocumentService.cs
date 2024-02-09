@@ -1,17 +1,13 @@
 ﻿using System.Net;
-using Aspose.Words.Replacing;
 using Bff.Application.Contracts;
 using Bff.Application.Handlers;
 using Bff.Application.JsonOptions;
 using Common;
 using Deal.Dto.Booking;
 using Microsoft.Extensions.Options;
-using User.Dto.ResponseDto;
-using Ad.Dto.GetDtos;
 using Aspose.Words;
 using Aspose.Words.Replacing;
-using Microsoft.Net.Http.Headers;
-using User.Dto.RequestDto;
+
 using ContentDispositionHeaderValue = System.Net.Http.Headers.ContentDispositionHeaderValue;
 using MediaTypeHeaderValue = System.Net.Http.Headers.MediaTypeHeaderValue;
 
@@ -78,20 +74,25 @@ public class DocumentService  (ServiceHandler serviceHandler,
             var i = doc;
             
             //Создаю заполненный файл
-            //var dataDir = "../../../DealDocTemplate/";
-            var dataDir ="/DealDocTemplate/";
-            Document file = new Document(dataDir + "rentDoc.docx");
+            var dataDir ="../Bff.Application/DealDocTemplate/";
+            Document file = new Document(dataDir + "rent.docx");
             var docProperties = typeof(DocDataDto).GetProperties();
 
-            foreach (var property in docProperties)
+            /*foreach (var property in docProperties)
             {
-                var placeholder = $"_{property.Name}_";
-                var value = property.GetValue(doc)?.ToString() ?? "Не указано";
-                file.Range.Replace(placeholder, value, new FindReplaceOptions());
-            }
+                var placeholder = property.Name;
+              var value = property.GetValue(doc)?.ToString() ?? "Не указано";
+              file.Range.Replace(placeholder, value, new FindReplaceOptions());
+            }*/
+            
+            
+            file.Range.Replace("_DocNumber_", doc.DocNumber, new FindReplaceOptions());
+            
+           file.Range.Replace("_OwnerFio_", "James Bond", new FindReplaceOptions());
 
-            file.Save(dataDir + DateTime.Today.ToFileTime());
-
+           // file.Save(dataDir + DateTime.Today.ToFileTime()+".docx");
+            file.Save(dataDir + "test.docx");
+            
             //Отправляю заполненный файл на фронт
 
             byte[] pdfBytes = ConvertToPdf(file);
@@ -101,7 +102,7 @@ public class DocumentService  (ServiceHandler serviceHandler,
             result.Content = new ByteArrayContent(pdfBytes);
             result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
             {
-                FileName = doc.DocNumber + ".pdf"
+             //   FileName = doc.DocNumber + ".pdf"
             };
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
 
