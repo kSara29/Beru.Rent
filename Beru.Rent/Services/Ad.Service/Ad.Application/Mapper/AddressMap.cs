@@ -1,6 +1,7 @@
 ﻿using Ad.Application.DTO.CreateDtos;
 using Ad.Application.DTO.GetDtos;
 using Ad.Domain.Models;
+using Ad.Dto.RequestDto;
 
 namespace Ad.Application.Mapper;
 

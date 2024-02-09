@@ -1,4 +1,4 @@
-﻿namespace Ad.Application.DTO.CreateDtos;
+﻿namespace Ad.Dto.RequestDto;
 
 public class CreateAddressExtraDto
 {

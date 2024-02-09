@@ -19,7 +19,7 @@ public class GetUserByMail(IUserService service) : Endpoint<GetUserByEmailReques
         (GetUserByEmailRequest? request, CancellationToken ct)
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
-        var response = await service.GetUserByEmailAsync(request!);
+        var response = await service.GetUserByEmailAsync(request!.Email);
         await SendAsync(response, cancellation: ct);
     }
 }

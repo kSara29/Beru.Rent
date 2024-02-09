@@ -8,6 +8,7 @@ public class Deal: DealEntity
      public string DealState{ get; set; }
      public decimal Deposit { get; set; }
      public Guid ChatId { get; set; }
+     public Guid BookingId { get; set; }
 
      public Deal(
           Guid adId,
@@ -15,7 +16,8 @@ public class Deal: DealEntity
           decimal? cost,
           string ownerId,
           DateTime dbeg,
-          DateTime dend
+          DateTime dend,
+          Guid bookingId
      )
      {
          AdId = adId;
@@ -25,6 +27,7 @@ public class Deal: DealEntity
          CreatedAt = DateTime.UtcNow;
          Dbeg = dbeg;
          Dend = dend;
+         BookingId = bookingId;
      }
 
      public Deal()

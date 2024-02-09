@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ad.Infrastructure.Migrations
 {
     [DbContext(typeof(AdContext))]
-    [Migration("20240119102055_NewInit")]
-    partial class NewInit
+    [Migration("20240207102722_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,10 +31,13 @@ namespace Ad.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AddressMainId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Apartment")
+                        .HasColumnType("text");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Country")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
@@ -52,44 +55,19 @@ namespace Ad.Infrastructure.Migrations
                     b.Property<string>("Longitude")
                         .HasColumnType("text");
 
+                    b.Property<string>("PostIndex")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Region")
+                        .HasColumnType("text");
+
                     b.Property<string>("Street")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressMainId");
-
                     b.ToTable("AddressExtras");
-                });
-
-            modelBuilder.Entity("Ad.Domain.Models.AddressMain", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("PostIndex")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Region")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AddressMains");
                 });
 
             modelBuilder.Entity("Ad.Domain.Models.Advertisement", b =>
@@ -98,7 +76,7 @@ namespace Ad.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AddressExtraId")
+                    b.Property<Guid?>("AddressExtraId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("CategoryId")
@@ -120,7 +98,7 @@ namespace Ad.Infrastructure.Migrations
                     b.Property<decimal?>("MinDeposit")
                         .HasColumnType("numeric");
 
-                    b.Property<bool>("NeededDeposit")
+                    b.Property<bool?>("NeededDeposit")
                         .HasColumnType("boolean");
 
                     b.Property<decimal>("Price")
@@ -264,7 +242,6 @@ namespace Ad.Infrastructure.Migrations
                         .HasColumnType("interval");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -272,24 +249,11 @@ namespace Ad.Infrastructure.Migrations
                     b.ToTable("TimeUnits");
                 });
 
-            modelBuilder.Entity("Ad.Domain.Models.AddressExtra", b =>
-                {
-                    b.HasOne("Ad.Domain.Models.AddressMain", "AddressMain")
-                        .WithMany()
-                        .HasForeignKey("AddressMainId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AddressMain");
-                });
-
             modelBuilder.Entity("Ad.Domain.Models.Advertisement", b =>
                 {
                     b.HasOne("Ad.Domain.Models.AddressExtra", "AddressExtra")
                         .WithMany()
-                        .HasForeignKey("AddressExtraId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AddressExtraId");
 
                     b.HasOne("Ad.Domain.Models.Category", "Category")
                         .WithMany()

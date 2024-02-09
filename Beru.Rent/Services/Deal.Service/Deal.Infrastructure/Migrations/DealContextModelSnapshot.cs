@@ -102,6 +102,9 @@ namespace Deal.Infrastructure.Migrations
                     b.Property<Guid>("AdId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("BookingId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime?>("CancelAt")
                         .HasColumnType("timestamp without time zone");
 
