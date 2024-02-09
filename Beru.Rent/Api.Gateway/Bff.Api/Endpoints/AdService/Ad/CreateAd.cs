@@ -14,6 +14,8 @@ public class CreateAd(IAdService service) : Endpoint<CreateAdDto, ResponseModel<
     public override void Configure()
     {
         Post("/bff/ad/create");
+        AllowFormData();
+        AllowFileUploads();
     }
     
     public override async Task HandleAsync

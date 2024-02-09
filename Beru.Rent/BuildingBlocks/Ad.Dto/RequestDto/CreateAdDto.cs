@@ -20,6 +20,6 @@ public class CreateAdDto()
     [property: JsonPropertyName("addressExtraId")]public Guid? AddressExtraId { get; set; }
     [property: JsonPropertyName("addressExtra")]public string Address { get; set; }
     [property: JsonPropertyName("tags")]public string Tags { get; set; }
-    [property: JsonPropertyName("files")] public List<IFormFile> Files{ get; set; }
+   // [property: JsonPropertyName("files")] public List<IFormFile> Files{ get; set; }
 }
 
