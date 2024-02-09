@@ -30,21 +30,21 @@ public class DocumentService  (ServiceHandler serviceHandler,
             var deal = await dealService.GetDealAsync(new GetDealRequestDto(dto.Id));
 
             //получаю данные о товаре из объявления в Ad Service
-            var ad = await adService.GetAdAsync(new RequestById { Id = deal.Data.adId });
+            var ad = await adService.GetAdAsync(new RequestById { Id = deal.Data.AdId });
 
             //получаю данные владельца в User Service
             var ownerId = ad.Data.UserId;
             var owner = await userService.GetUserByIdAsync
-                (new GetUserByIdRequest { Id = ownerId.ToString() });
+                (ownerId.ToString());
             //получаю данные арендатора в User Service
-            var tenantId = deal.Data.tenantId;
+            var tenantId = deal.Data.TenantId;
             var tenant = await userService.GetUserByIdAsync
-                (new GetUserByIdRequest { Id = tenantId });
+                (tenantId.ToString());
 
 
             //Создаю модель с данными документа
             var doc = new DocDataDto();
-            doc.DocNumber = deal.Data.dealId.ToString();
+            doc.DocNumber = deal.Data.Id.ToString();
                 // заменить на дату создания сделки!!!!
                 doc.TodayDate = DateTime.Today.Date.ToString("dd-MM-yyyy");
                 doc.DocTown = ad.Data.AddressExtra.City;
@@ -52,14 +52,14 @@ public class DocumentService  (ServiceHandler serviceHandler,
                 doc.ItemDesc = ad.Data.Description;
                 doc.ExtraConditions = ad.Data.ExtraConditions;
                 
-                doc.DealCost = deal.Data.cost.ToString();
+                doc.DealCost = deal.Data.Cost.ToString();
                 doc.DealDepositCost = deal.Data.Deposit.ToString();
-                doc.DealDateBegin = deal.Data.dbeg.ToString();
-                doc.DealDateEnd = deal.Data.dend.ToString();
+                doc.DealDateBegin = deal.Data.Dbeg.ToString();
+                doc.DealDateEnd = deal.Data.Dend.ToString();
                 doc.DealAddress = $"{ad.Data.AddressExtra.City} {ad.Data.AddressExtra.Street}" +
                                   $" {ad.Data.AddressExtra.House} {ad.Data.AddressExtra.Apartment}";
-                doc.DealHourBegin = deal.Data.dbeg.ToString();
-                doc.DealHourEnd = deal.Data.dend.ToString();
+                doc.DealHourBegin = deal.Data.Dbeg.ToString();
+                doc.DealHourEnd = deal.Data.Dend.ToString();
 
                 doc.OwnerFio = $"{owner.Data.FirstName} {owner.Data.LastName}";
                 doc.OwnerIin = owner.Data.Iin;

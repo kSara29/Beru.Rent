@@ -5,19 +5,20 @@ using FastEndpoints;
 
 namespace Bff.Api.Endpoints.DealService;
 
-public class GetAllTenantBookings(IBookingService _service) : Endpoint<GetDealPagesRequestDto, ResponseModel<GetDealPagesDto<GetBookingResponseDto>>>
+
+public class BookingCancel(IBookingService service) : Endpoint<RequestById, ResponseModel<BoolResponseDto>>
 {
     public override void Configure()
     {
-        Get("/bff/booking/getalltenantbookings/");
+        Get("/bff/booking/cancel/");
         AllowAnonymous();
     }
     
     public override async Task HandleAsync
-        (GetDealPagesRequestDto? dto, CancellationToken ct)
+        (RequestById? dto, CancellationToken ct)
     { 
         if (dto is null) await SendAsync(null!, cancellation: ct);
-        var response = await _service.GetAllTenantBookingsAsync(dto!);
+        var response = await service.BookingCancelAsync(dto!);
         await SendAsync(response, cancellation: ct);
     }
 }

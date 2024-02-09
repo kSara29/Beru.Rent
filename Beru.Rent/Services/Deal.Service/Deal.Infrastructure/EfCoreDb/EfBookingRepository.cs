@@ -84,28 +84,87 @@ using Deal.Domain.Enums;
             return books; 
         }
 
-        public async Task<List<Booking>> GetAllBookingsAsync(RequestByUserId id)
+        public async Task<GetDealPagesDto<Booking>> GetAllBookingsAsync(GetDealPagesRequestDto dto)
         {
             List<Booking> books = new List<Booking>();
-            List<Booking> bookings = await _db.Bookings.Where(b => b.OwnerId == id.Id).ToListAsync();
+            var bookings = _db.Bookings
+                .Where(b => b.OwnerId == dto.Id)
+                .Where(b => b.BookingState != BookingState.Decline.ToString());
+            foreach (var book in bookings) 
+                books.Add(book);
+
+            #region Пагинация
+
+            int totalItems = bookings.Count();
+            int totalPages = 0;
+            if (dto.Page > 0)
+            {
+                const int pageSize = 10;
+                int skip = (dto.Page - 1) * pageSize;
+                bookings = bookings.Skip(skip).Take(pageSize);
+                totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            }
+            #endregion
+
+            var result = await bookings.ToListAsync();
+            
+            return new GetDealPagesDto<Booking>(result,totalPages);
+        }
+
+        public async Task<Booking> GetBookingAsync(RequestById dto)
+        {
+            return await _db.Bookings.FirstOrDefaultAsync(b => b.Id == dto.Id);
+        }
+
+        public async Task<GetDealPagesDto<Booking>> GetAllTenantBookingsAsync(GetDealPagesRequestDto dto)
+        {
+            List<Booking> books = new List<Booking>();
+            var bookings = _db.Bookings
+                .Where(b => b.TenantId == dto.Id)
+                .Where(b => b.BookingState != BookingState.Decline.ToString() 
+                            || b.BookingState != BookingState.Close.ToString());
+            
             foreach (var book in bookings) 
                 books.Add(book);   
             
-            return books;
-        }
+            #region Пагинация
 
-        public async Task<Booking> GetBookingAsync(RequestById id)
-        {
-            return await _db.Bookings.FirstOrDefaultAsync(b => b.Id == id.Id);
-        }
+            int totalItems = bookings.Count();
+            int totalPages = 0;
+            if (dto.Page > 0)
+            {
+                const int pageSize = 10;
+                int skip = (dto.Page - 1) * pageSize;
+                bookings = bookings.Skip(skip).Take(pageSize);
+                totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            }
+            #endregion
 
-        public async Task<List<Booking>> GetAllTenantBookingsAsync(RequestByUserId id)
-        {
-            List<Booking> books = new List<Booking>();
-            List<Booking> bookings = await _db.Bookings.Where(b => b.TenantId == id.Id).ToListAsync();
-            foreach (var book in bookings) 
-                books.Add(book);   
+            var result = await bookings.ToListAsync();
             
-            return books;
+            return new GetDealPagesDto<Booking>(result,totalPages);
+        }
+
+        public async Task<bool> CancelBookingsAsync(RequestById id)
+        {
+            try
+            {
+                var booking = await _db.Bookings.FirstOrDefaultAsync(b => b.Id == id.Id);
+                if (booking.BookingState == BookingState.InQueue.ToString())
+                {
+                    booking.BookingState = BookingState.Close.ToString();
+                    _db.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            
         }
     }

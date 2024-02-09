@@ -2,7 +2,7 @@
 
 namespace User.Dto.RequestDto;
 
-public record GetUserByIdRequest
-{
+public record GetUserByIdRequest{
+
     [QueryParam] public required string Id { get; init; }
 };

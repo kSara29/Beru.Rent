@@ -8,6 +8,7 @@ public interface IBookingService
     Task<ResponseModel<GetBookingResponseDto>> CreateBookingAsync(CreateBookingRequestDto dto);
     Task<ResponseModel<List<GetBookingDatesResponse>>> GetBookingDatesAsync(RequestById dto);
     Task<ResponseModel<GetBookingResponseDto>> GetBookingAsync(RequestById dto);
-    Task<ResponseModel<List<GetAllBookingsResponseDto>>> GetAllBookingsAsync(RequestByUserId dto);
-    Task<ResponseModel<List<GetAllBookingsResponseDto>>> GetAllTenantBookingsAsync(RequestByUserId dto);
+    Task<ResponseModel<GetDealPagesDto<GetBookingResponseDto>>> GetAllBookingsAsync(GetDealPagesRequestDto dto);
+    Task<ResponseModel<GetDealPagesDto<GetBookingResponseDto>>> GetAllTenantBookingsAsync(GetDealPagesRequestDto dto);
+    Task<ResponseModel<BoolResponseDto>> BookingCancelAsync(RequestById dto);
 }

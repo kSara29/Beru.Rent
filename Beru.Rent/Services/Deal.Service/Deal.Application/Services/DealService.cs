@@ -48,26 +48,27 @@ public class DealService: IDealService
         
     }
 
-    public async Task<ResponseModel<List<GetAllDealsResponseDto>>> GetAllDealsAsync(RequestByUserId id)
+    public async Task<ResponseModel<GetDealPagesDto<GetDealResponseDto>>> GetAllDealsAsync(GetDealPagesRequestDto dto)
     {
-        var deals = await _dealRepository.GetAllDealsAsync(id);
-        List<GetAllDealsResponseDto> lists = new List<GetAllDealsResponseDto>();
-        foreach (var deal in deals)
-        {
-            lists.Add(deal.ToDtoDeals());
-        }
+        var deals = await _dealRepository.GetAllDealsAsync(dto);
+        var result = new GetDealPagesDto<GetDealResponseDto>(deals.DealPageDto.Select(d =>
+            d.ToDto()).ToList(), deals.TotalPage);
 
-        return ResponseModel<List<GetAllDealsResponseDto>>.CreateSuccess(lists);
+        return ResponseModel<GetDealPagesDto<GetDealResponseDto>>.CreateSuccess(result);
     }
-    public async Task<ResponseModel<List<GetAllDealsResponseDto>>> GetAllTenantDealsAsync(RequestByUserId id)
+    public async Task<ResponseModel<GetDealPagesDto<GetDealResponseDto>>> GetAllTenantDealsAsync(GetDealPagesRequestDto dto)
     {
-        var deals = await _dealRepository.GetAllTenantDealsAsync(id);
-        List<GetAllDealsResponseDto> lists = new List<GetAllDealsResponseDto>();
-        foreach (var deal in deals)
-        {
-            lists.Add(deal.ToDtoDeals());
-        }
+        var deals = await _dealRepository.GetAllTenantDealsAsync(dto);
+        var result = new GetDealPagesDto<GetDealResponseDto>(deals.DealPageDto.Select(d =>
+            d.ToDto()).ToList(), deals.TotalPage);
 
-        return ResponseModel<List<GetAllDealsResponseDto>>.CreateSuccess(lists);
+        return ResponseModel<GetDealPagesDto<GetDealResponseDto>>.CreateSuccess(result);
+    }
+
+    public async Task<ResponseModel<CloseDealResponseDto>> CloseDealAsync(CloseDealRequestDto dto)
+    {
+        bool boolean = await _dealRepository.CloseDealAsync(dto);
+        return ResponseModel<CloseDealResponseDto>.CreateSuccess(boolean.ToDtoForClose())
+        ;
     }
 }

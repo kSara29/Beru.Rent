@@ -5,20 +5,19 @@ using FastEndpoints;
 
 namespace Bff.Api.Endpoints.DealService.Deal;
 
-
-public class GetAllTenantDeals(IDealService _service) : Endpoint<GetDealPagesRequestDto, ResponseModel<GetDealPagesDto<GetDealResponseDto>>>
+public class CloseDeal(IDealService _service) : Endpoint<CloseDealRequestDto, ResponseModel<CloseDealResponseDto>>
 {
     public override void Configure()
     {
-        Get("/bff/deal/GetAllTenantDeals/");
+        Get("/bff/deal/close");
         AllowAnonymous();
     }
     
     public override async Task HandleAsync
-        (GetDealPagesRequestDto? request, CancellationToken ct)
+        (CloseDealRequestDto? request, CancellationToken ct)
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
-        var response = await _service.GetAllTenantDealsAsync(request!);
+        var response = await _service.CloseDealAsync(request!);
         await SendAsync(response, cancellation: ct);
     }
 }
