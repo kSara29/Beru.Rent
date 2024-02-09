@@ -51,6 +51,19 @@ public class AdController:ControllerBase
         return Ok(result);
     }
     
+    [HttpGet("/api/ad/findget/")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetFindAdAsync(
+        [FromQuery] int page = 0,
+        [FromQuery] string sortdate = "",
+        [FromQuery] string sortprice = "",
+        [FromQuery] string cat ="all",
+        [FromQuery] string finder ="all")
+    {
+        var result = await _service.GetAllFindAdAsync(page, sortdate, sortprice, cat, finder);
+        return Ok(result);
+    }
+    
     [HttpPost("/api/ad/getCost")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetCostAsync(CreateBookingRequestDto dto)
