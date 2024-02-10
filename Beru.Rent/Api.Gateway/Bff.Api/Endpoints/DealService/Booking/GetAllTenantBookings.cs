@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Bff.Application.Contracts;
 using Common;
 using Deal.Dto.Booking;
@@ -17,6 +18,8 @@ public class GetAllTenantBookings(IBookingService _service) : Endpoint<GetDealPa
         (GetDealPagesRequestDto? dto, CancellationToken ct)
     { 
         if (dto is null) await SendAsync(null!, cancellation: ct);
+        var id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        dto.Id = id;
         var response = await _service.GetAllTenantBookingsAsync(dto!);
         await SendAsync(response, cancellation: ct);
     }
