@@ -20,9 +20,12 @@ public class DealService: IDealService
     public async Task<ResponseModel<CreateDealResponseDto>> CreateDealAsync(CreateDealRequestDto dto)
     {
         var res = await _dealRepository.CreateDealAsync(dto);
-        _messagePublisher.PublishDealCreatedMessage(new ChatCreatedMessage() { DealId = res.Data.DealId, Users = res.Data.Participant });
+        var chatId = await
+            _messagePublisher.PublishDealCreatedMessageAsync(new ChatCreatedMessage() { Users = res.Data.Participant });
+
+        var createDealResponse = await _dealRepository.UpdateDealAsync(chatId, res.Data.DealId);
         
-        return res;
+        return createDealResponse;
     }
 
     public async Task<ResponseModel<GetDealResponseDto>> GetDealAsync(GetDealRequestDto dto)

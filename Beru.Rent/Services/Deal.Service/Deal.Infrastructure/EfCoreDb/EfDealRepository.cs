@@ -36,7 +36,7 @@ public class EfDealRepository: IDealRepository
                 book.BookingState = BookingState.Accept.ToString();
                 await _db.Deals.AddAsync(deal);
                 await _db.SaveChangesAsync();
-                //Dictionary<bool, Guid> trueres = new Dictionary<bool, Guid>() {[true] = deal.Id };
+                
                 var participiants = new List<string>();
                 participiants.Add(book.OwnerId);
                 participiants.Add(book.TenantId);
@@ -48,12 +48,22 @@ public class EfDealRepository: IDealRepository
                 book.BookingState = BookingState.Decline.ToString();
                 await _db.SaveChangesAsync();
                 Domain.Models.Deal deal = new Domain.Models.Deal();
-                //Dictionary<bool, Guid> falseres = new Dictionary<bool, Guid>() {[false] = deal.Id };
-                //return falseres;
                 var dealDto = new CreateDealResponseDto(deal.Id, false, new List<string>());
                 return ResponseModel<CreateDealResponseDto>.CreateSuccess(dealDto);
             }
             
+    }
+
+    public async Task<ResponseModel<CreateDealResponseDto>> UpdateDealAsync(Guid chatId, Guid dealId)
+    {
+        var deal = await _db.Deals.FirstOrDefaultAsync(d => d.Id == dealId);
+        
+        deal.ChatId = chatId;
+        await _db.SaveChangesAsync();
+
+        var response = new CreateDealResponseDto(dealId, true,
+            new List<string>() { deal.OwnerId, deal.TenantId});
+        return ResponseModel<CreateDealResponseDto>.CreateSuccess(response);
     }
 
     public async Task<Domain.Models.Deal> GetDealAsync(GetDealRequestDto dto)
