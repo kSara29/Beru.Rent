@@ -57,6 +57,8 @@ app.UseHttpsRedirection();
 app.MapControllers();
 app.UseRouting();
 app.UseCors("mypolicy");
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapHub<ChatHub>("/chatHub");
 
 app.Run();

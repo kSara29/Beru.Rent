@@ -4,6 +4,7 @@ using Chat.Domain.Model;
 using Chat.Dto.RequestDto;
 using Chat.Dto.ResponseModel;
 using Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -23,6 +24,7 @@ public class ChatController: ControllerBase
     }
     
     [HttpPost("/api/chat/create")]
+    [Authorize]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<ChatDtoResponse> CreateChatAsync([FromBody] CreateChatRequest newChat)
     {
@@ -38,6 +40,7 @@ public class ChatController: ControllerBase
     }
     
     [HttpPost("/api/chat/send")]
+    [Authorize]
     public async Task<Domain.Model.Chat> SendMessage( SendMessageRequest request)
     {
         var newMessage = new Message()
@@ -57,6 +60,7 @@ public class ChatController: ControllerBase
     
     
     [HttpGet("/api/chat/history/{chatId}")]
+    [Authorize]
     public async Task<ResponseModel<List<MessageDto>>> GetChatHistory(Guid chatId)
     {
         var messages = await _chatService.GetMessagesByChatIdAsync(chatId);
