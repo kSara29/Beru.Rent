@@ -7,6 +7,7 @@ using MongoDB.Driver;
 
 namespace Chat.Infrastructure.Database;
 
+
 public class ChatRepository: IChatRepository
 {
     private readonly IMongoCollection<Domain.Model.Chat> _chatCollection;
@@ -24,7 +25,7 @@ public class ChatRepository: IChatRepository
         var initNewChat = new Domain.Model.Chat()
         {
             CreatedAt = DateTime.UtcNow,
-            Participants = new List<Guid>() { newChat.User1, newChat.User2 },
+            Participants = new List<string>() { newChat.User1, newChat.User2 },
             Id = chatId,
             Messages = []
         };

@@ -1,4 +1,4 @@
-﻿namespace Deal.Application.Message;
+﻿namespace Chat.Application;
 
 public class ChatCreatedMessage
 {

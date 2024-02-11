@@ -2,6 +2,7 @@
 using Deal.Application.Contracts.Deal;
 using Deal.Application.Message;
 using Newtonsoft.Json;
+using RabbitMQ.Client;
 
 namespace Deal.Application.Services;
 
@@ -17,23 +18,29 @@ public class MessagePublisher: IMessagePublisher
 
     public void PublishDealCreatedMessage(ChatCreatedMessage message)
     {
-        var factory = new ConnectionFactory() { HostName = _hostname };
-        using(var connection = factory.CreateConnection())
-        using(var channel = connection.CreateModel())
+        ConnectionFactory factory = new();
+        factory.Uri = new Uri("amqp://guest:guest@localhost:5672");
+        factory.ClientProvidedName = "Rabbit sender";
+        
+        using (var connection = factory.CreateConnection())
+        using (var channel = connection.CreateModel())
         {
-            channel.QueueDeclare(queue: "chatCreationQueue",
-                durable: false,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null);
+            string exchangeName = "myExchange";
+            string routingKey = "myRoutingKey";
+            string queueName = "myQueue";
+            
+            channel.ExchangeDeclare(exchangeName, ExchangeType.Direct);
+            channel.QueueDeclare(queueName, false, false, false, null);
+            channel.QueueBind(queueName, exchangeName, routingKey, null);
 
+            
             string messageJson = JsonConvert.SerializeObject(message);
             var body = Encoding.UTF8.GetBytes(messageJson);
 
-            channel.BasicPublish(exchange: "",
-                routingKey: "chatCreationQueue",
-                basicProperties: null,
-                body: body);
+            channel.BasicPublish(exchangeName, routingKey, null, body);
+            
+            Console.WriteLine($" [x] Sent {messageJson}");
         }
     }
+
 }

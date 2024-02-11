@@ -32,13 +32,14 @@ public class CreateDeal(IDealService service) : Endpoint<CreateDealRequestDto, R
             }
             
             await SendAsync(responce, cancellation: ct);
-            
+            return;
+
         }
         else
         {
             var results = await service.CreateDealAsync(request);
-            var res = ResponseModel<CreateDealResponseDto>.CreateSuccess(results);
-            await SendAsync(res, cancellation: ct);
+            //var res = ResponseModel<CreateDealResponseDto>.CreateSuccess(results);
+            await SendAsync(results, cancellation: ct);
         }
     }
 }

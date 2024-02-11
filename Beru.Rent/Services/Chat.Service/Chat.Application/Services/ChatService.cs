@@ -6,11 +6,11 @@ using Common;
 
 namespace Chat.Application.Services;
 
-public class CharService: IChatService
+public class ChatService: IChatService
 {
     private readonly IChatRepository _chatRepository;
 
-    public CharService(IChatRepository chatRepository)
+    public ChatService(IChatRepository chatRepository)
     {
         _chatRepository = chatRepository;
     }
@@ -21,7 +21,7 @@ public class CharService: IChatService
         return response;
     }
 
-    public async Task<Domain.Model.Chat> SaveMessageAsync(Guid chatId, Message message)
+    public async Task<Domain.Model.Chat> SaveMessageAsync(Guid chatId, Domain.Model.Message message)
     {
         var response = await _chatRepository.SaveMessageAsync(chatId, message);
         return response;

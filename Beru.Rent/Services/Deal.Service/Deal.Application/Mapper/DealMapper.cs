@@ -5,12 +5,6 @@ namespace Deal.Application.Mapper;
 
 public static class DealMapper
 {
-    public static CreateDealResponseDto ToDtoTrue(this Guid id)
-        => new(id, true);
-
-    public static CreateDealResponseDto ToDtoFalse(this Guid id)
-        => new(id, false);
-    
     public static GetDealResponseDto ToDto(this Domain.Models.Deal deal)
         => new(
             deal.AdId,

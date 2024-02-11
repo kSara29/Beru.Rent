@@ -3,7 +3,7 @@
 public class ChatDtoResponse
 {
     public Guid Id { get; set; }
-    public List<Guid> Participants { get; set; } = new List<Guid>();
+    public List<string> Participants { get; set; } = new List<string>();
     public DateTime CreatedAt { get; set; }
     
 }

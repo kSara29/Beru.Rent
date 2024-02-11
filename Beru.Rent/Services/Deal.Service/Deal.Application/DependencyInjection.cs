@@ -11,6 +11,9 @@ public static class DependencyInjection
     {
         service.AddScoped<IDealService, DealService>();
         service.AddScoped<IBookingService, BookingService>();
+        service.AddSingleton<IMessagePublisher, MessagePublisher>(provider => new MessagePublisher("rabbitmq"));
+        
+
         return service;
     }
 }

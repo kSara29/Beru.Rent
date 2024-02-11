@@ -17,7 +17,7 @@ public class EfDealRepository: IDealRepository
         _db = db;
     }
 
-    public async Task<Dictionary<bool, Guid>> CreateDealAsync(CreateDealRequestDto dto)
+    public async Task<ResponseModel<CreateDealResponseDto>> CreateDealAsync(CreateDealRequestDto dto)
     {
             Booking? book = await _db.Bookings.FirstOrDefaultAsync(b => b.Id == dto.bookingId);
             if (dto.isApproved)
@@ -34,18 +34,24 @@ public class EfDealRepository: IDealRepository
                 
                 deal.DealState = DealState.Open.ToString();
                 book.BookingState = BookingState.Accept.ToString();
-                _db.Deals.Add(deal);
-                _db.SaveChanges();
-                Dictionary<bool, Guid> trueres = new Dictionary<bool, Guid>() {[true] = deal.Id };
-                return trueres;
+                await _db.Deals.AddAsync(deal);
+                await _db.SaveChangesAsync();
+                //Dictionary<bool, Guid> trueres = new Dictionary<bool, Guid>() {[true] = deal.Id };
+                var participiants = new List<string>();
+                participiants.Add(book.OwnerId);
+                participiants.Add(book.TenantId);
+                var dealDto = new CreateDealResponseDto(deal.Id, true, participiants);
+                return ResponseModel<CreateDealResponseDto>.CreateSuccess(dealDto);
             }
             else
             {
                 book.BookingState = BookingState.Decline.ToString();
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
                 Domain.Models.Deal deal = new Domain.Models.Deal();
-                Dictionary<bool, Guid> falseres = new Dictionary<bool, Guid>() {[false] = deal.Id };
-                return falseres;
+                //Dictionary<bool, Guid> falseres = new Dictionary<bool, Guid>() {[false] = deal.Id };
+                //return falseres;
+                var dealDto = new CreateDealResponseDto(deal.Id, false, new List<string>());
+                return ResponseModel<CreateDealResponseDto>.CreateSuccess(dealDto);
             }
             
     }
