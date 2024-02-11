@@ -19,7 +19,7 @@ public class CreateAd(IAdService service) : Endpoint<CreateAdDto, ResponseModel<
     }
     
     public override async Task HandleAsync
-        ([FromForm]CreateAdDto? request, CancellationToken ct)
+        (CreateAdDto? request, CancellationToken ct)
     {
         if (request is null) await SendAsync(null!, cancellation: ct);
         

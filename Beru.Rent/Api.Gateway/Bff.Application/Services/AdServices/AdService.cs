@@ -15,13 +15,32 @@ namespace Bff.Application.Services;
 
 public class AdService(
     ServiceHandler serviceHandler,
+    IAddressService addressService,
     IOptions<RequestToAdApi> jsonOptions)
     :IAdService
 
 {
     public async Task<ResponseModel<GuidResponse>> CreateAdAsync(CreateAdDto ad)
     {
+        //сначала создаю сущность адреса и отправляю на сохранение, в ответ получаю айди
+        var newAddressDto = new CreateAddressExtraDto
+        {
+            House = ad.House,
+            Street = ad.Street,
+            Country = ad.Country,
+            City = ad.City,
+            Region = ad.Region,
+            Apartment = ad.Apartment,
+            Longitude = ad.Longitude,
+            Latitude = ad.Latitude,
+            PostIndex = ad.PostIndex,
+            Floor = ad.Floor
+        };
+        var responseAddress = await addressService.CreateAddressAsync(newAddressDto);
+        // Обогощаю ДТО объявления айди адреса и отправляю на сохранение
+        ad.AddressExtraId = responseAddress.Data?.Id;
         var url = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/ad/create");
+
         return await serviceHandler.PostConnectionHandler<CreateAdDto, GuidResponse>(url, ad);
     }
 
