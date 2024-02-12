@@ -21,7 +21,7 @@ public class AdController:ControllerBase
     
     [HttpPost("/api/ad/create")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> CreateAdAsync([FromForm] CreateAdDto dto)
+    public async Task<IActionResult> CreateAdAsync([FromForm]CreateAdDto dto)
     {
        var result =  await _service.CreateAdAsync(dto);
        /* foreach (var file in dto.Files)

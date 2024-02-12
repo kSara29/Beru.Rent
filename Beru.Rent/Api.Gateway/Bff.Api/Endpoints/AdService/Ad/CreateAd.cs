@@ -28,4 +28,4 @@ public class CreateAd(IAdService service) : Endpoint<CreateAdDto, ResponseModel<
         var response = await service.CreateAdAsync(request);
         await SendAsync(response, cancellation: ct);
     }
-}
+} 
