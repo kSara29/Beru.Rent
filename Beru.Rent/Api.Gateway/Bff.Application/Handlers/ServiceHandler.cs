@@ -117,7 +117,6 @@ public class ServiceHandler(IHttpClientFactory httpClientFactory)
             await client.PostAsync(connectionString, contentRequest);
         return connection;
     }
-
     /// <summary>
     /// Обрабатывает не успешный ответ от сервера
     /// </summary>

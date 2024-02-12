@@ -28,7 +28,7 @@ public class AddressController:ControllerBase
 
     [HttpPost("/api/address/extra/create")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> CreateAsync([FromForm]CreateAddressExtraDto dto)
+    public async Task<IActionResult> CreateAsync([FromBody]CreateAddressExtraDto dto)
     {
         var result =  await _addressExtraService.CreateAsync(dto);
         return Ok(result);

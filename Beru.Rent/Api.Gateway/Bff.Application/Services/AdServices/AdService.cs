@@ -15,6 +15,7 @@ namespace Bff.Application.Services;
 
 public class AdService(
     ServiceHandler serviceHandler,
+    HttpClient httpClient,
     IAddressService addressService,
     IOptions<RequestToAdApi> jsonOptions)
     :IAdService
@@ -22,26 +23,47 @@ public class AdService(
 {
     public async Task<ResponseModel<GuidResponse>> CreateAdAsync(CreateAdDto ad)
     {
-        //сначала создаю сущность адреса и отправляю на сохранение, в ответ получаю айди
-        var newAddressDto = new CreateAddressExtraDto
+        try
         {
-            House = ad.House,
-            Street = ad.Street,
-            Country = ad.Country,
-            City = ad.City,
-            Region = ad.Region,
-            Apartment = ad.Apartment,
-            Longitude = ad.Longitude,
-            Latitude = ad.Latitude,
-            PostIndex = ad.PostIndex,
-            Floor = ad.Floor
-        };
-        var responseAddress = await addressService.CreateAddressAsync(newAddressDto);
-        // Обогощаю ДТО объявления айди адреса и отправляю на сохранение
-        ad.AddressExtraId = responseAddress.Data?.Id;
-        var url = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/ad/create");
+            var apiUrl = "http://localhost:5105/api/ad/create"; // Change the URL accordingly
 
-        return await serviceHandler.PostConnectionHandler<CreateAdDto, GuidResponse>(url, ad);
+            var formContent = new MultipartFormDataContent();
+            
+            foreach (var property in typeof(CreateAdDto).GetProperties())
+            {
+                var value = property.GetValue(ad);
+                if (value != null)
+                {
+                    formContent.Add(new StringContent(value.ToString()), property.Name);
+                }
+                
+            }
+
+            // Add files to the form content
+            foreach (var file in ad.Files)
+            {
+                var fileContent = new StreamContent(file.OpenReadStream());
+                formContent.Add(fileContent, "files", file.FileName);
+            }
+
+            var response = await httpClient.PostAsync(apiUrl, formContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseContent = await response.Content.ReadAsStringAsync();
+                return responseContent;
+            }
+            else
+            {
+                throw new Exception($"Failed to send ad. StatusCode: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log or handle exception accordingly
+            Console.WriteLine($"Error: {ex.Message}");
+            throw;
+        }
     }
 
 

@@ -18,8 +18,8 @@ public class CreateAdDto()
     [property: JsonPropertyName("contractTypeId")]public int ContractType { get; set; }
     [property: JsonPropertyName("tags")]public string Tags { get; set; }
     [property: JsonPropertyName("files")] public List<IFormFile> Files{ get; set; }
-   [property: JsonPropertyName("lat")] public string? Latitude { get; set; }
-   [property: JsonPropertyName("lon")] public string? Longitude { get; set; }
+   [property: JsonPropertyName("latitude")] public string? Latitude { get; set; }
+   [property: JsonPropertyName("longitude")] public string? Longitude { get; set; }
    [property: JsonPropertyName("street")] public required string Street { get; set; }
    [property: JsonPropertyName("house")] public string? House { get; set; }
    [property: JsonPropertyName("floor")] public byte? Floor { get; set; }
