@@ -25,10 +25,8 @@ public class AdService(
     {
         try
         {
-            var apiUrl = "http://localhost:5105/api/ad/create"; // Change the URL accordingly
-
+            var apiUrl = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url,"api/ad/create");
             var formContent = new MultipartFormDataContent();
-            
             foreach (var property in typeof(CreateAdDto).GetProperties())
             {
                 var value = property.GetValue(ad);
@@ -36,22 +34,20 @@ public class AdService(
                 {
                     formContent.Add(new StringContent(value.ToString()), property.Name);
                 }
-                
             }
-
             // Add files to the form content
             foreach (var file in ad.Files)
             {
                 var fileContent = new StreamContent(file.OpenReadStream());
                 formContent.Add(fileContent, "files", file.FileName);
             }
-
             var response = await httpClient.PostAsync(apiUrl, formContent);
 
             if (response.IsSuccessStatusCode)
             {
                 string responseContent = await response.Content.ReadAsStringAsync();
-                return responseContent;
+                var result =  await serviceHandler.HandleSuccessResponse<GuidResponse>(response);
+                return result;
             }
             else
             {
