@@ -7,6 +7,28 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/Auth.styles.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure wrapper takes full height of viewport */
+        }
+
+        .container-main {
+            flex-grow: 1; /* Main content takes up remaining space */
+        }
+
+        .footer {
+            position: fixed;
+            height: 50px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            margin-bottom: 0px;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -19,22 +41,24 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Вход в BERU.RENT</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 </header>
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
+<div class="container-main">
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
 </div>
 
-<footer class="border-top footer text-muted">
+<footer class="footer text-muted">
     <div class="container">
-        &copy; 2024 - Auth 
+        &copy; 2024 - BERU.RENT 
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

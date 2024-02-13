@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Bff.Application.Contracts;
 using Common;
 using Deal.Dto.Booking;
@@ -10,13 +11,14 @@ public class CloseDeal(IDealService _service) : Endpoint<CloseDealRequestDto, Re
     public override void Configure()
     {
         Get("/bff/deal/close");
-        AllowAnonymous();
     }
     
     public override async Task HandleAsync
         (CloseDealRequestDto? request, CancellationToken ct)
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
+        var id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        request.UserId = id;
         var response = await _service.CloseDealAsync(request!);
         await SendAsync(response, cancellation: ct);
     }

@@ -1,6 +1,10 @@
 ﻿using Ad.Application.Contracts.File;
 using Ad.Application.Contracts.Ad;
+using Ad.Application.Contracts.Address;
+using Ad.Application.DTO.GetDtos;
+using Ad.Domain.Models;
 using Ad.Dto.CreateDtos;
+using Ad.Dto.RequestDto;
 using Deal.Dto.Booking;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,20 +15,38 @@ namespace Ad.Api.Controllers;
 public class AdController:ControllerBase
 {
     private readonly IAdService _service;
+    private readonly IAddressService<CreateAddressExtraDto, AddressExtraDto> _addressExtraService;
     private readonly IFileService _fileService;
 
-    public AdController(IAdService service, IFileService fileService)
+    public AdController(IAdService service, IFileService fileService, IAddressService<CreateAddressExtraDto, AddressExtraDto> addressExtraService)
     {
         _service = service;
         _fileService = fileService;
+        _addressExtraService = addressExtraService;
     }
     
     [HttpPost("/api/ad/create")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> CreateAdAsync([FromForm] CreateAdDto dto)
+    public async Task<IActionResult> CreateAdAsync([FromForm]CreateAdDto ad)
     {
-       var result =  await _service.CreateAdAsync(dto);
-        foreach (var file in dto.Files)
+        
+        var newAddressDto = new CreateAddressExtraDto
+        {
+            House = ad.House,
+            Street = ad.Street,
+            Country = ad.Country,
+            City = ad.City,
+            Region = ad.Region,
+            Apartment = ad.Apartment,
+            Longitude = ad.Longitude,
+            Latitude = ad.Latitude,
+            PostIndex = ad.PostIndex,
+            Floor = ad.Floor
+        };
+       var guidResp =  await _addressExtraService.CreateAsync(newAddressDto);
+       ad.AddressExtraId = guidResp.Data?.Id;
+       var result =  await _service.CreateAdAsync(ad);
+       foreach (var file in ad.Files)
         {
             var fileDto = new CreateFileDto(result.Data!.Id, file);
             await _fileService.UploadFileAsync(fileDto);
