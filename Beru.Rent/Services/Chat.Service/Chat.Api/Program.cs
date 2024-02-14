@@ -29,7 +29,7 @@ builder.Services.AddCors(options =>
             .AllowCredentials()
             .AllowAnyHeader();
         
-        builder.WithOrigins("http://localhost:3000");
+        builder.WithOrigins("https://localhost:3000");
     });
 });
 
@@ -57,8 +57,6 @@ app.UseHttpsRedirection();
 app.MapControllers();
 app.UseRouting();
 app.UseCors("mypolicy");
-app.UseAuthentication();
-app.UseAuthorization();
 app.MapHub<ChatHub>("/chatHub");
 
 app.Run();

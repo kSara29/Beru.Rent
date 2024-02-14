@@ -1,7 +1,9 @@
-﻿using Bff.Application.Contracts;
+﻿using System.Security.Claims;
+using Bff.Application.Contracts;
 using Chat.Dto.ResponseModel;
 using Common;
 using FastEndpoints;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Bff.Api.Endpoints.ChatService;
 
@@ -10,14 +12,15 @@ public class LoadChatHistory(IChatService service): Endpoint<RequestById, Respon
     public override void Configure()
     {
         Get("/bff/chat/loadChatHistoryById");
-        AllowAnonymous();
+        AuthSchemes(JwtBearerDefaults.AuthenticationScheme);
     }
     
     public override async Task HandleAsync
         (RequestById? request, CancellationToken ct)
     { 
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         if (request is null) await SendAsync(null!, cancellation: ct);
-        var response = await service.LoadChatHistoryAsync(request!);
+        var response = await service.LoadChatHistoryAsync(request!, userId);
         await SendAsync(response, cancellation: ct);
     }
 }

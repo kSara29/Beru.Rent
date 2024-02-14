@@ -42,7 +42,7 @@ public class ChatRepository: IChatRepository
         }
     }
 
-    public async Task<Domain.Model.Chat> SaveMessageAsync(Guid chatId, Message message)
+    public async Task<Domain.Model.Chat?> SaveMessageAsync(Guid chatId, Message message)
     {
         var filter = Builders<Domain.Model.Chat>.Filter.Eq(chat => chat.Id, chatId); 
         var update = Builders<Domain.Model.Chat>.Update.Push(chat => chat.Messages, message); 
@@ -55,7 +55,7 @@ public class ChatRepository: IChatRepository
     }
 
     
-    public async  Task<ResponseModel<List<MessageDto>>> GetMessagesByChatIdAsync(Guid chatId)
+    public async  Task<ResponseModel<List<MessageDto>>?> GetMessagesByChatIdAsync(Guid chatId)
     {
         var chat = await _chatCollection.Find(x => x.Id == chatId).FirstOrDefaultAsync();
         var messageHistory = new List<MessageDto>();
@@ -82,5 +82,12 @@ public class ChatRepository: IChatRepository
             return ResponseModel<List<MessageDto>>.CreateFailed(errors);
         }
         
+    }
+
+    public async Task<List<string>> GetChatParticipants(Guid chatId)
+    {
+        var chat = await _chatCollection.Find(x => x.Id == chatId).FirstOrDefaultAsync();
+
+        return chat.Participants;
     }
 }

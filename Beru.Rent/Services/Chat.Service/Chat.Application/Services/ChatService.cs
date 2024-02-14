@@ -21,15 +21,20 @@ public class ChatService: IChatService
         return response;
     }
 
-    public async Task<Domain.Model.Chat> SaveMessageAsync(Guid chatId, Domain.Model.Message message)
+    public async Task<Domain.Model.Chat?> SaveMessageAsync(Guid chatId, Domain.Model.Message message)
     {
         var response = await _chatRepository.SaveMessageAsync(chatId, message);
         return response;
     }
 
-    public async Task<ResponseModel<List<MessageDto>>> GetMessagesByChatIdAsync(Guid chatId)
+    public async Task<ResponseModel<List<MessageDto>>?> GetMessagesByChatIdAsync(Guid chatId)
     {
         var response = await _chatRepository.GetMessagesByChatIdAsync(chatId);
         return response;
+    }
+
+    public async Task<List<string>> GetChatParticipants(Guid chatId)
+    {
+        return await _chatRepository.GetChatParticipants(chatId);
     }
 }
