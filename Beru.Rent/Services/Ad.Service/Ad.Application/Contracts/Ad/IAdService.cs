@@ -16,6 +16,7 @@ public interface IAdService
     Task<ResponseModel<AdDto>> GetAdAsync(Guid id);
     Task<ResponseModel<List<AdDto>>> GetAdsByUserId(Guid userId);
     Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(int page, string sortdate, string sortprice, string cat);
+    Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllFindAdAsync(int page, string sortdate, string sortprice, string cat, string finder);
     Task<ResponseModel<DecimalResponse>> GetCostAsync(CreateBookingRequestDto dto);
     
 }

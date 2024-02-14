@@ -1,6 +1,9 @@
 version: '3.4'
 
 services:
+  minio:
+    image: docker.io/bitnami/minio:2022
+    
   mongodb:
     image: mongo
   
@@ -49,3 +52,4 @@ services:
 volumes:
   postgres_data:
   mongo_data:
+  minio_data:

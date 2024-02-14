@@ -1,4 +1,5 @@
-﻿using Bff.Application.Contracts;
+﻿using System.Security.Claims;
+using Bff.Application.Contracts;
 using Common;
 using FastEndpoints;
 using User.Dto;
@@ -12,14 +13,15 @@ public class GetUserById(IUserService service) : Endpoint<GetUserByIdRequest, Re
     public override void Configure()
     {
         Get("/bff/user/getById");
-        AllowAnonymous();
     }
     
     public override async Task HandleAsync
-        (GetUserByIdRequest? request, CancellationToken ct)
+        (GetUserByIdRequest request, CancellationToken ct)
     {
-        if (request is null) await SendAsync(null!, cancellation: ct);
-        var response = await service.GetUserByIdAsync(request!);
+        if (string.IsNullOrWhiteSpace(request.Id))
+            request.Id = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+        
+        var response = await service.GetUserByIdAsync(request!.Id);
         await SendAsync(response, cancellation: ct);
     }
 }

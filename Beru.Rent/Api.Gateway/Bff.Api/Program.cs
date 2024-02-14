@@ -55,7 +55,6 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader();
         
         builder.WithOrigins("https://localhost:3000");
-        //builder.WithOrigins("http://localhost:3000");
     });
 });
 

@@ -13,20 +13,20 @@ public class UserService
      (ServiceHandler serviceHandler, 
         IOptions<RequestToUserApi> jsonOptions) : IUserService
 {
-    public async Task<ResponseModel<UserDtoResponce>> GetUserByEmailAsync(GetUserByEmailRequest request) => 
+    public async Task<ResponseModel<UserDtoResponce>> GetUserByEmailAsync(string request) => 
         await serviceHandler.GetConnectionHandler<UserDtoResponce>(serviceHandler.CreateConnectionUrlWithQuery
-                (jsonOptions.Value.Url, "api/user/getByMail?Email=", request.Email));
+                (jsonOptions.Value.Url, "api/user/getByMail?Email=", request));
     
-    public async Task<ResponseModel<UserDtoResponce>> GetUserByIdAsync(GetUserByIdRequest request) =>
+    public async Task<ResponseModel<UserDtoResponce>> GetUserByIdAsync(string request) =>
         await serviceHandler.GetConnectionHandler<UserDtoResponce>
             (serviceHandler.CreateConnectionUrlWithQuery
-                (jsonOptions.Value.Url, "api/user/getById?Id=", request.Id));
+                (jsonOptions.Value.Url, "api/user/getById?Id=", request));
     
 
-    public async Task<ResponseModel<UserDtoResponce>> GetUserByNameAsync(GetUserByUserNameRequest request) =>
+    public async Task<ResponseModel<UserDtoResponce>> GetUserByNameAsync(string request) =>
         await serviceHandler.GetConnectionHandler<UserDtoResponce>
             (serviceHandler.CreateConnectionUrlWithQuery
-                (jsonOptions.Value.Url, "api/user/getByName?UserName=", request.UserName));
+                (jsonOptions.Value.Url, "api/user/getByName?UserName=", request));
 
     public async Task<ResponseModel<UserDtoResponce>> DeleteUserAsync(DeleteUserByIdRequest request)
     {

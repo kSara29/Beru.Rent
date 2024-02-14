@@ -1,4 +1,5 @@
-﻿using Bff.Application.Contracts;
+﻿using System.Security.Claims;
+using Bff.Application.Contracts;
 using Common;
 using Deal.Dto.Booking;
 using FastEndpoints;
@@ -10,13 +11,14 @@ public class CreateBooking(IBookingService serviceCreate) : Endpoint<CreateBooki
     public override void Configure()
     {
             Post("/bff/booking/create");
-        AllowAnonymous();
     }
     
     public override async Task HandleAsync
         (CreateBookingRequestDto? request, CancellationToken ct)
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
+        var id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        request.TenantId = id;
         var response = await serviceCreate.CreateBookingAsync(request!);
         await SendAsync(response, cancellation: ct);
     }
