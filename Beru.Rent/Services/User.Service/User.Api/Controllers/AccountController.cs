@@ -2,9 +2,9 @@
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using User.Api.Models;
+using User.Api.Services;
 using User.Application.Contracts;
 using User.Application.Validation;
 using User.Dto.RequestDto;
@@ -15,18 +15,22 @@ public class AccountController(
     IUserService userService,
     UserManager<Domain.Models.User> userManager,
     SignInManager<Domain.Models.User> signInManager,
-    IEmailSender emailSender,
+    EmailService emailSender,
     IUserValidator validator,
     CreateUserValidation createUserValidation,
     IResponseMapper mapper,
     IIdentityServerInteractionService interaction)
     : Controller
 {
-    // Здесь IUserService предполагается ваш сервис пользователя
-    // Замените IEmailSender на ваш интерфейс для отправки электронной почты
 
+    [HttpGet("register")]
+    public async Task<IActionResult> Register(string? returnUrl)
+    {
+        return View();
+    }
+    
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] CreateUserDto model)
+    public async Task<IActionResult> Register(CreateUserDto model)
     {
         var validationResult = await createUserValidation.ValidateAsync(model);
         if (!validationResult.IsValid)
@@ -44,45 +48,40 @@ public class AccountController(
             return BadRequest(resp);
         }
         
-        var mailResult = await validator.FindUserByEmailNumberAsync(model.Mail);
-        if (mailResult is not null)
+        if (!string.IsNullOrWhiteSpace(model.Mail) && 
+            await validator.FindUserByEmailNumberAsync(model.Mail) is not null)
         {
             var resp = await mapper
                 .HandleFailedResponseForEmail();
             return BadRequest(resp);
         }
         
-        var userNameResult = await validator.FindUserByUserNameAsync(model.UserName);
-        if (userNameResult is not null)
+        if (!string.IsNullOrWhiteSpace(model.UserName) && 
+            await validator.FindUserByUserNameAsync(model.UserName) is not null)
         {
             var resp = await mapper
                 .HandleFailedResponseForUserName();
             return BadRequest(resp);
         }
+        
         var result = await userService.CreateUserAsync(model, model.Password);
-        if (result is not null)
         {
-
             var token = await userManager.GenerateEmailConfirmationTokenAsync(result);
             var confirmLink = 
-                Url.Action("ConfirmEmail", "Account", 
-                    new { userId = result.Id, token }, Request.Scheme);
+                Url.Action("ConfirmEmail", "Account",
+                    new { userId = result.Id, token, returnUrl = model.ReturnUrl }, Request.Scheme);
             await emailSender.SendEmailAsync
-                (result.Email, 
-                    "Подтверждение адреса электронной почты", 
-                    $"Подтвердите свой адрес электронной почты, перейдя по ссылке: " +
-                    $"<a href='{confirmLink}'>link</a>");
+            (result.Email!, 
+                "Подтверждение адреса электронной почты", 
+                $"Подтвердите свой адрес электронной почты, перейдя по ссылке: " +
+                $"<a href='{confirmLink}'>confirm email</a>");
 
             return Ok("Check your email for confirmation link");
-        }
-        else
-        {
-            return BadRequest();
         }
     }
 
     [HttpGet("confirm-email")]
-    public async Task<IActionResult> ConfirmEmail(string userId, string token)
+    public async Task<IActionResult> ConfirmEmail(string userId, string token, string returnUrl)
     {
         if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
         {
@@ -98,7 +97,13 @@ public class AccountController(
         var result = await userManager.ConfirmEmailAsync(user, token);
         if (result.Succeeded)
         {
-            return Ok("Email confirmed successfully");
+            var signInResult = await signInManager.PasswordSignInAsync(user, user.PasswordHash, false, false);
+            if (signInResult.Succeeded)
+            {
+                return Redirect(returnUrl!);
+            }
+            ModelState.AddModelError("UserName", "Something went wrong");
+            return Redirect(returnUrl!);
         }
         else
         {
@@ -126,19 +131,25 @@ public class AccountController(
             return View(model);
         }
 
+        if (!user.EmailConfirmed)
+        {
+            ModelState.AddModelError("EmailConfirmed", "Подтвердите почту");
+            return View(model);
+        }
+
         var signInResult = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
         if (signInResult.Succeeded)
         {
-            return Redirect(model.ReturnUrl);
+            return Redirect(model.ReturnUrl!);
         }
-        ModelState.AddModelError("UserName", "Somthing went wrong");
-        return Redirect(model.ReturnUrl);
+        ModelState.AddModelError("UserName", "Something went wrong");
+        return View(model);
     }
     
     [HttpGet]
     public async Task<IActionResult> Logout(string logoutId)
     {
-        if (User?.Identity.IsAuthenticated == true)
+        if (User.Identity!.IsAuthenticated)
         {
             await HttpContext.SignOutAsync(IdentityServerConstants.DefaultCookieAuthenticationScheme);
         }

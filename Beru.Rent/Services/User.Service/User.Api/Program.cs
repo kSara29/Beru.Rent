@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using MimeKit;
 using User.Api.Controllers;
 using User.Api.IdentityConfiguration;
+using User.Api.JsonOptions;
 using User.Api.Services;
 using ValidationOptions = IdentityServer4.Configuration.ValidationOptions;
 
@@ -26,8 +27,9 @@ builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureService();
 builder.Services.AddFastEndpoints();
 builder.Services.AddHttpClient();
-builder.Services.AddSingleton<MimeMessage>();
-builder.Services.AddSingleton<IEmailSender, EmailService>();
+builder.Services.Configure<EmailSender>(builder.Configuration.GetSection(EmailSender.Name));
+// builder.Services.AddSingleton<IEmailSender>();
+builder.Services.AddSingleton<EmailService>();
 
 builder.Services.AddDbContext<UserContext>(options =>
 {
