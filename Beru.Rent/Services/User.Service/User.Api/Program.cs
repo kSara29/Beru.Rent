@@ -7,7 +7,11 @@ using User.Application.Extencions;
 using User.Infrastructure;
 using User.Infrastructure.Context;
 using FastEndpoints;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using MimeKit;
+using User.Api.Controllers;
 using User.Api.IdentityConfiguration;
+using User.Api.Services;
 using ValidationOptions = IdentityServer4.Configuration.ValidationOptions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,18 +26,22 @@ builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureService();
 builder.Services.AddFastEndpoints();
 builder.Services.AddHttpClient();
+builder.Services.AddSingleton<MimeMessage>();
+builder.Services.AddSingleton<IEmailSender, EmailService>();
 
 builder.Services.AddDbContext<UserContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"));
 }).AddIdentity<User.Domain.Models.User, IdentityRole>(opt =>
 {
+    opt.SignIn.RequireConfirmedEmail = true;
     opt.Password.RequiredLength = 8;
     opt.Password.RequireLowercase = false;
     opt.Password.RequireDigit = false;
     opt.Password.RequireUppercase = false;
     opt.Password.RequireNonAlphanumeric = false;
-}).AddEntityFrameworkStores<UserContext>();
+}).AddEntityFrameworkStores<UserContext>()
+.AddDefaultTokenProviders();
 
 // Add services to the container.
 builder.Services.AddIdentityServer(config =>

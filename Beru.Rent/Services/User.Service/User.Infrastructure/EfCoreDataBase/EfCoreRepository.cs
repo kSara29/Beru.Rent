@@ -19,7 +19,9 @@ public class EfCoreRepository : IUserRepository
     {
         var result = await _userManager.CreateAsync(model, password);
         if (result.Succeeded)
+        {
             await _userManager.AddToRoleAsync(model, "user");
+        }
         return model;
     }
 
