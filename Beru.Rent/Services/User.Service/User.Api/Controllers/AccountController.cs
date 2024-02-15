@@ -30,7 +30,7 @@ public class AccountController(
     }
     
     [HttpPost("register")]
-    public async Task<IActionResult> Register(CreateUserDto model)
+    public async Task<IActionResult> Register([FromBody]CreateUserDto model)
     {
         var validationResult = await createUserValidation.ValidateAsync(model);
         if (!validationResult.IsValid)
