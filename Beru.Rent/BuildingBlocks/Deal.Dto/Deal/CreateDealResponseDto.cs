@@ -5,5 +5,6 @@ namespace Deal.Dto.Booking;
 [Serializable]
 public record CreateDealResponseDto(
     [property: JsonPropertyName("dealId")] Guid DealId,
-    [property: JsonPropertyName("boolean")] bool Boolean
+    [property: JsonPropertyName("boolean")] bool Boolean,
+    [property: JsonPropertyName("participant")] List<string> Participant
 );

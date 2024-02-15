@@ -7,7 +7,7 @@ public class Chat
 {
     [BsonId]
     public Guid Id { get; set; }
-    public List<Guid> Participants { get; set; } = new List<Guid>();
+    public List<string> Participants { get; set; } = new List<string>();
     public DateTime CreatedAt { get; set; }
     public List<Message> Messages { get; set; }
 }

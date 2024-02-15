@@ -22,9 +22,10 @@ public class ChatService(ServiceHandler serviceHandler,IOptions<RequestToChatApi
         return await serviceHandler.PostConnectionHandler<SendMessageRequest, SendMessageResponse>(url, request);
     }
 
-    public async Task<ResponseModel<List<MessageDto>>> LoadChatHistoryAsync(RequestById request)
+    public async Task<ResponseModel<List<MessageDto>>> LoadChatHistoryAsync(RequestById request, string userId)
     {
-        var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/chat/history/", request.Id.ToString());
+        //var url = serviceHandler.CreateConnectionUrlWithQuery(jsonOptions.Value.Url, "api/chat/history/", request.Id.ToString());
+        var url = $"{jsonOptions.Value.Url}api/chat/history/{request.Id}/{userId}";
         return await serviceHandler.GetConnectionHandler<List<MessageDto>>(url);
     }
 }

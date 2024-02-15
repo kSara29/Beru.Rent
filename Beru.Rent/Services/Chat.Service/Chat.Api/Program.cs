@@ -1,3 +1,4 @@
+using Chat.Api.BackgroundServices;
 using Chat.Api.Hubs;
 using Chat.Application;
 using Chat.Application.Contracts;
@@ -15,6 +16,7 @@ builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureServices();
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
+builder.Services.AddHostedService<RabbitMQConsumerHostedService>();
 
 #region CORS политики
 
@@ -27,7 +29,7 @@ builder.Services.AddCors(options =>
             .AllowCredentials()
             .AllowAnyHeader();
         
-        builder.WithOrigins("http://localhost:3000");
+        builder.WithOrigins("https://localhost:3000");
     });
 });
 

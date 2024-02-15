@@ -10,7 +10,6 @@ public class AddressExtraDto
     public string? House { get; set; }
     public byte? Floor { get; set; }
     public string? Apartment { get; set; }
-    public Guid AddressMainId { get; set; }
     public string? Country { get; set; }
     public string? City { get; set; }
     public string? Region { get; set; }

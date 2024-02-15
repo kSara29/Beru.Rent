@@ -30,7 +30,7 @@ public class ServiceHandler(IHttpClientFactory httpClientFactory)
     /// </summary>
     /// <param name="responseMessage">ответ от сервера полученный от метода HttpGetConnection или HttpPostConnection</param>
     /// <returns>возвращает общую модель ответа ResponseModel<TResp></returns>
-    private async Task<ResponseModel<TResp>> HandleSuccessResponse<TResp>(HttpResponseMessage responseMessage)
+    public async Task<ResponseModel<TResp>> HandleSuccessResponse<TResp>(HttpResponseMessage responseMessage)
     {
         var jsonString = await responseMessage.Content.ReadAsStringAsync();
         var responseDto = JsonConvert.DeserializeObject<ResponseModel<TResp>>(jsonString);
@@ -117,7 +117,6 @@ public class ServiceHandler(IHttpClientFactory httpClientFactory)
             await client.PostAsync(connectionString, contentRequest);
         return connection;
     }
-
     /// <summary>
     /// Обрабатывает не успешный ответ от сервера
     /// </summary>

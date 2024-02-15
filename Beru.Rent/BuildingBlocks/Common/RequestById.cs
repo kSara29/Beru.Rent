@@ -3,7 +3,7 @@
 namespace Common;
 
 
-public record RequestById
+public class RequestById
 {
-    [QueryParam] public required Guid Id { get; init; }
+    [QueryParam] public Guid? Id { get; set; }
 };

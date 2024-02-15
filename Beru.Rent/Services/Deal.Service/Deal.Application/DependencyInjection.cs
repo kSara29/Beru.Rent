@@ -11,6 +11,14 @@ public static class DependencyInjection
     {
         service.AddScoped<IDealService, DealService>();
         service.AddScoped<IBookingService, BookingService>();
+        
+        service.AddSingleton<IMessagePublisher, MessagePublisher>((serviceProvider) =>
+        {
+            var hostname = "amqp://guest:guest@localhost:5672";
+            var publisher = new MessagePublisher(hostname);
+            return publisher;
+        });
+
         return service;
     }
 }

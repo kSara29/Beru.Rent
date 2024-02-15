@@ -3,7 +3,9 @@ using System.Text.Json.Serialization;
 namespace Deal.Dto.Booking;
 
 [Serializable]
-public record CloseDealRequestDto(
-    [property: JsonPropertyName("id")] Guid Id,
-    [property: JsonPropertyName("userId")] string UserId
-);
+public class CloseDealRequestDto
+{
+    [property: JsonPropertyName("id")] public Guid Id { get; set; }
+
+    [property: JsonPropertyName("userId")] public string? UserId { get; set; }
+}

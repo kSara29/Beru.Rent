@@ -1,4 +1,5 @@
-﻿using Ad.Dto.GetDtos;
+﻿using System.Security.Claims;
+using Ad.Dto.GetDtos;
 using Bff.Application.Contracts;
 using Common;
 using FastEndpoints;
@@ -17,6 +18,9 @@ public class GetAdsByUserId (IAdService service) : Endpoint<RequestById, Respons
         (RequestById request, CancellationToken ct)
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
+        
+        if (string.IsNullOrWhiteSpace(request.Id.ToString()))
+            request.Id = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var response = await service.GetAdsByUserIdAsync(request);
         await SendAsync(response, cancellation: ct);
     }
