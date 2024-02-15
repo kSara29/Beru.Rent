@@ -17,7 +17,7 @@ public class EfDealRepository: IDealRepository
         _db = db;
     }
 
-    public async Task<Dictionary<bool, Guid>> CreateDealAsync(CreateDealRequestDto dto)
+    public async Task<ResponseModel<CreateDealResponseDto>> CreateDealAsync(CreateDealRequestDto dto)
     {
             Booking? book = await _db.Bookings.FirstOrDefaultAsync(b => b.Id == dto.BookingId);
             if (dto.IsApproved)
@@ -34,20 +34,36 @@ public class EfDealRepository: IDealRepository
                 
                 deal.DealState = DealState.Open.ToString();
                 book.BookingState = BookingState.Accept.ToString();
-                _db.Deals.Add(deal);
-                _db.SaveChanges();
-                Dictionary<bool, Guid> trueres = new Dictionary<bool, Guid>() {[true] = deal.Id };
-                return trueres;
+                await _db.Deals.AddAsync(deal);
+                await _db.SaveChangesAsync();
+                
+                var participiants = new List<string>();
+                participiants.Add(book.OwnerId);
+                participiants.Add(book.TenantId);
+                var dealDto = new CreateDealResponseDto(deal.Id, true, participiants);
+                return ResponseModel<CreateDealResponseDto>.CreateSuccess(dealDto);
             }
             else
             {
                 book.BookingState = BookingState.Decline.ToString();
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
                 Domain.Models.Deal deal = new Domain.Models.Deal();
-                Dictionary<bool, Guid> falseres = new Dictionary<bool, Guid>() {[false] = deal.Id };
-                return falseres;
+                var dealDto = new CreateDealResponseDto(deal.Id, false, new List<string>());
+                return ResponseModel<CreateDealResponseDto>.CreateSuccess(dealDto);
             }
             
+    }
+
+    public async Task<ResponseModel<CreateDealResponseDto>> UpdateDealAsync(Guid chatId, Guid dealId)
+    {
+        var deal = await _db.Deals.FirstOrDefaultAsync(d => d.Id == dealId);
+        
+        deal.ChatId = chatId;
+        await _db.SaveChangesAsync();
+
+        var response = new CreateDealResponseDto(dealId, true,
+            new List<string>() { deal.OwnerId, deal.TenantId});
+        return ResponseModel<CreateDealResponseDto>.CreateSuccess(response);
     }
 
     public async Task<Domain.Models.Deal> GetDealAsync(GetDealRequestDto dto)

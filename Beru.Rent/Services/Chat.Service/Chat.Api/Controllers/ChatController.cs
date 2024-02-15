@@ -4,6 +4,7 @@ using Chat.Domain.Model;
 using Chat.Dto.RequestDto;
 using Chat.Dto.ResponseModel;
 using Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -38,28 +39,45 @@ public class ChatController: ControllerBase
     }
     
     [HttpPost("/api/chat/send")]
-    public async Task<Domain.Model.Chat> SendMessage( SendMessageRequest request)
+    public async Task<Domain.Model.Chat?> SendMessage( SendMessageRequest request)
     {
-        var newMessage = new Message()
-        {
-            CreatedAt = DateTime.UtcNow,
-            MessageId = Guid.NewGuid(),
-            SenderId = Guid.NewGuid(),
-            Text = request.Message
-        };
-        
-        var chatWithMessages = await _chatService.SaveMessageAsync(request.ChatId, newMessage);
-        
-        await _chatHub.Clients.All.SendAsync("ReceiveMessage", request.Message);
+        var chatParticipients = await _chatService.GetChatParticipants(request.ChatId);
 
-        return chatWithMessages;
+        foreach (var userId in chatParticipients)
+        {
+            if (userId == request.UserId)
+            {
+                var newMessage = new Message()
+                {
+                    CreatedAt = DateTime.UtcNow,
+                    MessageId = Guid.NewGuid(),
+                    SenderId =  Guid.Parse(request.UserId),
+                    Text = request.Message
+                };
+        
+                var chatWithMessages = await _chatService.SaveMessageAsync(request.ChatId, newMessage);
+        
+                await _chatHub.Clients.All.SendAsync("ReceiveMessage", request.UserId, request.Message);
+
+                return chatWithMessages;
+            }
+        }
+        return null;
     }
     
     
-    [HttpGet("/api/chat/history/{chatId}")]
-    public async Task<ResponseModel<List<MessageDto>>> GetChatHistory(Guid chatId)
+    [HttpGet("/api/chat/history/{chatId}/{userId}")]
+    public async Task<ResponseModel<List<MessageDto>>?> GetChatHistory(Guid chatId, string userId)
     {
-        var messages = await _chatService.GetMessagesByChatIdAsync(chatId);
-        return messages;
+        var chatParticipients = await _chatService.GetChatParticipants(chatId);
+        foreach (var userChatParticipient in chatParticipients)
+        {
+            if (userChatParticipient == userId)
+            {
+                var messages = await _chatService.GetMessagesByChatIdAsync(chatId);
+                return messages;
+            }
+        }
+        return null;
     }
 }

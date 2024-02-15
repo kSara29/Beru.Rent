@@ -17,7 +17,7 @@ public static class DependencyInjection
             return new MongoDbContext(database);
         });
         
-        services.AddScoped<IChatRepository, ChatRepository>();
+        services.AddSingleton<IChatRepository, ChatRepository>();
         return services;
     }
 }

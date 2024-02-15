@@ -5,7 +5,8 @@ namespace Deal.Application.Contracts.Deal;
 
 public interface IDealRepository
 {
-    Task<Dictionary<bool, Guid>> CreateDealAsync(CreateDealRequestDto dto);
+    Task<ResponseModel<CreateDealResponseDto>> CreateDealAsync(CreateDealRequestDto dto);
+    Task<ResponseModel<CreateDealResponseDto>> UpdateDealAsync(Guid chatId, Guid dealId); 
     Task<Domain.Models.Deal> GetDealAsync(GetDealRequestDto dto);
     Task<GetDealPagesDto<Domain.Models.Deal>> GetAllDealsAsync(GetDealPagesRequestDto dto);
     Task<GetDealPagesDto<Domain.Models.Deal>> GetAllTenantDealsAsync(GetDealPagesRequestDto dto);

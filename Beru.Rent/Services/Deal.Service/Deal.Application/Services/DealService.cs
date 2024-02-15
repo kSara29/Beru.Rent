@@ -1,6 +1,7 @@
 ﻿using Common;
 using Deal.Application.Contracts.Deal;
 using Deal.Application.Mapper;
+using Deal.Application.Message;
 using Deal.Dto.Booking;
 
 namespace Deal.Application.Services;
@@ -8,23 +9,23 @@ namespace Deal.Application.Services;
 public class DealService: IDealService
 {
     private readonly IDealRepository _dealRepository;
+    private readonly IMessagePublisher _messagePublisher;
     
-    public DealService(IDealRepository dealRepository)
+    public DealService(IDealRepository dealRepository, IMessagePublisher messagePublisher)
     {
         _dealRepository = dealRepository;
+        _messagePublisher = messagePublisher;
     }
 
-    public async Task<CreateDealResponseDto> CreateDealAsync(CreateDealRequestDto dto)
+    public async Task<ResponseModel<CreateDealResponseDto>> CreateDealAsync(CreateDealRequestDto dto)
     {
         var res = await _dealRepository.CreateDealAsync(dto);
-        if (res.ContainsKey(true))
-        {
-            return res[true].ToDtoTrue();
-        }
-        else
-        {
-            return res[false].ToDtoFalse();
-        }
+        var chatId = await
+            _messagePublisher.PublishDealCreatedMessageAsync(new ChatCreatedMessage() { Users = res.Data.Participant });
+
+        var createDealResponse = await _dealRepository.UpdateDealAsync(chatId, res.Data.DealId);
+        
+        return createDealResponse;
     }
 
     public async Task<ResponseModel<GetDealResponseDto>> GetDealAsync(GetDealRequestDto dto)
