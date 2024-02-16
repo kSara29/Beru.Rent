@@ -9,7 +9,6 @@ public class Deal: DealEntity
      public decimal Deposit { get; set; }
      public Guid ChatId { get; set; }
      public Guid BookingId { get; set; }
-
      public Deal(
           Guid adId,
           string tenantId,
