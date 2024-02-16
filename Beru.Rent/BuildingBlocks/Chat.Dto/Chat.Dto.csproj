@@ -10,4 +10,8 @@
       <PackageReference Include="FastEndpoints.Attributes" Version="5.21.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Services\Chat.Service\Chat.Domain\Chat.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

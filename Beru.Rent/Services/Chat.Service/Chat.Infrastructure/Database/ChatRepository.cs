@@ -90,4 +90,39 @@ public class ChatRepository: IChatRepository
 
         return chat.Participants;
     }
+
+    public async Task<ResponseModel<List<GetAllChatsResponse>>> GetAllChats(string userId)
+    {
+        var chats = await _chatCollection.Find(x => x.Participants.Contains(userId)).ToListAsync();
+        var chatsList = new List<GetAllChatsResponse>(); 
+        
+        foreach (var chat in chats)
+        {
+            var messageHistory = new List<MessageDto>();
+            foreach (var mes in chat.Messages)
+            {
+                var mesDto = new MessageDto()
+                {
+                    SenderId = mes.SenderId,
+                    MessageId = mes.MessageId,
+                    CreatedAt = mes.CreatedAt,
+                    Text = mes.Text
+                };
+            
+                messageHistory.Add(mesDto);
+            }
+            
+            var chatDto = new GetAllChatsResponse()
+            {
+                Id = chat.Id,
+                Participants = chat.Participants,
+                CreatedAt = chat.CreatedAt,
+                Messages = messageHistory
+            };
+            
+            chatsList.Add(chatDto);
+        }
+
+        return ResponseModel<List<GetAllChatsResponse>>.CreateSuccess(chatsList);
+    }
 }
