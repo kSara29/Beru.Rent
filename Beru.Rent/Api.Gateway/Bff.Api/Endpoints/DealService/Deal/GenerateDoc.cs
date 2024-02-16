@@ -5,7 +5,7 @@ using FastEndpoints;
 
 namespace Bff.Api.Endpoints.DealService.Deal;
 
-public class GenerateDoc(IDocumentService _service) : Endpoint<RequestById, ResponseModel<byte[]>>
+public class GenerateDoc(IDocumentService _service) : Endpoint<RequestById, ResponseModel<DocDataDto>>
 {
     public override void Configure()
     {
