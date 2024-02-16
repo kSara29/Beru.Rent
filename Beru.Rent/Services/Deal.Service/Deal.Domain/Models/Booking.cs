@@ -5,8 +5,6 @@ namespace Deal.Domain.Models;
 public class Booking: DealEntity
 { 
     public string BookingState { get; set; }
-
-    
     
     public Booking(
         Guid adId,

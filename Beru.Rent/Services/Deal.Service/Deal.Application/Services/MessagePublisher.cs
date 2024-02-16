@@ -22,15 +22,23 @@ public class MessagePublisher : IMessagePublisher
 
     private void InitializeRabbitMq()
     {
-        var factory = new ConnectionFactory
+        try
         {
-            Uri = new Uri(_hostname),
-            ClientProvidedName = "Rabbit sender"
-        };
+            var factory = new ConnectionFactory
+            {
+                Uri = new Uri(_hostname),
+                ClientProvidedName = "Rabbit sender"
+            };
 
-        _connection = factory.CreateConnection();
-        _channel = _connection.CreateModel();
-        _channel.QueueDeclare(ResponseQueueName, false, false, false, null);
+            _connection = factory.CreateConnection();
+            _channel = _connection.CreateModel();
+            _channel.QueueDeclare(ResponseQueueName, false, false, false, null);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+       
     }
 
     public Task<Guid> PublishDealCreatedMessageAsync(ChatCreatedMessage message)
