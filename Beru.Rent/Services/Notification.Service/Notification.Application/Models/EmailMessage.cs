@@ -1,4 +1,4 @@
-namespace Notification.Appl.Models;
+namespace Notification.Application.Models;
 
 public class EmailMessage
 {

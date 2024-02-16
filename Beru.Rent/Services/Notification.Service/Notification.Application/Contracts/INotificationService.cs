@@ -1,4 +1,4 @@
-namespace Notification.Appl.Contracts;
+namespace Notification.Application.Contracts;
 
 public interface INotificationService<T>
 {
