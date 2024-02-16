@@ -80,4 +80,11 @@ public class ChatController: ControllerBase
         }
         return null;
     }
+
+    [HttpGet("/api/chat/chats/{userId}")]
+    public async Task<ResponseModel<List<GetAllChatsResponse>>> GetAllChatsByUserId(string userId)
+    {
+        var userChats = await _chatService.GetAllChats(userId);
+        return userChats;
+    }
 }

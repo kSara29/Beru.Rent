@@ -11,4 +11,5 @@ public interface IChatRepository
     public Task<Domain.Model.Chat?> SaveMessageAsync(Guid ChatId, Domain.Model.Message message);
     public Task<ResponseModel<List<MessageDto>>?> GetMessagesByChatIdAsync(Guid chatId);
     public Task<List<string>> GetChatParticipants(Guid ChatId);
+    public Task<ResponseModel<List<GetAllChatsResponse>>> GetAllChats(string userId);
 }

@@ -37,4 +37,9 @@ public class ChatService: IChatService
     {
         return await _chatRepository.GetChatParticipants(chatId);
     }
+
+    public async Task<ResponseModel<List<GetAllChatsResponse>>> GetAllChats(string userId)
+    {
+        return await _chatRepository.GetAllChats(userId);
+    }
 }

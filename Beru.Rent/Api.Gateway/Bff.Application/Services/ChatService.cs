@@ -28,4 +28,10 @@ public class ChatService(ServiceHandler serviceHandler,IOptions<RequestToChatApi
         var url = $"{jsonOptions.Value.Url}api/chat/history/{request.Id}/{userId}";
         return await serviceHandler.GetConnectionHandler<List<MessageDto>>(url);
     }
+
+    public async Task<ResponseModel<List<GetAllChatsResponse>>> GetAllChatsByUserId(GetChatsByIdRequest request)
+    {
+        var url = $"{jsonOptions.Value.Url}api/chat/chats/{request.Id}";
+        return await serviceHandler.GetConnectionHandler<List<GetAllChatsResponse>>(url);
+    }
 }
