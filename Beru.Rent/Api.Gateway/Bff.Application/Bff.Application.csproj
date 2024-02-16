@@ -21,4 +21,8 @@
       <ProjectReference Include="..\..\BuildingBlocks\User.Dto\User.Dto.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="DealDocTemplate\" />
+    </ItemGroup>
+
 </Project>
