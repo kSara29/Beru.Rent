@@ -88,7 +88,7 @@ void configureLoggin()
         .WriteTo.Debug()
         .WriteTo.File(
             path: $"logs/{environment}/{DateTime.Now.ToString("yyyy-MM-dd")}/{DateTime.Now.ToString("HH")}/log.txt",
-            rollingInterval: RollingInterval.Day,
+            rollingInterval: RollingInterval.Hour,
             rollOnFileSizeLimit: true,
             retainedFileCountLimit: null,
             shared: true)
