@@ -4,6 +4,7 @@ using Chat.Dto.RequestDto;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using RabbitMQ.Client.Exceptions;
 
 namespace Chat.Application.Message;
 
@@ -26,18 +27,25 @@ public class MessageConsumer
             Uri = new Uri("amqp://guest:guest@localhost:5672"),
             ClientProvidedName = "Rabbit receiver"
         };
-        
-        _connection = factory.CreateConnection();
-        _channel = _connection.CreateModel();
-        
-        string exchangeName = "myExchange";
-        string routingKey = "myRoutingKey";
-        string queueName = "myQueue";
-        
-        _channel.ExchangeDeclare(exchangeName, ExchangeType.Direct);
-        _channel.QueueDeclare(queueName, false, false, false, null);
-        _channel.QueueBind(queueName, exchangeName, routingKey, null);
-        _channel.BasicQos(0, 1, false);
+
+        try
+        {
+            _connection = factory.CreateConnection();
+            _channel = _connection.CreateModel();
+
+            string exchangeName = "myExchange";
+            string routingKey = "myRoutingKey";
+            string queueName = "myQueue";
+
+            _channel.ExchangeDeclare(exchangeName, ExchangeType.Direct);
+            _channel.QueueDeclare(queueName, false, false, false, null);
+            _channel.QueueBind(queueName, exchangeName, routingKey, null);
+            _channel.BasicQos(0, 1, false);
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"Подлкючиться к RabbitMq не удалось {ex.Message}");
+        }
     }
     
     public void StartConsuming()

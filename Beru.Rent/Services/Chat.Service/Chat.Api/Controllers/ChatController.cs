@@ -16,11 +16,15 @@ public class ChatController: ControllerBase
 {
     private readonly IChatService _chatService;
     private readonly IHubContext<ChatHub> _chatHub;
+    private readonly ILogger<ChatController> _logger;
 
-    public ChatController(IChatService chatService, IHubContext<ChatHub> chatHub)
+    public ChatController(IChatService chatService, 
+        IHubContext<ChatHub> chatHub,
+        ILogger<ChatController> logger)
     {
         _chatService = chatService;
         _chatHub = chatHub;
+        _logger = logger;
     }
     
     [HttpPost("/api/chat/create")]
@@ -41,6 +45,7 @@ public class ChatController: ControllerBase
     [HttpPost("/api/chat/send")]
     public async Task<Domain.Model.Chat?> SendMessage( SendMessageRequest request)
     {
+        _logger.LogInformation("Hello from action");
         var chatParticipients = await _chatService.GetChatParticipants(request.ChatId);
 
         foreach (var userId in chatParticipients)
