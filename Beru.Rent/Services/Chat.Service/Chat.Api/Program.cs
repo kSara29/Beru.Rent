@@ -10,7 +10,7 @@ using Serilog;
 using Serilog.Exceptions;
 using Serilog.Sinks.Elasticsearch;
 using System.Reflection;
-
+using System.Runtime.InteropServices.JavaScript;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -79,10 +79,19 @@ void configureLoggin()
             $"appsettings.{environment}.json", optional: true
         ).Build();
 
+    string folderName = DateTime.Now.ToString("HH");
+    
+    Console.Write($"HOUR: {folderName}");
     Log.Logger = new LoggerConfiguration()
         .Enrich.FromLogContext()
         .Enrich.WithExceptionDetails()
         .WriteTo.Debug()
+        .WriteTo.File(
+            path: $"logs/{environment}/{DateTime.Now.ToString("yyyy-MM-dd")}/{DateTime.Now.ToString("HH")}/log.txt",
+            rollingInterval: RollingInterval.Day,
+            rollOnFileSizeLimit: true,
+            retainedFileCountLimit: null,
+            shared: true)
         .WriteTo.Elasticsearch(ConfigureElasticSink(configuration, environment))
         .Enrich.WithProperty("Environment", environment)
         .ReadFrom.Configuration(configuration)
