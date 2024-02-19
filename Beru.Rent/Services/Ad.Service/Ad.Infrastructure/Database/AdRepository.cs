@@ -77,7 +77,7 @@ public class AdRepository : IAdRepository
       #region Сортировка по категории
       if (cat != "all")
       {
-         query = query.Where(a => a.Category.Title == cat);
+         query = query.Where(a => a.Category.Id == Guid.Parse(cat));
       }
       #endregion
 
@@ -136,7 +136,7 @@ public class AdRepository : IAdRepository
       #region Сортировка по категории
       if (cat != "all")
       {
-         query = query.Where(a => a.Category.Title == cat);
+         query = query.Where(a => a.Category.Id == Guid.Parse(cat));
       }
       #endregion
 
