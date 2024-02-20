@@ -55,7 +55,7 @@ configureLoggin();
 builder.Host.UseSerilog();
 
 var app = builder.Build();
-app.Services.ApplyMigrations<DealContext>();
+_ = app.Services.ApplyMigrations<DealContext>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

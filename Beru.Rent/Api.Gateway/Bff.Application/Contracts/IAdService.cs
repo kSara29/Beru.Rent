@@ -17,6 +17,7 @@ public interface IAdService
     Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(MainPageRequestDto requestDto);
     Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllFindAdAsync(FindMainPageRequestDto requestDto);
 
-    Task<ResponseModel<DecimalResponse>> GetCostAsync(RequestById adId, DateTime ebeg, DateTime dend);
+    Task<ResponseModel<DecimalResponse>> GetAdCostAsync(GetAdCostRequestDto dto);
+    
 
 }

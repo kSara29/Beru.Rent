@@ -1,0 +1,61 @@
+﻿@model User.Dto.RequestDto.CreateUserDto
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<form method="post" asp-controller="Account" asp-action="Register">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label>Введите Имя</label><br/>
+        <input asp-for="FirstName"/>
+    </div>
+    <div>
+        <label>Введите Фамилию</label><br/>
+        <input asp-for="LastName"/>
+    </div>
+    <div>
+        <label>Введите никнейм</label><br/>
+        <input asp-for="UserName"/>
+    </div>
+    <span asp-validation-for="UserName"></span>
+
+    <div>
+        <label>Введите Iin</label><br/>
+        <input asp-for="Iin"/>
+    </div>
+    <span asp-validation-for="Iin"></span>
+
+    <div>
+        <label>Введите Email</label><br/>
+        <input asp-for="Mail"/>
+    </div>
+    <span asp-validation-for="Mail"></span>
+
+    <div>
+        <label>Введите свой телефон</label><br/>
+        <input asp-for="Phone"/>
+    </div>
+    <div>
+        <label>Придумайте пароль</label><br/>
+        <input asp-for="Password"/>
+    </div>
+    <span asp-validation-for="Password"></span>
+    <div>
+        <label>Подтвердите пароль</label><br/>
+        <input asp-for="ConfirmPassword"/>
+    </div>
+    <span asp-validation-for="ConfirmPassword"></span>
+
+    <div>
+        <input type="submit" value="Регистрация"/>
+    </div>
+</form>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

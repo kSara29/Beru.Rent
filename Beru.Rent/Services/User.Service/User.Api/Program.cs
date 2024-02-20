@@ -7,7 +7,13 @@ using User.Application.Extencions;
 using User.Infrastructure;
 using User.Infrastructure.Context;
 using FastEndpoints;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using MimeKit;
+using User.Api.Controllers;
 using User.Api.IdentityConfiguration;
+using User.Api.JsonOptions;
+using User.Api.Services;
+using ValidationOptions = IdentityServer4.Configuration.ValidationOptions;
 using Serilog;
 using Serilog.Exceptions;
 using Serilog.Sinks.Elasticsearch;
@@ -25,6 +31,9 @@ builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureService();
 builder.Services.AddFastEndpoints();
 builder.Services.AddHttpClient();
+builder.Services.Configure<EmailSender>(builder.Configuration.GetSection(EmailSender.Name));
+// builder.Services.AddSingleton<IEmailSender>();
+builder.Services.AddSingleton<EmailService>();
 
 builder.Services.AddDbContext<UserContext>(options =>
 {
@@ -36,7 +45,8 @@ builder.Services.AddDbContext<UserContext>(options =>
     opt.Password.RequireDigit = false;
     opt.Password.RequireUppercase = false;
     opt.Password.RequireNonAlphanumeric = false;
-}).AddEntityFrameworkStores<UserContext>();
+}).AddEntityFrameworkStores<UserContext>()
+.AddDefaultTokenProviders();
 
 // Add services to the container.
 builder.Services.AddIdentityServer(config =>
@@ -65,7 +75,7 @@ configureLoggin();
 builder.Host.UseSerilog();
 
 var app = builder.Build();
-await app.Services.ApplyMigrations<UserContext>();
+_ = app.Services.ApplyMigrations<UserContext>();
 app.UseFastEndpoints();
 using var scope = app.Services.CreateScope();
 

@@ -18,10 +18,10 @@ public class GetUserById(IUserService service): Endpoint<GetUserByIdRequest, Res
         (GetUserByIdRequest? request, CancellationToken ct)
     {
         var result = await service.GetUserByIdAsync(request!.Id);
-
+        
         if (result is null)
         {
-            var responseFail = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError?>
+            var responseFail = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError>
                 {
                     new()
                     {
