@@ -1,4 +1,5 @@
 using Ad.Dto.GetDtos;
+using Ad.Dto.RequestDto;
 using Ad.Dto.ResponseDto;
 using Bff.Application.Contracts;
 using Bff.Application.Handlers;
@@ -22,7 +23,13 @@ public class BookingService(
     public async Task<ResponseModel<GetBookingResponseDto>> CreateBookingAsync(CreateBookingRequestDto dto)
     {
         var url = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptionsAd.Value.Url, "api/ad/GetCost/");
-        var cost = await serviceHandler.PostConnectionHandler<CreateBookingRequestDto, DecimalResponse>(url, dto);
+        GetAdCostRequestDto costDto = new GetAdCostRequestDto()
+        { 
+            Dbeg = dto.Dbeg, 
+            Dend = dto.Dend, 
+            AdId = dto.AdId
+        };
+        var cost = await serviceHandler.PostConnectionHandler<GetAdCostRequestDto, DecimalResponse>(url, costDto);
         dto.Cost = cost.Data.Number;
         var urllast = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/booking/create");
         return await serviceHandler.PostConnectionHandler<CreateBookingRequestDto, GetBookingResponseDto>(urllast, dto);
