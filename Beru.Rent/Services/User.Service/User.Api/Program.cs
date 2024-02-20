@@ -36,7 +36,6 @@ builder.Services.AddDbContext<UserContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"));
 }).AddIdentity<User.Domain.Models.User, IdentityRole>(opt =>
 {
-    opt.SignIn.RequireConfirmedEmail = true;
     opt.Password.RequiredLength = 8;
     opt.Password.RequireLowercase = false;
     opt.Password.RequireDigit = false;
@@ -69,7 +68,7 @@ builder.Services.AddCors(config =>
 });
 
 var app = builder.Build();
-await app.Services.ApplyMigrations<UserContext>();
+_ = app.Services.ApplyMigrations<UserContext>();
 app.UseFastEndpoints();
 using var scope = app.Services.CreateScope();
 

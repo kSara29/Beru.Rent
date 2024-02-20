@@ -30,7 +30,7 @@ public class AccountController(
     }
     
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody]CreateUserDto model)
+    public async Task<IActionResult> Register(CreateUserDto model)
     {
         var validationResult = await createUserValidation.ValidateAsync(model);
         if (!validationResult.IsValid)
@@ -84,31 +84,14 @@ public class AccountController(
     public async Task<IActionResult> ConfirmEmail(string userId, string token, string returnUrl)
     {
         if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
-        {
             return BadRequest("User Id and token are required");
-        }
 
         var user = await userManager.FindByIdAsync(userId);
-        if (user == null)
-        {
-            return BadRequest("Invalid user Id");
-        }
+        if (user == null) return BadRequest("Invalid user Id");
 
         var result = await userManager.ConfirmEmailAsync(user, token);
-        if (result.Succeeded)
-        {
-            var signInResult = await signInManager.PasswordSignInAsync(user, user.PasswordHash, false, false);
-            if (signInResult.Succeeded)
-            {
-                return Redirect(returnUrl!);
-            }
-            ModelState.AddModelError("UserName", "Something went wrong");
-            return Redirect(returnUrl!);
-        }
-        else
-        {
-            return BadRequest("Email confirmation failed");
-        }
+        if (result.Succeeded) return RedirectToAction("Login");
+        return BadRequest();
     }
     
 
@@ -130,14 +113,14 @@ public class AccountController(
             ModelState.AddModelError("UserName", "User not found");
             return View(model);
         }
-
+        
         if (!user.EmailConfirmed)
         {
             ModelState.AddModelError("EmailConfirmed", "Подтвердите почту");
             return View(model);
         }
-
-        var signInResult = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
+        
+        var signInResult = await signInManager.CheckPasswordSignInAsync(user, model.Password, false);
         if (signInResult.Succeeded)
         {
             return Redirect(model.ReturnUrl!);

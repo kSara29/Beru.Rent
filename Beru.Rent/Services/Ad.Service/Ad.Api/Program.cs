@@ -64,7 +64,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-app.Services.ApplyMigrations<AdContext>();
+_ = app.Services.ApplyMigrations<AdContext>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
