@@ -4,23 +4,113 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using User.Api.Models;
+using User.Api.Services;
+using User.Application.Contracts;
+using User.Application.Validation;
+using User.Dto.RequestDto;
 
 namespace User.Api.Controllers;
 
-public class AccountController : Controller
+public class AccountController(
+    IUserService userService,
+    UserManager<Domain.Models.User> userManager,
+    SignInManager<Domain.Models.User> signInManager,
+    EmailService emailSender,
+    IUserValidator validator,
+    CreateUserValidation createUserValidation,
+    IResponseMapper mapper,
+    IIdentityServerInteractionService interaction)
+    : Controller
 {
-    private readonly SignInManager<Domain.Models.User> _signInManager;
-    private readonly UserManager<Domain.Models.User> _userManager;
-    private readonly IIdentityServerInteractionService _interaction;
 
-
-    public AccountController
-        (SignInManager<Domain.Models.User> signInManager, UserManager<Domain.Models.User> userManager, IIdentityServerInteractionService interaction)
+    [HttpGet("register")]
+    public async Task<IActionResult> Register(string? returnUrl)
     {
-        _signInManager = signInManager;
-        _userManager = userManager;
-        _interaction = interaction;
+        return View();
     }
+    
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody]CreateUserDto model)
+    {
+        var validationResult = await createUserValidation.ValidateAsync(model);
+        if (!validationResult.IsValid)
+        {
+            var resp = await mapper
+                .HandleFailedResponse(validationResult);
+            return BadRequest(resp);
+        }
+        
+        var phoneResult = await validator.FindUserByPhoneNumberAsync(model.Phone);
+        if (phoneResult)
+        {
+            var resp = await mapper
+                .HandleFailedResponseForPhone();
+            return BadRequest(resp);
+        }
+        
+        if (!string.IsNullOrWhiteSpace(model.Mail) && 
+            await validator.FindUserByEmailNumberAsync(model.Mail) is not null)
+        {
+            var resp = await mapper
+                .HandleFailedResponseForEmail();
+            return BadRequest(resp);
+        }
+        
+        if (!string.IsNullOrWhiteSpace(model.UserName) && 
+            await validator.FindUserByUserNameAsync(model.UserName) is not null)
+        {
+            var resp = await mapper
+                .HandleFailedResponseForUserName();
+            return BadRequest(resp);
+        }
+        
+        var result = await userService.CreateUserAsync(model, model.Password);
+        {
+            var token = await userManager.GenerateEmailConfirmationTokenAsync(result);
+            var confirmLink = 
+                Url.Action("ConfirmEmail", "Account",
+                    new { userId = result.Id, token, returnUrl = model.ReturnUrl }, Request.Scheme);
+            await emailSender.SendEmailAsync
+            (result.Email!, 
+                "Подтверждение адреса электронной почты", 
+                $"Подтвердите свой адрес электронной почты, перейдя по ссылке: " +
+                $"<a href='{confirmLink}'>confirm email</a>");
+
+            return Ok("Check your email for confirmation link");
+        }
+    }
+
+    [HttpGet("confirm-email")]
+    public async Task<IActionResult> ConfirmEmail(string userId, string token, string returnUrl)
+    {
+        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
+        {
+            return BadRequest("User Id and token are required");
+        }
+
+        var user = await userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            return BadRequest("Invalid user Id");
+        }
+
+        var result = await userManager.ConfirmEmailAsync(user, token);
+        if (result.Succeeded)
+        {
+            var signInResult = await signInManager.PasswordSignInAsync(user, user.PasswordHash, false, false);
+            if (signInResult.Succeeded)
+            {
+                return Redirect(returnUrl!);
+            }
+            ModelState.AddModelError("UserName", "Something went wrong");
+            return Redirect(returnUrl!);
+        }
+        else
+        {
+            return BadRequest("Email confirmation failed");
+        }
+    }
+    
 
     [HttpGet]
     public IActionResult Login(string? returnUrl)
@@ -33,7 +123,7 @@ public class AccountController : Controller
     {
         if (!ModelState.IsValid) return View(model);
 
-        var user = await _userManager.FindByNameAsync(model.UserName);
+        var user = await userManager.FindByNameAsync(model.UserName);
 
         if (user is null)
         {
@@ -41,23 +131,29 @@ public class AccountController : Controller
             return View(model);
         }
 
-        var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+        if (!user.EmailConfirmed)
+        {
+            ModelState.AddModelError("EmailConfirmed", "Подтвердите почту");
+            return View(model);
+        }
+
+        var signInResult = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
         if (signInResult.Succeeded)
         {
-            return Redirect(model.ReturnUrl);
+            return Redirect(model.ReturnUrl!);
         }
-        ModelState.AddModelError("UserName", "Somthing went wrong");
-        return Redirect(model.ReturnUrl);
+        ModelState.AddModelError("UserName", "Something went wrong");
+        return View(model);
     }
     
     [HttpGet]
     public async Task<IActionResult> Logout(string logoutId)
     {
-        if (User?.Identity.IsAuthenticated == true)
+        if (User.Identity!.IsAuthenticated)
         {
             await HttpContext.SignOutAsync(IdentityServerConstants.DefaultCookieAuthenticationScheme);
         }
-        var logoutContext = await _interaction.GetLogoutContextAsync(logoutId);
+        var logoutContext = await interaction.GetLogoutContextAsync(logoutId);
         return Redirect(logoutContext.PostLogoutRedirectUri ?? "/");
     }
 }

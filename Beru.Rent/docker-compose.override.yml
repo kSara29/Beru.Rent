@@ -123,9 +123,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "UserServiceUrl:Url=http://user.api:8080/"
-      - "AdService:Url=http://localhost:8080/"
-      - "DealService:Url=http://localhost:8080/"
-      - "ChatServiceUrl:Url=http://localhost:8080/"
+      - "AdService:Url=http://ad.api:8080/"
+      - "DealService:Url=http://deal.api:8080/"
+      - "ChatServiceUrl:Url=http://chat.api:8080/"
     depends_on:
       - user.api
       - ad.api
