@@ -1,5 +1,6 @@
 ﻿using Common;
 using FastEndpoints;
+using Serilog;
 using User.Application.Contracts;
 using User.Application.Mapper;
 using User.Application.Validation;
@@ -13,7 +14,7 @@ namespace User.Api.Endpoints;
 public class CreateUser(
     IUserService service, 
     CreateUserValidation createUserValidation,
-    IUserValidator validator, IResponseMapper mapper) : Endpoint<CreateUserDto, ResponseModel<UserDtoResponce>>
+    IUserValidator validator, IResponseMapper mapper, ILogger<CreateUser> logger) : Endpoint<CreateUserDto, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
@@ -29,6 +30,8 @@ public class CreateUser(
         {
             var resp = await mapper
                 .HandleFailedResponse(validationResult);
+            
+            logger.LogError("Поля не валидны {@response}", resp);
             await SendAsync(resp, cancellation: ct);
             return;
         }
@@ -38,6 +41,8 @@ public class CreateUser(
         {
             var resp = await mapper
                 .HandleFailedResponseForPhone();
+            
+            logger.LogError("Номер телефона не валидный {@response}", resp);
             await SendAsync(resp, cancellation: ct);
             return;
         }
@@ -47,6 +52,8 @@ public class CreateUser(
         {
             var resp = await mapper
                 .HandleFailedResponseForEmail();
+            
+            logger.LogError("Почта не валидна {@response}", resp);
             await SendAsync(resp, cancellation: ct);
             return;
         }
@@ -56,11 +63,14 @@ public class CreateUser(
         {
             var resp = await mapper
                 .HandleFailedResponseForUserName();
+            
+            logger.LogError("UserName не валидный {@response}", resp);
             await SendAsync(resp, cancellation: ct);
             return;
         }
         
         var user = await service.CreateUserAsync(model, model.Password);
+        
         var responseModel = ResponseModel<UserDtoResponce>.CreateSuccess(user.ToUserDtoResponse());
         await SendAsync(responseModel, cancellation: ct);
     }

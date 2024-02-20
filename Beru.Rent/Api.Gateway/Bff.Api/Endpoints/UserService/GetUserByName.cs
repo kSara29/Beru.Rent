@@ -7,7 +7,7 @@ using User.Dto.ResponseDto;
 
 namespace Bff.Api.Endpoints.UserService;
 
-public class GetUserByName(IUserService service) : Endpoint<GetUserByUserNameRequest, ResponseModel<UserDtoResponce>>
+public class GetUserByName(IUserService service, ILogger<GetUserByName> logger) : Endpoint<GetUserByUserNameRequest, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
@@ -20,6 +20,8 @@ public class GetUserByName(IUserService service) : Endpoint<GetUserByUserNameReq
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
         var response = await service.GetUserByNameAsync(request!.UserName);
+        
+        logger.LogInformation("Ответ от userService: {@reposnse}", response);
         await SendAsync(response, cancellation: ct);
     }
 }

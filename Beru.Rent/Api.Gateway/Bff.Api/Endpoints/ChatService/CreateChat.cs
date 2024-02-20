@@ -6,7 +6,7 @@ using FastEndpoints;
 
 namespace Bff.Api.Endpoints.ChatService;
 
-public class CreateChat(IChatService service): Endpoint<CreateChatRequest, ResponseModel<ChatDtoResponse>>
+public class CreateChat(IChatService service, ILogger<CreateChat> logger): Endpoint<CreateChatRequest, ResponseModel<ChatDtoResponse>>
 {
     public override void Configure()
     {
@@ -19,6 +19,8 @@ public class CreateChat(IChatService service): Endpoint<CreateChatRequest, Respo
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
         var response = await service.CreateChatAsync(request!);
+        
+        logger.LogInformation("callback от chatService {@response}", response);
         await SendAsync(response, cancellation: ct);
     }
 }

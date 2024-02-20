@@ -15,7 +15,7 @@ public static class DependencyInjection
         {
             service.AddSingleton<IMessagePublisher, MessagePublisher>((serviceProvider) =>
             {
-                var hostname = "amqp://guest:guest@localhost:5672";
+                var hostname = "amqp://guest:guest@rabbitmq:5672";
                 var publisher = new MessagePublisher(hostname);
                 return publisher;
             });

@@ -5,7 +5,7 @@ using FastEndpoints;
 
 namespace Deal.Api.Endpoints;
 
-public class CancelBooking(IBookingService _service): Endpoint<RequestById, ResponseModel<BoolResponseDto>>
+public class CancelBooking(IBookingService _service, ILogger<CancelBooking> logger): Endpoint<RequestById, ResponseModel<BoolResponseDto>>
 {
     public override void Configure()
     {
@@ -17,6 +17,7 @@ public class CancelBooking(IBookingService _service): Endpoint<RequestById, Resp
     {
         var list = await _service.CancelBookingsAsync(dto);
         var result = ResponseModel<BoolResponseDto>.CreateSuccess(list);
+        
         await SendAsync(result, cancellation: ct);
     }
 }

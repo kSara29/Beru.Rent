@@ -2,13 +2,6 @@ version: '3.4'
 
 services:
   
-#  mongodb:
-#    container_name: mongodb
-#    restart: always
-#    ports:
-#      - "27017:27017"
-#    volumes:
-#      - mongo_data:/var/lib/mongo/idCollection
   minio:
     container_name: minio
     restart: always
@@ -20,26 +13,37 @@ services:
     environment:
       - MINIO_ROOT_USER=minioadmin
       - MINIO_ROOT_PASSWORD=minioadmin
-    
-#  minio:
-#    container_name: minio
-#    environment:
-#      - MINIO_ENDPOINT=play.min.io
-#      - MINIO_ACCESS_KEY=Q3AM3UQ867SPQQA43P2F
-#      - MINIO_SECRET_KEY=zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
-#    restart: always
-#    ports:
-#      - "9000:9000"
-#    volumes:
-#      - minio_data:/var/lib/minio/imageData
+  
+  elasticsearch:
+    container_name: elasticsearch
+    ports:
+      - 9200:9200
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    environment:
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    networks:
+      - elastic
+  
+  kibana:
+    container_name: kibana
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_URL=http://localhost:9200
+    networks:
+      - elastic
 
   rabbitmq:
     container_name: rabbitmq
     restart: always
     ports:
-    #RabbitMq interface
       - "5672:5672"
-    #Web interface
       - "15672:15672"
   
   userdb:
@@ -93,8 +97,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:DefaultConnection=Host=dealdb;Port=5432;Database=DealDb;Username=admin;Password=admin1234"
+      - "EventSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
       - dealdb
+      - rabbitmq
     ports:
       - "8001:8080"
         
@@ -113,8 +119,10 @@ services:
     container_name: chat.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - "EventSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
       - mongodb
+      - rabbitmq
     ports:
       - "8004:8080"
         
