@@ -53,9 +53,13 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> Logout(string logoutId)
     {
-        if (User?.Identity.IsAuthenticated == true)
+        if (User.Identity!.IsAuthenticated)
         {
-            await HttpContext.SignOutAsync(IdentityServerConstants.DefaultCookieAuthenticationScheme);
+            await HttpContext.SignOutAsync();
+        }
+        foreach (var cookie in Request.Cookies.Keys)
+        {
+            Response.Cookies.Delete(cookie);
         }
         var logoutContext = await _interaction.GetLogoutContextAsync(logoutId);
         return Redirect(logoutContext.PostLogoutRedirectUri ?? "/");
