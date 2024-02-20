@@ -10,6 +10,7 @@ using Serilog;
 using Serilog.Exceptions;
 using Serilog.Sinks.Elasticsearch;
 using System.Reflection;
+using Serilog.Formatting.Elasticsearch;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,7 +50,7 @@ builder.Services.AddSingleton<IChatDatabaseSettings>(sp =>
 builder.Services.AddSingleton<IMongoClient>(s =>
     new MongoClient(builder.Configuration.GetValue<string>("ConnectionStrings:DefaultConnection")));
 
-configureLoggin();
+ConfigureLoggin();
 builder.Host.UseSerilog();
 
 var app = builder.Build();
@@ -69,7 +70,7 @@ app.MapHub<ChatHub>("/chatHub");
 app.Run();
 
 
-void configureLoggin()
+void ConfigureLoggin()
 {
     var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
     var configuration = new ConfigurationBuilder()
@@ -81,7 +82,6 @@ void configureLoggin()
     Log.Logger = new LoggerConfiguration()
         .Enrich.FromLogContext()
         .Enrich.WithExceptionDetails()
-        .WriteTo.Debug()
         .WriteTo.File(
             path: $"logs/{environment}/{DateTime.Now.ToString("yyyy-MM-dd")}/{DateTime.Now.ToString("HH")}/log.txt",
             rollingInterval: RollingInterval.Hour,
@@ -100,6 +100,7 @@ ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration, 
     {
         AutoRegisterTemplate = true,
         IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}",
+        CustomFormatter = new ElasticsearchJsonFormatter(inlineFields: true, renderMessageTemplate: false),
         NumberOfReplicas = 1,
         NumberOfShards = 2
     };

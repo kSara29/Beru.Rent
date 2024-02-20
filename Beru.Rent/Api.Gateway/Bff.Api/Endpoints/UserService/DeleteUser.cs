@@ -7,7 +7,7 @@ using User.Dto.ResponseDto;
 
 namespace Bff.Api.Endpoints.UserService;
 
-public class DeleteUser(IUserService service) : Endpoint<DeleteUserByIdRequest, ResponseModel<UserDtoResponce>>
+public class DeleteUser(IUserService service, ILogger<DeleteUser> logger) : Endpoint<DeleteUserByIdRequest, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
@@ -20,6 +20,8 @@ public class DeleteUser(IUserService service) : Endpoint<DeleteUserByIdRequest, 
     { 
         if (request is null) await SendAsync(null!, cancellation: ct);
         var response = await service.DeleteUserAsync(request!);
+        
+        logger.LogInformation("Ответ от userService: {@reposnse}", response);
         await SendAsync(response, cancellation: ct);
     }
 }

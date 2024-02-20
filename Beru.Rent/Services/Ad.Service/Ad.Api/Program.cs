@@ -9,7 +9,7 @@ using Serilog;
 using Serilog.Exceptions;
 using Serilog.Sinks.Elasticsearch;
 using System.Reflection;
-
+using Serilog.Formatting.Elasticsearch;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -120,6 +120,7 @@ ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration, 
     {
         AutoRegisterTemplate = true,
         IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}",
+        CustomFormatter = new ElasticsearchJsonFormatter(inlineFields: true, renderMessageTemplate: false),
         NumberOfReplicas = 1,
         NumberOfShards = 2
     };

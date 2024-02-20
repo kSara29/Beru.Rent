@@ -4,7 +4,6 @@ using Chat.Domain.Model;
 using Chat.Dto.RequestDto;
 using Chat.Dto.ResponseModel;
 using Common;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -45,7 +44,6 @@ public class ChatController: ControllerBase
     [HttpPost("/api/chat/send")]
     public async Task<Domain.Model.Chat?> SendMessage( SendMessageRequest request)
     {
-        _logger.LogInformation("Hello from action");
         var chatParticipients = await _chatService.GetChatParticipants(request.ChatId);
 
         foreach (var userId in chatParticipients)
@@ -63,10 +61,13 @@ public class ChatController: ControllerBase
                 var chatWithMessages = await _chatService.SaveMessageAsync(request.ChatId, newMessage);
         
                 await _chatHub.Clients.All.SendAsync("ReceiveMessage", request.UserId, request.Message);
-
+                
+                _logger.LogInformation("Сообщение отправлено в чат {@chatId}", request.ChatId);
                 return chatWithMessages;
             }
         }
+        
+        _logger.LogInformation("Пользователь не является участником чата");
         return null;
     }
     
@@ -90,6 +91,8 @@ public class ChatController: ControllerBase
     public async Task<ResponseModel<List<GetAllChatsResponse>>> GetAllChatsByUserId(string userId)
     {
         var userChats = await _chatService.GetAllChats(userId);
+        
+        _logger.LogInformation("Возвращен список чатов пользователя");
         return userChats;
     }
 }
