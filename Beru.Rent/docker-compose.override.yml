@@ -43,9 +43,7 @@ services:
     container_name: rabbitmq
     restart: always
     ports:
-    #RabbitMq interface
       - "5672:5672"
-    #Web interface
       - "15672:15672"
   
   userdb:
@@ -99,6 +97,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:DefaultConnection=Host=dealdb;Port=5432;Database=DealDb;Username=admin;Password=admin1234"
+      - "EventSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
       - dealdb
       - rabbitmq
@@ -120,6 +119,7 @@ services:
     container_name: chat.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - "EventSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
       - mongodb
       - rabbitmq
