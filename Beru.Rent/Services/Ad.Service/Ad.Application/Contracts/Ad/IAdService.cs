@@ -3,6 +3,7 @@ using Ad.Application.Responses;
 using Ad.Domain.Models;
 using Ad.Dto;
 using Ad.Dto.GetDtos;
+using Ad.Dto.RequestDto;
 using Ad.Dto.ResponseDto;
 using Common;
 using Deal.Dto.Booking;
@@ -17,6 +18,6 @@ public interface IAdService
     Task<ResponseModel<List<AdDto>>> GetAdsByUserId(Guid userId);
     Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllAdAsync(int page, string sortdate, string sortprice, string cat);
     Task<ResponseModel<GetMainPageDto<AdMainPageDto>>> GetAllFindAdAsync(int page, string sortdate, string sortprice, string cat, string finder);
-    Task<ResponseModel<DecimalResponse>> GetCostAsync(CreateBookingRequestDto dto);
+    Task<ResponseModel<DecimalResponse>> GetCostAsync(GetAdCostRequestDto dto);
     
 }

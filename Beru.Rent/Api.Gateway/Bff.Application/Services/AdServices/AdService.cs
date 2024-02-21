@@ -107,6 +107,13 @@ public class AdService(
     {
         throw new NotImplementedException();
     }
+    
+    public async Task<ResponseModel<DecimalResponse>> GetAdCostAsync(GetAdCostRequestDto dto)
+    {
+        var url = serviceHandler.CreateConnectionUrlWithoutQuery(jsonOptions.Value.Url, "api/ad/GetCost/");
+        var cost = await serviceHandler.PostConnectionHandler<GetAdCostRequestDto, DecimalResponse>(url, dto);
+        return cost;
+    }
 
   
 }

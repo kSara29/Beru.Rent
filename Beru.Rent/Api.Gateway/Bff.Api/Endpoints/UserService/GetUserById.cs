@@ -13,6 +13,7 @@ public class GetUserById(IUserService service) : Endpoint<GetUserByIdRequest, Re
     public override void Configure()
     {
         Get("/bff/user/getById");
+        AllowAnonymous();
     }
     
     public override async Task HandleAsync

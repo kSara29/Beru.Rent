@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace User.Dto.RequestDto;
 
 public class CreateUserDto
@@ -8,6 +10,11 @@ public class CreateUserDto
     public required string Iin { get; set; }
     public required string Mail { get; set; }
     public required string Phone { get; set; }
-    public required string Password { get; set; }
-    public required string ConfirmPassword { get; set; }
+    
+    [Required(ErrorMessage = "Поле обязательно для заполнения")]
+    public string Password { get; set; }
+
+    [Compare("Password", ErrorMessage = "Пароли не совпадают")]
+    public string ConfirmPassword { get; set; }
+    public string? ReturnUrl { get; set; }
 }

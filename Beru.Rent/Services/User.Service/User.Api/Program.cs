@@ -7,8 +7,17 @@ using User.Application.Extencions;
 using User.Infrastructure;
 using User.Infrastructure.Context;
 using FastEndpoints;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using MimeKit;
+using User.Api.Controllers;
 using User.Api.IdentityConfiguration;
+using User.Api.JsonOptions;
+using User.Api.Services;
 using ValidationOptions = IdentityServer4.Configuration.ValidationOptions;
+using Serilog;
+using Serilog.Exceptions;
+using Serilog.Sinks.Elasticsearch;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +31,9 @@ builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureService();
 builder.Services.AddFastEndpoints();
 builder.Services.AddHttpClient();
+builder.Services.Configure<EmailSender>(builder.Configuration.GetSection(EmailSender.Name));
+// builder.Services.AddSingleton<IEmailSender>();
+builder.Services.AddSingleton<EmailService>();
 
 builder.Services.AddDbContext<UserContext>(options =>
 {
@@ -33,7 +45,8 @@ builder.Services.AddDbContext<UserContext>(options =>
     opt.Password.RequireDigit = false;
     opt.Password.RequireUppercase = false;
     opt.Password.RequireNonAlphanumeric = false;
-}).AddEntityFrameworkStores<UserContext>();
+}).AddEntityFrameworkStores<UserContext>()
+.AddDefaultTokenProviders();
 
 // Add services to the container.
 builder.Services.AddIdentityServer(config =>
@@ -58,8 +71,11 @@ builder.Services.AddCors(config =>
     });
 });
 
+configureLoggin();
+builder.Host.UseSerilog();
+
 var app = builder.Build();
-await app.Services.ApplyMigrations<UserContext>();
+_ = app.Services.ApplyMigrations<UserContext>();
 app.UseFastEndpoints();
 using var scope = app.Services.CreateScope();
 
@@ -96,3 +112,38 @@ app.MapControllerRoute(
 
 app.Run();
 
+void configureLoggin()
+{
+    var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+    var configuration = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile(
+            $"appsettings.{environment}.json", optional: true
+        ).Build();
+    
+    Log.Logger = new LoggerConfiguration()
+        .Enrich.FromLogContext()
+        .Enrich.WithExceptionDetails()
+        .WriteTo.Debug()
+        .WriteTo.File(
+            path: $"logs/{environment}/{DateTime.Now.ToString("yyyy-MM-dd")}/{DateTime.Now.ToString("HH")}/log.txt",
+            rollingInterval: RollingInterval.Hour,
+            rollOnFileSizeLimit: true,
+            retainedFileCountLimit: null,
+            shared: true)
+        .WriteTo.Elasticsearch(ConfigureElasticSink(configuration, environment))
+        .Enrich.WithProperty("Environment", environment)
+        .ReadFrom.Configuration(configuration)
+        .CreateLogger();
+}
+
+ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration, string environment)
+{
+    return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]))
+    {
+        AutoRegisterTemplate = true,
+        IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}",
+        NumberOfReplicas = 1,
+        NumberOfShards = 2
+    };
+}

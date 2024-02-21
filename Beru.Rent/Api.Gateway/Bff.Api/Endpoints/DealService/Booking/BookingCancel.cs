@@ -6,7 +6,7 @@ using FastEndpoints;
 namespace Bff.Api.Endpoints.DealService;
 
 
-public class BookingCancel(IBookingService service) : Endpoint<RequestById, ResponseModel<BoolResponseDto>>
+public class BookingCancel(IBookingService service, ILogger<BookingCancel> logger) : Endpoint<RequestById, ResponseModel<BoolResponseDto>>
 {
     public override void Configure()
     {

@@ -9,12 +9,12 @@ public class ValidationHandler (IUserRepository repository): IUserValidator
         return await repository.GetUserByPhoneAsync(phone);
     }
 
-    public async Task<Domain.Models.User> FindUserByEmailNumberAsync(string mail)
+    public async Task<Domain.Models.User?> FindUserByEmailNumberAsync(string mail)
     {
         return await repository.GetUserByMailAsync(mail);
     }
 
-    public async Task<Domain.Models.User> FindUserByUserNameAsync(string userName)
+    public async Task<Domain.Models.User?> FindUserByUserNameAsync(string userName)
     {
         return await repository.GetUserByUserNameAsync(userName);
     }

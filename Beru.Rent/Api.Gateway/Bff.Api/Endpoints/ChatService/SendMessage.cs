@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Bff.Api.Endpoints.ChatService;
 
-public class SendMessage(IChatService service): Endpoint<SendMessageRequest, ResponseModel<SendMessageResponse>>
+public class SendMessage(IChatService service, ILogger<SendMessage> logger): Endpoint<SendMessageRequest, ResponseModel<SendMessageResponse>>
 {
     public override void Configure()
     {
@@ -22,6 +22,8 @@ public class SendMessage(IChatService service): Endpoint<SendMessageRequest, Res
         request.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         if (request is null) await SendAsync(null!, cancellation: ct);
         var response = await service.SendMessageAsync(request!);
+        
+        logger.LogInformation("callback от chatService {@response}", response);
         await SendAsync(response, cancellation: ct);
     }
 }

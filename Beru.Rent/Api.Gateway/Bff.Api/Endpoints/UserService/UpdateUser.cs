@@ -7,11 +7,12 @@ using User.Dto.ResponseDto;
 
 namespace Bff.Api.Endpoints.UserService;
 
-public class UpdateUser(IUserService service, UpdateUserValidation updateUserValidation) : Endpoint<UpdateUserDto, ResponseModel<UserDtoResponce>>
+public class UpdateUser(IUserService service, UpdateUserValidation updateUserValidation, 
+    ILogger<UpdateUser> logger) : Endpoint<UpdateUserDto, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
-            Post("/bff/user/updateUser");
+        Post("/bff/user/updateUser");
         AllowAnonymous();
     }
     
@@ -21,20 +22,25 @@ public class UpdateUser(IUserService service, UpdateUserValidation updateUserVal
         var result = await updateUserValidation.ValidateAsync(request, ct);
         if (!result.IsValid && result.Errors.Any())
         {
-            var responce = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError>());
+            var responseNotValid = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError>());
             foreach (var validationFailure in result.Errors)
             {
-                responce.Errors!.Add(new ResponseError
+                responseNotValid.Errors!.Add(new ResponseError
                 {
                     Code = validationFailure.PropertyName,
                     Message = validationFailure.ErrorMessage
                 });
             }
-            await SendAsync(responce, cancellation: ct);
+            
+            logger.LogError("Не все поля валидны {@response}", responseNotValid);
+            await SendAsync(responseNotValid, cancellation: ct);
             return;
         }
+        
         if (request is null) await SendAsync(null!, cancellation: ct);
         var response = await service.UpdateUserAsync(request!);
+        logger.LogInformation("Ответ от userService: {@reposnse}", response);
+        
         await SendAsync(response, cancellation: ct);
     }
 }
