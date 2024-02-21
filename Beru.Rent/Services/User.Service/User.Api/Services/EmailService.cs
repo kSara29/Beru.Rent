@@ -1,30 +1,18 @@
-﻿using MailKit.Net.Smtp;
-using Microsoft.Extensions.Options;
-using MimeKit;
-using User.Api.JsonOptions;
+﻿namespace User.Api.Services;
 
-namespace User.Api.Services;
-
-public class EmailService(IOptions<EmailSender> options)
+public class EmailService(IHttpClientFactory httpClientFactory)
 {
+    private readonly HttpClient _client = httpClientFactory.CreateClient("Notification");
     public async Task SendEmailAsync(string email, string subject, string message)
     {
-        var emailMessage = new MimeMessage();
-        emailMessage.From.Add(new MailboxAddress("Администрация сайта", options.Value.From));
-        emailMessage.To.Add(new MailboxAddress("", email));
-        emailMessage.Subject = subject;
-        emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+        var result = await _client.PostAsJsonAsync("notification/send", message);
+        if (result.IsSuccessStatusCode)
         {
-            Text = message
-        };
-             
-        using (var client = new SmtpClient())
+           
+        }
+        else
         {
-            await client.ConnectAsync(options.Value.Url, options.Value.PortAsInt, true);
-            await client.AuthenticateAsync(options.Value.From, options.Value.Password);
-            await client.SendAsync(emailMessage);
- 
-            await client.DisconnectAsync(true);
+            
         }
     }
 }

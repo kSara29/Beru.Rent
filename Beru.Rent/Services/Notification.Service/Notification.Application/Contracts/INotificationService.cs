@@ -1,6 +1,9 @@
+using Common;
+using Notification.Dto.ResponseDto;
+
 namespace Notification.Application.Contracts;
 
 public interface INotificationService<T>
 {
-    Task NotifyAsync(T message);
+    Task<ResponseModel<SendMessageResponseDto>> NotifyAsync(T messageRequest);
 }

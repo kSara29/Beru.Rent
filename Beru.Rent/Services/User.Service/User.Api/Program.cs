@@ -1,4 +1,3 @@
-using Common;
 using DbMigrator;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -7,13 +6,9 @@ using User.Application.Extencions;
 using User.Infrastructure;
 using User.Infrastructure.Context;
 using FastEndpoints;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using MimeKit;
-using User.Api.Controllers;
+using Microsoft.Net.Http.Headers;
 using User.Api.IdentityConfiguration;
-using User.Api.JsonOptions;
 using User.Api.Services;
-using ValidationOptions = IdentityServer4.Configuration.ValidationOptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,8 +22,12 @@ builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureService();
 builder.Services.AddFastEndpoints();
 builder.Services.AddHttpClient();
-builder.Services.Configure<EmailSender>(builder.Configuration.GetSection(EmailSender.Name));
-// builder.Services.AddSingleton<IEmailSender>();
+builder.Services.AddHttpClient("Notification", httpClient =>
+{
+    httpClient.BaseAddress = new Uri("http://localhost:5183/api/");
+    httpClient.DefaultRequestHeaders.Add(
+        HeaderNames.Accept, "application/vnd.github.v3+json");
+});
 builder.Services.AddSingleton<EmailService>();
 
 builder.Services.AddDbContext<UserContext>(options =>
@@ -99,6 +98,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseIdentityServer();
 app.UseAuthorization();
+app.UseCors("AllowAll");
 
 app.MapControllerRoute(
     name: "default",

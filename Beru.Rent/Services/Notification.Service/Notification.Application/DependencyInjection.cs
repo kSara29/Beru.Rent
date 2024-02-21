@@ -1,14 +1,15 @@
 using Microsoft.Extensions.DependencyInjection;
-using Notification.Appl.Services;
 using Notification.Application.Contracts;
+using Notification.Application.Services;
+using Notification.Dto.RequestDto;
 
 namespace Notification.Application;
 
-public static class DependencyInjections
+public static class DependencyInjection
 {
     public static IServiceCollection AddApplicationService(this IServiceCollection service)
     {
-        service.AddScoped<INotificationService<EmailNotificationService>>();
+        service.AddScoped<INotificationService<SendMessageRequestDto>, EmailNotificationService>();
         return service;
     }
 }

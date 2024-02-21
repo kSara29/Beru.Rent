@@ -1,38 +1,50 @@
+using Common;
 using MailKit.Net.Smtp;
+using Microsoft.Extensions.Options;
 using MimeKit;
-using MimeKit.Text;
 using Notification.Application.Contracts;
-using Notification.Application.Models;
+using Notification.Application.Options;
+using Notification.Dto.RequestDto;
+using Notification.Dto.ResponseDto;
 
-namespace Notification.Appl.Services;
+namespace Notification.Application.Services;
 
-public class EmailNotificationService : INotificationService<EmailMessage>
+public class EmailNotificationService(
+    IOptions<EmailSenderOptions> options) : INotificationService<SendMessageRequestDto>
 {
+    private readonly EmailSenderOptions _options = options.Value;
 
-    public async Task NotifyAsync(EmailMessage message)
+    public async Task<ResponseModel<SendMessageResponseDto>> NotifyAsync(SendMessageRequestDto messageRequest)
     {
         try
         {
             var emailMessage = new MimeMessage();
-          
-            emailMessage.From.Add(new MailboxAddress("Администрация сайта", "login@yandex.ru"));
-            emailMessage.To.Add(new MailboxAddress("", message.ReceiverEmail));
-            emailMessage.Subject = message.Template.Tytle;
-            emailMessage.Body = new TextPart(TextFormat.Html)
+            emailMessage.From.Add(new MailboxAddress("Администрация сайта", _options.From));
+            emailMessage.To.Add(new MailboxAddress("", messageRequest.Email));
+            emailMessage.Subject = messageRequest.Subject;
+            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
-                Text = message.Template.Body
+                Text = messageRequest.Message
             };
 
             using var client = new SmtpClient();
-            await client.ConnectAsync("smtp.yandex.ru", 25, false);
-            await client.AuthenticateAsync("login@yandex.ru", "password");
-            
-            var result = await client.SendAsync(emailMessage);
+            await client.ConnectAsync(_options.Url, _options.Port, true);
+            await client.AuthenticateAsync(_options.From, _options.Password);
+            await client.SendAsync(emailMessage);
+ 
             await client.DisconnectAsync(true);
+            return ResponseModel<SendMessageResponseDto>.CreateSuccess(new SendMessageResponseDto());
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
+            return ResponseModel<SendMessageResponseDto>.CreateFailed([
+                new ResponseError
+                {
+                    Message = "Ошибка при отправке письма пользователю",
+                    Code = "500"
+                }
+            ]);
         }
     }
 }

@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="FastEndpoints" Version="5.20.1" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
@@ -17,6 +18,12 @@
       <Content Include="..\..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\BuildingBlocks\Common\Common.csproj" />
+      <ProjectReference Include="..\..\..\BuildingBlocks\Notification.Dto\Notification.Dto.csproj" />
+      <ProjectReference Include="..\Notification.Application\Notification.Application.csproj" />
     </ItemGroup>
 
 </Project>
