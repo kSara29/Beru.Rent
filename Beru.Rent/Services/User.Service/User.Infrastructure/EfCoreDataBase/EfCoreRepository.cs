@@ -59,4 +59,19 @@ public class EfCoreRepository : IUserRepository
         await _userManager.DeleteAsync(user);
         return user;
     }
+
+    public async Task<bool> CheckOfExists(string field, string checkString)
+    {
+        switch (field)
+        {
+            case "login":
+                return await _db.Users.AnyAsync(u => u.UserName.ToLower() == checkString.ToLower());
+            case "email":
+                return await _db.Users.AnyAsync(u => u.Email.ToLower() == checkString.ToLower());
+            case "phoneNumber":
+                return await _db.Users.AnyAsync(u => u.PhoneNumber == checkString);
+        }
+
+        return false;
+    }
 }
