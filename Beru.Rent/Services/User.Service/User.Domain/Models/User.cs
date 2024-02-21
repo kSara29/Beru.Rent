@@ -8,5 +8,4 @@ public class User : IdentityUser
     public required string LastName { get; set; }
     public required string Iin { get; set; }
     public Image? UserAvatar { get; set; }
-    public override bool TwoFactorEnabled => true;
 }
