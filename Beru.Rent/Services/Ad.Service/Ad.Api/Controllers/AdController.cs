@@ -99,8 +99,7 @@ public class AdController:ControllerBase
     public async Task<IActionResult> GetAdsByUserId([FromRoute] Guid id)
     {
         var result = await _service.GetAdsByUserId(id);
-        return Ok(result);
-    }
+        return Ok(result);}
     
 
 }
