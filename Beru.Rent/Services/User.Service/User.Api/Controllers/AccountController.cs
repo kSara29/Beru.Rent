@@ -138,7 +138,7 @@ public class AccountController(
             return View(model);
         }
         
-        var signInResult = await signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+        var signInResult = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
         if (signInResult.Succeeded)
         {
             return Redirect(model.ReturnUrl!);
