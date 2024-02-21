@@ -12,4 +12,5 @@ public interface IUserService
     Task<UserDtoResponce> GetUserByMailAsync(string mail);
     Task<UserDtoResponce> GetUserByNameAsync(string userName);
     Task<UserDtoResponce> DeleteUserAsync(string userId);
+    Task<bool> CheckOfExists(string field, string checkString);
 }

@@ -1,57 +1,86 @@
-﻿@model User.Dto.RequestDto.CreateUserDto
+﻿@model User.Api.Models.RegisterViewModel
 
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
 
-<form method="post" asp-controller="Account" asp-action="Register">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label>Введите Имя</label><br/>
-        <input asp-for="FirstName"/>
-    </div>
-    <div>
-        <label>Введите Фамилию</label><br/>
-        <input asp-for="LastName"/>
-    </div>
-    <div>
-        <label>Введите никнейм</label><br/>
-        <input asp-for="UserName"/>
-    </div>
-    <span asp-validation-for="UserName"></span>
+<div class="row">
+    <div class="col-md-6">
+        <form method="post" enctype="multipart/form-data" asp-controller="Account" asp-action="Register">
+            <div asp-validation-summary="ModelOnly"></div>
+            
+            <div class="row mb-3">
+                <label asp-for="FirstName" for="name" class="col-sm-2 col-form-label">Имя</label>
+                <div class="col">
+                    <input asp-for="FirstName" type="text" class="form-control" id="name">
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <label asp-for="LastName" for="lastName" class="col-sm-2 col-form-label">Фамилию</label>
+                <div class="col">
+                    <input asp-for="LastName" type="text" class="form-control" id="lastName">
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <label asp-for="UserName" for="login" class="col-sm-2 col-form-label">Никнейм</label>
+                <div class="col">
+                    <input asp-for="UserName" type="text" class="form-control" id="login">
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <label asp-for="Iin" for="iin" class="col-sm-2 col-form-label">ИИН</label>
+                <div class="col">
+                    <input asp-for="Iin" type="text" class="form-control" id="iin">
+                    <span asp-validation-for="Iin" class="text-danger"></span>
+                </div>
+            </div>
 
-    <div>
-        <label>Введите Iin</label><br/>
-        <input asp-for="Iin"/>
-    </div>
-    <span asp-validation-for="Iin"></span>
+            <div class="row mb-3">
+                <label asp-for="Email" for="inputEmail3" class="col-sm-2 col-form-label">Электронная почта</label>
+                <div class="col-sm-10">
+                    <input asp-for="Email" type="text" class="form-control" id="inputEmail3">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
 
-    <div>
-        <label>Введите Email</label><br/>
-        <input asp-for="Mail"/>
-    </div>
-    <span asp-validation-for="Mail"></span>
+            <div class="row mb-3">
+                <label asp-for="Phone" for="phone" class="col-sm-2 col-form-label" type="typeNumber">Номер телефона</label>
+                <div class="col">
+                    <input asp-for="Phone"
+                           placeholder="7011234567"
+                           type="tel" class="form-control" id="phone" pattern="[0-9]{10}"/>
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
 
-    <div>
-        <label>Введите свой телефон</label><br/>
-        <input asp-for="Phone"/>
-    </div>
-    <div>
-        <label>Придумайте пароль</label><br/>
-        <input asp-for="Password"/>
-    </div>
-    <span asp-validation-for="Password"></span>
-    <div>
-        <label>Подтвердите пароль</label><br/>
-        <input asp-for="ConfirmPassword"/>
-    </div>
-    <span asp-validation-for="ConfirmPassword"></span>
+            <div class="row mb-3">
+                <label asp-for="Password" for="inputPassword3" class="col-sm-2 col-form-label"> Придумайте пароль </label><br/>
+                <div class="col-sm-10">
+                    <input asp-for="Password" type="password" class="form-control" id="inputPassword3"/>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
 
-    <div>
-        <input type="submit" value="Регистрация"/>
+            <div class="row mb-3">
+                <label asp-for="ConfirmPassword" for="inputPassword3" class="col-sm-2 col-form-label"> Подтвердите пароль</label><br/>
+                <div class="col-sm-10">
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" id="inputPassword3"/>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+        </form>
     </div>
-</form>
+</div>
+
 
 @section Scripts
 {
