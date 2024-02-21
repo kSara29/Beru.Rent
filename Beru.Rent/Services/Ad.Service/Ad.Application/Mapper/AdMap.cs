@@ -33,8 +33,8 @@ public static class AdMap
         return new AdDto
         {
             Id = model.Id,
-            CreatedAt = model.CreatedAt,
-            UserId = Guid.Parse(model.UserId),
+            CreatedAt = model.CreatedAt.ToString("dd-MM-yyyy"),
+            UserId = model.UserId,
             Title = model.Title,
             Description = model.Description,
             ExtraConditions = model.ExtraConditions,
@@ -59,7 +59,7 @@ public static class AdMap
         {
             Id = model.Id,
             CreatedAt = model.CreatedAt,
-            UserId = Guid.Parse(model.UserId),
+            UserId =model.UserId,
             Title = model.Title,
             Description = model.Description,
             State = model.State,
