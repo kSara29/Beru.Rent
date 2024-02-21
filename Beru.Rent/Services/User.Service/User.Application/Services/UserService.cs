@@ -89,4 +89,10 @@ public class UserService(IUserRepository userRepository,
         }
         return null;
     }
+
+    public async Task<bool> CheckOfExists(string field, string checkString)
+    {
+        var response = await userRepository.CheckOfExists(field, checkString);
+        return response;
+    }
 }
