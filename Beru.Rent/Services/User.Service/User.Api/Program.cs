@@ -22,12 +22,12 @@ builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureService();
 builder.Services.AddFastEndpoints();
 builder.Services.AddHttpClient();
-builder.Services.AddHttpClient("Notification", httpClient =>
-{
-    httpClient.BaseAddress = new Uri("http://localhost:5183/api/");
-    httpClient.DefaultRequestHeaders.Add(
-        HeaderNames.Accept, "application/vnd.github.v3+json");
-});
+// builder.Services.AddHttpClient("Notification", httpClient =>
+// {
+//     httpClient.BaseAddress = new Uri("http://localhost:5183/api/");
+//     httpClient.DefaultRequestHeaders.Add(
+//         HeaderNames.Accept, "application/vnd.github.v3+json");
+// });
 builder.Services.AddSingleton<EmailService>();
 
 builder.Services.AddDbContext<UserContext>(options =>

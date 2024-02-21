@@ -11,10 +11,12 @@ public class EmailNotification(INotificationService<SendMessageRequestDto> notif
     public override void Configure()
     {
         Post("/api/notification/send");
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(SendMessageRequestDto message, CancellationToken ct)
     {
         await notificationService.NotifyAsync(message);
+        
     }
 }
