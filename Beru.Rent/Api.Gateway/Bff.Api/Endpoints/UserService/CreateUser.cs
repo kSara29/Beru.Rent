@@ -7,7 +7,7 @@ using User.Dto.ResponseDto;
 
 namespace Bff.Api.Endpoints.UserService;
 
-public class CreateUser(IUserService service, CreateUserValidation userValidation) : Endpoint<CreateUserDto, ResponseModel<UserDtoResponce>>
+public class CreateUser(IUserService service, CreateUserValidation userValidation, ILogger<CreateUser> logger) : Endpoint<CreateUserDto, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
@@ -21,18 +21,22 @@ public class CreateUser(IUserService service, CreateUserValidation userValidatio
         var result = await userValidation.ValidateAsync(request, ct);
         if (!result.IsValid && result.Errors.Any())
         {
-            var responce = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError>());
+            var responseNotValid = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError>());
             foreach (var validationFailure in result.Errors)
             {
-                responce.Errors!.Add(new ResponseError
+                responseNotValid.Errors!.Add(new ResponseError
                 {
                     Code = validationFailure.PropertyName,
                     Message = validationFailure.ErrorMessage
                 });
             }
-            await SendAsync(responce, cancellation: ct);
+            
+            logger.LogError("Не все поля валидны {@response}", responseNotValid);
+            
+            await SendAsync(responseNotValid, cancellation: ct);
             return;
         }
+        
         var response = await service.CreateUserAsync(request!);
         await SendAsync(response, cancellation: ct);
     }
