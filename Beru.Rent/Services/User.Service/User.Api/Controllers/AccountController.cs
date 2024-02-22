@@ -1,12 +1,10 @@
-﻿using IdentityServer4;
-using IdentityServer4.Services;
+﻿using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using User.Api.Models;
 using User.Api.Services;
 using User.Application.Contracts;
-using User.Application.Validation;
 using User.Dto.RequestDto;
 
 namespace User.Api.Controllers;
@@ -17,8 +15,6 @@ public class AccountController(
     SignInManager<Domain.Models.User> signInManager,
     EmailService emailSender,
     IUserValidator validator,
-    CreateUserValidation createUserValidation,
-    IResponseMapper mapper,
     IIdentityServerInteractionService interaction)
     : Controller
 {
@@ -47,36 +43,25 @@ public class AccountController(
                 ReturnUrl = modelVm.ReturnUrl
             };
             
-            var validationResult = await createUserValidation.ValidateAsync(model);
-            if (!validationResult.IsValid)
-            {
-                var resp = await mapper
-                    .HandleFailedResponse(validationResult);
-                return BadRequest(resp);
-            }
-            
             var phoneResult = await validator.FindUserByPhoneNumberAsync(model.Phone);
             if (phoneResult)
             {
-                var resp = await mapper
-                    .HandleFailedResponseForPhone();
-                return BadRequest(resp);
+                ModelState.AddModelError("Phone", "номер телефона не верный");
+                return View(modelVm);
             }
             
             if (!string.IsNullOrWhiteSpace(model.Mail) && 
                 await validator.FindUserByEmailNumberAsync(model.Mail) is not null)
             {
-                var resp = await mapper
-                    .HandleFailedResponseForEmail();
-                return BadRequest(resp);
+                ModelState.AddModelError("Mail", "Email не верный");
+                return View(modelVm);
             }
             
             if (!string.IsNullOrWhiteSpace(model.UserName) && 
                 await validator.FindUserByUserNameAsync(model.UserName) is not null)
             {
-                var resp = await mapper
-                    .HandleFailedResponseForUserName();
-                return BadRequest(resp);
+                ModelState.AddModelError("UserName", "UserName не верный");
+                return View(modelVm);
             }
             
             var result = await userService.CreateUserAsync(model, model.Password);
