@@ -28,25 +28,19 @@ public class MessageConsumer
             Uri = new Uri("amqp://guest:guest@rabbitmq:5672"),
             ClientProvidedName = "Rabbit receiver"
         };
+        
+        _connection = factory.CreateConnection();
+        Console.WriteLine("connected");
+        _channel = _connection.CreateModel();
 
-        try
-        {
-            _connection = factory.CreateConnection();
-            _channel = _connection.CreateModel();
+        string exchangeName = "myExchange";
+        string routingKey = "myRoutingKey";
+        string queueName = "myQueue";
 
-            string exchangeName = "myExchange";
-            string routingKey = "myRoutingKey";
-            string queueName = "myQueue";
-
-            _channel.ExchangeDeclare(exchangeName, ExchangeType.Direct);
-            _channel.QueueDeclare(queueName, false, false, false, null);
-            _channel.QueueBind(queueName, exchangeName, routingKey, null);
-            _channel.BasicQos(0, 1, false);
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Подлкючиться к RabbitMq не удалось {ex.Message}");
-        }
+        _channel.ExchangeDeclare(exchangeName, ExchangeType.Direct);
+        _channel.QueueDeclare(queueName, false, false, false, null);
+        _channel.QueueBind(queueName, exchangeName, routingKey, null);
+        _channel.BasicQos(0, 1, false);
     }
     
     public void StartConsuming()
