@@ -101,6 +101,7 @@ services:
     depends_on:
       - dealdb
       - rabbitmq
+    restart: "on-failure"
     ports:
       - "8001:8080"
         
@@ -123,6 +124,7 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
+    restart: "on-failure"
     ports:
       - "8004:8080"
         
