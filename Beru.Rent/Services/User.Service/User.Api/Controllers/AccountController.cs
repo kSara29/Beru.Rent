@@ -29,53 +29,61 @@ public class AccountController(
     }
     
     [HttpPost("register")]
-    public async Task<IActionResult> Register(CreateUserDto model)
+    public async Task<IActionResult> Register(RegisterViewModel modelVm)
     {
-        var validationResult = await createUserValidation.ValidateAsync(model);
-        if (!validationResult.IsValid)
+        if (ModelState.IsValid)
         {
-            var resp = await mapper
-                .HandleFailedResponse(validationResult);
-            return BadRequest(resp);
-        }
-        
-        var phoneResult = await validator.FindUserByPhoneNumberAsync(model.Phone);
-        if (phoneResult)
-        {
-            var resp = await mapper
-                .HandleFailedResponseForPhone();
-            return BadRequest(resp);
-        }
-        
-        if (!string.IsNullOrWhiteSpace(model.Mail) && 
-            await validator.FindUserByEmailNumberAsync(model.Mail) is not null)
-        {
-            var resp = await mapper
-                .HandleFailedResponseForEmail();
-            return BadRequest(resp);
-        }
-        
-        if (!string.IsNullOrWhiteSpace(model.UserName) && 
-            await validator.FindUserByUserNameAsync(model.UserName) is not null)
-        {
-            var resp = await mapper
-                .HandleFailedResponseForUserName();
-            return BadRequest(resp);
-        }
-        
-        var result = await userService.CreateUserAsync(model, model.Password);
-        
-        var token = await userManager.GenerateEmailConfirmationTokenAsync(result);
-        var confirmLink = 
-            Url.Action("ConfirmEmail", "Account",
-                new { userId = result.Id, token, returnUrl = model.ReturnUrl }, Request.Scheme);
-        await emailSender.SendEmailAsync(
-            result.Email!, 
-            "Подтверждение адреса электронной почты", 
-            $"Подтвердите свой адрес электронной почты, перейдя по ссылке: " +
-            $"<a href='{confirmLink}'>confirm email</a>");
+            var model = new CreateUserDto()
+            {
+                FirstName = modelVm.FirstName,
+                LastName = modelVm.LastName,
+                UserName = modelVm.UserName,
+                Mail = modelVm.Email,
+                Phone = modelVm.Phone,
+                Iin = modelVm.Iin,
+                Password = modelVm.Password,
+                ConfirmPassword = modelVm.ConfirmPassword,
+                ReturnUrl = modelVm.ReturnUrl
+            };
+            
+            var phoneResult = await validator.FindUserByPhoneNumberAsync(model.Phone);
+            if (phoneResult)
+            {
+                ModelState.AddModelError("Phone", "номер телефона не верный");
+                return View(modelVm);
+            }
+            
+            if (!string.IsNullOrWhiteSpace(model.Mail) && 
+                await validator.FindUserByEmailNumberAsync(model.Mail) is not null)
+            {
+                ModelState.AddModelError("Mail", "Email не верный");
+                return View(modelVm);
+            }
+            
+            if (!string.IsNullOrWhiteSpace(model.UserName) && 
+                await validator.FindUserByUserNameAsync(model.UserName) is not null)
+            {
+                ModelState.AddModelError("UserName", "UserName не верный");
+                return View(modelVm);
+            }
+            
+            var result = await userService.CreateUserAsync(model, model.Password);
+            {
+                var token = await userManager.GenerateEmailConfirmationTokenAsync(result);
+                var confirmLink = 
+                    Url.Action("ConfirmEmail", "Account",
+                        new { userId = result.Id, token, returnUrl = model.ReturnUrl }, Request.Scheme);
+                await emailSender.SendEmailAsync
+                (result.Email!, 
+                    "Подтверждение адреса электронной почты", 
+                    $"Подтвердите свой адрес электронной почты, перейдя по ссылке: " +
+                    $"<a href='{confirmLink}'>confirm email</a>");
 
-        return Ok("Check your email for confirmation link");
+                return Ok("Check your email for confirmation link");
+            }
+        }
+
+        return View();
     }
 
     [HttpGet("confirm-email")]

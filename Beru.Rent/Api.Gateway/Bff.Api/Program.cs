@@ -45,6 +45,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false,
             ClockSkew = TimeSpan.FromSeconds(15)
         };
+        config.RequireHttpsMetadata = false;
         config.Authority = "https://localhost:7258";
     });
 builder.Services.AddAuthorization();
