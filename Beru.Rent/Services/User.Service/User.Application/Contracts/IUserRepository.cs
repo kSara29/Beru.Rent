@@ -9,4 +9,5 @@ public interface IUserRepository
     Task<bool> GetUserByPhoneAsync(string phone);
     Task<Domain.Models.User> UpdateUserAsync(Domain.Models.User user);
     Task<Domain.Models.User> DeleteUserAsync(Domain.Models.User id);
+    Task<bool> CheckOfExists(string field, string checkString);
 }

@@ -29,6 +29,7 @@ public class MessagePublisher : IMessagePublisher
         };
 
         _connection = factory.CreateConnection();
+        Console.WriteLine("connected");
         _channel = _connection.CreateModel();
         _channel.QueueDeclare(ResponseQueueName, false, false, false, null);
     }

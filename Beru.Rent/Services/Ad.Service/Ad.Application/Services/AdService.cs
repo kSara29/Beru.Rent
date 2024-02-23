@@ -8,6 +8,7 @@ using Ad.Domain.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Ad.Dto;
 using Ad.Dto.GetDtos;
+using Ad.Dto.RequestDto;
 using Ad.Dto.ResponseDto;
 using Common;
 using Deal.Dto.Booking;
@@ -121,7 +122,7 @@ public class AdService : IAdService
         }
     }
 
-    public async Task<ResponseModel<DecimalResponse>> GetCostAsync(CreateBookingRequestDto dto)
+    public async Task<ResponseModel<DecimalResponse>> GetCostAsync(GetAdCostRequestDto dto)
     {
         var result =await _repository.GetCostAsync(dto);
         return ResponseModel<DecimalResponse>.CreateSuccess(new DecimalResponse

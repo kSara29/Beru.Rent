@@ -1,10 +1,11 @@
 ﻿using System.Text;
 using Common;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Bff.Application.Handlers;
 
-public class ServiceHandler(IHttpClientFactory httpClientFactory)
+public class ServiceHandler(IHttpClientFactory httpClientFactory, ILogger<ServiceHandler> logger)
 {
     /// <summary>
     /// Создает Url для соединения c query параметрами
@@ -84,6 +85,7 @@ public class ServiceHandler(IHttpClientFactory httpClientFactory)
         }
         catch (Exception e)
         {
+            logger.LogError("Не удалось подключиться к сервису");
             return HandleException<TResp>(e.Message);
         }
     }

@@ -1,4 +1,5 @@
 using Common;
+using Microsoft.Extensions.Logging;
 using User.Application.Contracts;
 using User.Application.Mapper;
 using User.Application.Validation;
@@ -8,11 +9,13 @@ using User.Dto.ResponseDto;
 namespace User.Application.Services;
 
 public class UserService(IUserRepository userRepository, 
-    UpdateUserValidation updateUserValidation) : IUserService
+    UpdateUserValidation updateUserValidation, ILogger<UserService> logger) : IUserService
 {
     public async Task<Domain.Models.User> CreateUserAsync(CreateUserDto model, string password)
     {
         var user = await userRepository.CreateUserAsync(model.ToUser()!, password);
+        
+        logger.LogInformation("Пользователь создан {@user}", user);
         return user;
     }
 
@@ -53,18 +56,24 @@ public class UserService(IUserRepository userRepository,
     public async Task<UserDtoResponce> GetUserByIdAsync(string userId)
     {
         Domain.Models.User? user = await userRepository.GetUserByIdAsync(userId);
+        
+        logger.LogInformation("Вернули пользователя по Id {@response}", user);
         return user.ToUserDtoResponse();
     }
     
     public async Task<UserDtoResponce> GetUserByMailAsync(string mail)
     {
         var user = await userRepository.GetUserByMailAsync(mail);
+        
+        logger.LogInformation("Вернули пользователя по почте {@response}", user);
         return user.ToUserDtoResponse();
     }
     
     public async Task<UserDtoResponce> GetUserByNameAsync(string userName)
     {
         var user = await userRepository.GetUserByUserNameAsync(userName);
+        
+        logger.LogInformation("Вернули пользователя по имени {@response}", user);
         return user.ToUserDtoResponse();
     }
 
@@ -74,8 +83,16 @@ public class UserService(IUserRepository userRepository,
         if (user is not null)
         {
             var result = await userRepository.DeleteUserAsync(user);
+            
+            logger.LogInformation("Удалили пользователя {@response}", user);
             return result.ToUserDtoResponse();
         }
         return null;
+    }
+
+    public async Task<bool> CheckOfExists(string field, string checkString)
+    {
+        var response = await userRepository.CheckOfExists(field, checkString);
+        return response;
     }
 }

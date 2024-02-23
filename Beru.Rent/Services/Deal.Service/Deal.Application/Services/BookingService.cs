@@ -3,15 +3,19 @@ using Deal.Application.Contracts.Booking;
 using Deal.Application.Mapper;
 using Deal.Domain.Models;
 using Deal.Dto.Booking;
+using Microsoft.Extensions.Logging;
 
 namespace Deal.Application.Services;
 
 public class BookingService: IBookingService
 {
     private readonly IBookingRepository _bookingRepository;
-    public BookingService(IBookingRepository bookingRepository)
+    private readonly ILogger<BookingService> _logger;
+    
+    public BookingService(IBookingRepository bookingRepository, ILogger<BookingService> logger)
     {
         _bookingRepository = bookingRepository;
+        _logger = logger;
     }   
 
     public async Task<bool> CancelReservationAsync(Booking booking)
@@ -30,12 +34,18 @@ public class BookingService: IBookingService
                 Message = "Ввели прошедшую дату"
             };
             errors.Add(errorModel);
+            
+            _logger.LogWarning("Введена прошедшая дата для броинирования: {@dto}", dto);
+            
             return ResponseModel<GetBookingResponseDto>.CreateFailed(errors);
         }
         var dictionary = await _bookingRepository.CreateBookingAsync(dto);
         if (dictionary.ContainsKey(true))
         {
             var booking = dictionary[true];
+            
+            _logger.LogInformation("Бронирование создалось успешно {@booking}", booking);
+            
             return ResponseModel<GetBookingResponseDto>.CreateSuccess(booking.ToDto());
         }
         else 
@@ -47,6 +57,8 @@ public class BookingService: IBookingService
                 Message = "Забронирванные даты недоступны"
             };
             errors.Add(errorModel);
+            
+            _logger.LogInformation("Забронирванные даты недоступны {@booking}", dictionary[false]);
             return ResponseModel<GetBookingResponseDto>.CreateFailed(errors); 
         }
         
@@ -58,6 +70,8 @@ public class BookingService: IBookingService
         List<GetBookingDatesResponse> list = new List<GetBookingDatesResponse>();
         foreach (var book in books) 
             list.Add(book.ToDateDto());
+        
+        _logger.LogInformation("Получен список забронированных дат для объявления {@id}: {@list}", id, list);
         return list;
     }
 
@@ -73,6 +87,8 @@ public class BookingService: IBookingService
     public async Task<GetBookingResponseDto> GetBookingAsync(RequestById id)
     {
         var res = await _bookingRepository.GetBookingAsync(id);
+        
+        _logger.LogInformation("Получено бронирование по Id: {@res}", res);
         return res.ToDto();
     }
 
@@ -88,6 +104,8 @@ public class BookingService: IBookingService
     public async Task<BoolResponseDto> CancelBookingsAsync(RequestById dto)
     {
         var list = await _bookingRepository.CancelBookingsAsync(dto);
+        
+        _logger.LogInformation("Хозяин товара отклонил бронирование: {@res}", list);
         return list.ToDto() ;
     }
 }

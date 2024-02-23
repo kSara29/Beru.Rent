@@ -1,9 +1,11 @@
 
 
+using System.Diagnostics;
 using Ad.Application.Contracts.Ad;
 using Ad.Application.Mapper;
 using Ad.Application.DTO.GetDtos;
 using Ad.Domain.Models;
+using Ad.Dto.RequestDto;
 using Ad.Infrastructure.Context;
 using Deal.Dto.Booking;
 using Microsoft.EntityFrameworkCore;
@@ -77,7 +79,7 @@ public class AdRepository : IAdRepository
       #region Сортировка по категории
       if (cat != "all")
       {
-         query = query.Where(a => a.Category.Title == cat);
+         query = query.Where(a => a.Category.Id == Guid.Parse(cat));
       }
       #endregion
 
@@ -136,7 +138,7 @@ public class AdRepository : IAdRepository
       #region Сортировка по категории
       if (cat != "all")
       {
-         query = query.Where(a => a.Category.Title == cat);
+         query = query.Where(a => a.Category.Id == Guid.Parse(cat));
       }
       #endregion
 
@@ -192,10 +194,12 @@ public class AdRepository : IAdRepository
       return new GetMainPageDto<Advertisement>(result, totalPages);
    }
 
-   public async Task<decimal> GetCostAsync(CreateBookingRequestDto dto)
+   public async Task<decimal> GetCostAsync(GetAdCostRequestDto dto)
    {
+      var  time = Stopwatch.StartNew();
       List<Advertisement> advertisements = _context.Ads.Include(a => a.TimeUnit).ToList();
       Advertisement TheAd = new Advertisement();
+      
       foreach (var ads in advertisements)
       {
          if (ads.Id == dto.AdId)
@@ -203,8 +207,10 @@ public class AdRepository : IAdRepository
             TheAd = ads;
          }
       }
-      
-      decimal cost = Convert.ToDecimal((dto.Dend - dto.Dbeg) / TheAd.TimeUnit.Duration)*TheAd.Price;
+      decimal cost = Math.Round((Convert.ToDecimal((dto.Dend - dto.Dbeg) / TheAd.TimeUnit.Duration)*TheAd.Price), MidpointRounding.AwayFromZero);
+      time.Stop();
+      var ellapsemilisec = time.ElapsedMilliseconds;
+      Console.WriteLine("Время работы" + ellapsemilisec);
       return cost;
    }
 

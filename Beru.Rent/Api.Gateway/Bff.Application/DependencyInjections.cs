@@ -25,6 +25,7 @@ public static class DependencyInjections
         service.AddSingleton<IBookingService, BookingService>();
         service.AddSingleton<IDealService, DealService>();
         service.AddSingleton<IChatService, ChatService>();
+        service.AddSingleton<IDocumentService, DocumentService>();
         return service;
     }
 }

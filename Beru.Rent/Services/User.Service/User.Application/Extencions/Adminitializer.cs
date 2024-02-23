@@ -12,7 +12,8 @@ public class Adminitializer
             FirstName = "admin",
             LastName = "admin",
             Iin = "000000000",
-            UserName = "admin"
+            UserName = "admin",
+            EmailConfirmed = true
         };
   
         var roles = new [] { "admin", "user" };

@@ -7,7 +7,7 @@ using User.Dto.ResponseDto;
 
 namespace User.Api.Endpoints;
 
-public class DeleteUser(IUserService service): Endpoint<DeleteUserByIdRequest, ResponseModel<UserDtoResponce>>
+public class DeleteUser(IUserService service, ILogger<DeleteUser> logger): Endpoint<DeleteUserByIdRequest, ResponseModel<UserDtoResponce>>
 {
     public override void Configure()
     {
@@ -17,17 +17,20 @@ public class DeleteUser(IUserService service): Endpoint<DeleteUserByIdRequest, R
     public override async Task HandleAsync
         (DeleteUserByIdRequest request, CancellationToken ct)
     {
+        
         var result = await service.DeleteUserAsync(request!.Id);
         if (result is null)
-        {
-            var responseFail = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError?>
+        { 
+            var responseFail = ResponseModel<UserDtoResponce>.CreateFailed(new List<ResponseError> 
                 {
-                    new()
+                new()
                     {
                         Message = "Юзер не найден"
                     }
                 }
             );
+            
+            logger.LogWarning("Пользователь не найден");
             await SendAsync(responseFail, cancellation: ct);
         }
 

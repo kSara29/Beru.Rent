@@ -88,7 +88,7 @@ public class AdController:ControllerBase
     
     [HttpPost("/api/ad/getCost")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetCostAsync(CreateBookingRequestDto dto)
+    public async Task<IActionResult> GetCostAsync(GetAdCostRequestDto dto)
     {
         var result = await _service.GetCostAsync(dto);
         return Ok(result);
@@ -99,8 +99,7 @@ public class AdController:ControllerBase
     public async Task<IActionResult> GetAdsByUserId([FromRoute] Guid id)
     {
         var result = await _service.GetAdsByUserId(id);
-        return Ok(result);
-    }
+        return Ok(result);}
     
 
 }
