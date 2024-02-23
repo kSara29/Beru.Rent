@@ -157,7 +157,11 @@ public class AccountController(
     {
         if (User.Identity!.IsAuthenticated)
         {
-            await HttpContext.SignOutAsync(IdentityServerConstants.DefaultCookieAuthenticationScheme);
+            await HttpContext.SignOutAsync();
+        }
+        foreach (var cookie in Request.Cookies.Keys)
+        {
+            Response.Cookies.Delete(cookie);
         }
         var logoutContext = await interaction.GetLogoutContextAsync(logoutId);
         return Redirect(logoutContext.PostLogoutRedirectUri ?? "/");
