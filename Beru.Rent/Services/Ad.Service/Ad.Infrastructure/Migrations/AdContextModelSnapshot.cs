@@ -65,6 +65,23 @@ namespace Ad.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AddressExtras");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("4a4042f8-1621-4653-9bec-87d20cc5fa82"),
+                            Apartment = "5",
+                            City = "Алматы",
+                            Country = "Казахстан",
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 33, 692, DateTimeKind.Local).AddTicks(3472),
+                            Floor = (byte)2,
+                            House = "90",
+                            Latitude = "43.232808",
+                            Longitude = "76.879196",
+                            PostIndex = "S19B5T8",
+                            Region = "Алматы",
+                            Street = "улица Каныша Сатпаева"
+                        });
                 });
 
             modelBuilder.Entity("Ad.Domain.Models.Advertisement", b =>
@@ -127,6 +144,25 @@ namespace Ad.Infrastructure.Migrations
                     b.HasIndex("TimeUnitId");
 
                     b.ToTable("Ads");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("83c607b9-228c-43fc-a2b5-84f21e6aea13"),
+                            AddressExtraId = new Guid("4a4042f8-1621-4653-9bec-87d20cc5fa82"),
+                            CategoryId = new Guid("62611750-9b02-494a-a58a-3305b7d94596"),
+                            ContractType = 0,
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 43, 697, DateTimeKind.Local).AddTicks(3048),
+                            Description = "Достоинства: 1. Хорошая модель мотоцикла; 2. Движущиеся детали; 3. Наличие альтернативной модели; 4. Легко собирается; 5. Понятная инструкция; 6. Запасные части; 7. Оригинальный ЛЕГО; 8. Качественный пластик; 9. Детали хорошо подходят друг к другу; 10. Не маленькая модель; 11. Наклейки. Недостатки: 1. Можно конечно заркала добавить и приборную панель. Хотя и так вполне себе. Комментарий: У мотоцикла поворачивается руль, крутятся колёса, крутится цепь и двигаются цилиндры. Хороший конструктор с движущимися механизмами. Много деталей в наборе. Упакованы в 3 пакетика. Шины лежали без пакета. Запасные детали как всегда в наличии. Стоит на двух колёсах и не падает. Шины из резинового материала",
+                            ExtraConditions = "нет",
+                            NeededDeposit = false,
+                            Price = 1400m,
+                            State = 0,
+                            TimeUnitId = new Guid("52a09930-e3c0-4400-92d3-e28f8b176a4f"),
+                            Title = "Игрушечный мотоцикл",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "ecab5681-aa11-4f85-b5d5-72dd1705d767"
+                        });
                 });
 
             modelBuilder.Entity("Ad.Domain.Models.Category", b =>
@@ -153,61 +189,61 @@ namespace Ad.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("62611750-9b02-494a-a58a-3305b7d94596"),
-                            CreatedAt = new DateTime(2024, 2, 23, 11, 10, 33, 433, DateTimeKind.Local).AddTicks(8414),
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 33, 692, DateTimeKind.Local).AddTicks(3091),
                             Title = "Игрушки"
                         },
                         new
                         {
-                            Id = new Guid("4920055f-7e05-4af7-afee-8407a203038d"),
-                            CreatedAt = new DateTime(2024, 2, 23, 11, 10, 33, 433, DateTimeKind.Local).AddTicks(8481),
+                            Id = new Guid("af1b97dd-fe43-4642-88f1-f0d96e1f4024"),
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 33, 692, DateTimeKind.Local).AddTicks(3139),
                             Title = "Авто"
                         },
                         new
                         {
-                            Id = new Guid("4e3b5060-147b-409a-82ba-df32919f810c"),
-                            CreatedAt = new DateTime(2024, 2, 23, 11, 10, 33, 433, DateTimeKind.Local).AddTicks(8483),
+                            Id = new Guid("e682d4f4-8f46-4cab-a05e-e938130be774"),
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 33, 692, DateTimeKind.Local).AddTicks(3141),
                             Title = "Инструменты"
                         },
                         new
                         {
-                            Id = new Guid("a3500d50-3335-4780-89c3-f163bfa460d1"),
-                            CreatedAt = new DateTime(2024, 2, 23, 11, 10, 33, 433, DateTimeKind.Local).AddTicks(8485),
+                            Id = new Guid("90c969dd-d5f9-4247-8b98-4a3b7f61fa4c"),
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 33, 692, DateTimeKind.Local).AddTicks(3153),
                             Title = "Техника"
                         },
                         new
                         {
-                            Id = new Guid("b19052d7-cdb1-4715-9617-13c4605c7a11"),
-                            CreatedAt = new DateTime(2024, 2, 23, 11, 10, 33, 433, DateTimeKind.Local).AddTicks(8487),
+                            Id = new Guid("d28ba237-231e-4191-8f15-f9f4f5d41bf6"),
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 33, 692, DateTimeKind.Local).AddTicks(3155),
                             Title = "Электроника"
                         },
                         new
                         {
-                            Id = new Guid("3746a8d0-3276-4037-8f51-8ca024437f9f"),
-                            CreatedAt = new DateTime(2024, 2, 23, 11, 10, 33, 433, DateTimeKind.Local).AddTicks(8489),
+                            Id = new Guid("92951fa4-e638-4dbf-aae6-dd91a38aa6e7"),
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 33, 692, DateTimeKind.Local).AddTicks(3156),
                             Title = "Фотоаппаратура"
                         },
                         new
                         {
-                            Id = new Guid("7cc84187-cc32-4cf1-9cb1-35a089caed5b"),
-                            CreatedAt = new DateTime(2024, 2, 23, 11, 10, 33, 433, DateTimeKind.Local).AddTicks(8491),
+                            Id = new Guid("b502faa7-d947-4ff6-b398-3513900e95c9"),
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 33, 692, DateTimeKind.Local).AddTicks(3158),
                             Title = "Одежда"
                         },
                         new
                         {
-                            Id = new Guid("8bf8ce89-3d59-487a-87fd-1d534d20b217"),
-                            CreatedAt = new DateTime(2024, 2, 23, 11, 10, 33, 433, DateTimeKind.Local).AddTicks(8493),
+                            Id = new Guid("622b90e8-6e20-436d-a2f5-2c38afc53ba6"),
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 33, 692, DateTimeKind.Local).AddTicks(3159),
                             Title = "Недвижимость"
                         },
                         new
                         {
-                            Id = new Guid("684b4a8c-f3af-476c-9810-82ecf2d22d03"),
-                            CreatedAt = new DateTime(2024, 2, 23, 11, 10, 33, 433, DateTimeKind.Local).AddTicks(8495),
+                            Id = new Guid("72461ae9-f852-4d98-96ab-1ccfc1b9de3b"),
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 33, 692, DateTimeKind.Local).AddTicks(3161),
                             Title = "Земельный участок"
                         },
                         new
                         {
-                            Id = new Guid("e6c9cd31-5e81-4609-af68-d083fa76da49"),
-                            CreatedAt = new DateTime(2024, 2, 23, 11, 10, 33, 433, DateTimeKind.Local).AddTicks(8500),
+                            Id = new Guid("2e582a42-15aa-4b3b-8390-8b20467f9c83"),
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 33, 692, DateTimeKind.Local).AddTicks(3163),
                             Title = "Бьюти-товары"
                         });
                 });
@@ -239,6 +275,17 @@ namespace Ad.Infrastructure.Migrations
                     b.HasIndex("AdId");
 
                     b.ToTable("Files");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("39134ea5-9144-48e5-bd28-f45b934faf7f"),
+                            AdId = new Guid("83c607b9-228c-43fc-a2b5-84f21e6aea13"),
+                            BucketName = "83c607b9-228c-43fc-a2b5-84f21e6aea13",
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 43, 697, DateTimeKind.Local).AddTicks(3346),
+                            MinioFileName = "83c607b9-228c-43fc-a2b5-84f21e6aea13.png",
+                            OriginFileName = "83c607b9-228c-43fc-a2b5-84f21e6aea13.png"
+                        });
                 });
 
             modelBuilder.Entity("Ad.Domain.Models.Tag", b =>
@@ -311,28 +358,28 @@ namespace Ad.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("52a09930-e3c0-4400-92d3-e28f8b176a4f"),
-                            CreatedAt = new DateTime(2024, 2, 23, 11, 10, 33, 433, DateTimeKind.Local).AddTicks(8690),
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 33, 692, DateTimeKind.Local).AddTicks(3318),
                             Duration = new TimeSpan(0, 1, 0, 0, 0),
                             Title = "Час"
                         },
                         new
                         {
-                            Id = new Guid("c5f3a77d-d49f-4de4-b4bf-ab6dad544b81"),
-                            CreatedAt = new DateTime(2024, 2, 23, 11, 10, 33, 433, DateTimeKind.Local).AddTicks(8697),
+                            Id = new Guid("252841cf-1e52-41d6-b274-a32754245cd7"),
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 33, 692, DateTimeKind.Local).AddTicks(3389),
                             Duration = new TimeSpan(1, 0, 0, 0, 0),
                             Title = "Сутки"
                         },
                         new
                         {
-                            Id = new Guid("4effd2e6-fb66-45fa-bb10-5abbc3f7e421"),
-                            CreatedAt = new DateTime(2024, 2, 23, 11, 10, 33, 433, DateTimeKind.Local).AddTicks(8704),
+                            Id = new Guid("b69ab690-1a63-49a0-91b2-b7e6c8e1cefb"),
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 33, 692, DateTimeKind.Local).AddTicks(3396),
                             Duration = new TimeSpan(7, 0, 0, 0, 0),
                             Title = "Неделя"
                         },
                         new
                         {
-                            Id = new Guid("15281c7e-645d-4cb5-a0b8-e26ff1ae7051"),
-                            CreatedAt = new DateTime(2024, 2, 23, 11, 10, 33, 433, DateTimeKind.Local).AddTicks(8707),
+                            Id = new Guid("465c4f5f-fa65-47f1-84eb-0e2799a421b1"),
+                            CreatedAt = new DateTime(2024, 2, 23, 15, 19, 33, 692, DateTimeKind.Local).AddTicks(3398),
                             Duration = new TimeSpan(30, 0, 0, 0, 0),
                             Title = "Месяц"
                         });
