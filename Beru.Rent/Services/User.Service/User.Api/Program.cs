@@ -1,4 +1,3 @@
-using Common;
 using DbMigrator;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -7,8 +6,9 @@ using User.Application.Extencions;
 using User.Infrastructure;
 using User.Infrastructure.Context;
 using FastEndpoints;
+using Microsoft.Net.Http.Headers;
 using User.Api.IdentityConfiguration;
-using ValidationOptions = IdentityServer4.Configuration.ValidationOptions;
+using User.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,18 +22,21 @@ builder.Services.AddApplicationService();
 builder.Services.AddInfrastructureService();
 builder.Services.AddFastEndpoints();
 builder.Services.AddHttpClient();
+builder.Services.AddSingleton<EmailService>();
 
 builder.Services.AddDbContext<UserContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"));
 }).AddIdentity<User.Domain.Models.User, IdentityRole>(opt =>
 {
+    opt.SignIn.RequireConfirmedEmail = true;
     opt.Password.RequiredLength = 8;
     opt.Password.RequireLowercase = false;
     opt.Password.RequireDigit = false;
     opt.Password.RequireUppercase = false;
     opt.Password.RequireNonAlphanumeric = false;
-}).AddEntityFrameworkStores<UserContext>();
+}).AddEntityFrameworkStores<UserContext>()
+.AddDefaultTokenProviders();
 
 // Add services to the container.
 builder.Services.AddIdentityServer(config =>
@@ -89,6 +92,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseIdentityServer();
 app.UseAuthorization();
+app.UseCors("AllowAll");
 
 app.MapControllerRoute(
     name: "default",

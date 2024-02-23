@@ -12,6 +12,7 @@
         <PackageReference Include="FastEndpoints" Version="5.20.1" />
         <PackageReference Include="IdentityServer4" Version="4.1.2" />
         <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
+        <PackageReference Include="MailKit" Version="4.3.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="8.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />
@@ -32,6 +33,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\..\BuildingBlocks\Common\Common.csproj" />
       <ProjectReference Include="..\..\..\BuildingBlocks\DbMigrator\DbMigrator.csproj" />
+      <ProjectReference Include="..\..\..\BuildingBlocks\Notification.Dto\Notification.Dto.csproj" />
       <ProjectReference Include="..\..\..\BuildingBlocks\User.Dto\User.Dto.csproj" />
       <ProjectReference Include="..\User.Infrastructure\User.Infrastructure.csproj" />
     </ItemGroup>
