@@ -28,6 +28,5 @@ public class Adminitializer
             if (result.Succeeded)
                 await userManager.AddToRoleAsync(admin, roles[0]);
         }
-
     }
 }

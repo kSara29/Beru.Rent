@@ -22,7 +22,6 @@ public class AccountController(
     IIdentityServerInteractionService interaction)
     : Controller
 {
-
     [HttpGet("register")]
     public async Task<IActionResult> Register(string? returnUrl)
     {
@@ -65,19 +64,18 @@ public class AccountController(
         }
         
         var result = await userService.CreateUserAsync(model, model.Password);
-        {
-            var token = await userManager.GenerateEmailConfirmationTokenAsync(result);
-            var confirmLink = 
-                Url.Action("ConfirmEmail", "Account",
-                    new { userId = result.Id, token, returnUrl = model.ReturnUrl }, Request.Scheme);
-            await emailSender.SendEmailAsync
-            (result.Email!, 
-                "Подтверждение адреса электронной почты", 
-                $"Подтвердите свой адрес электронной почты, перейдя по ссылке: " +
-                $"<a href='{confirmLink}'>confirm email</a>");
+        
+        var token = await userManager.GenerateEmailConfirmationTokenAsync(result);
+        var confirmLink = 
+            Url.Action("ConfirmEmail", "Account",
+                new { userId = result.Id, token, returnUrl = model.ReturnUrl }, Request.Scheme);
+        await emailSender.SendEmailAsync(
+            result.Email!, 
+            "Подтверждение адреса электронной почты", 
+            $"Подтвердите свой адрес электронной почты, перейдя по ссылке: " +
+            $"<a href='{confirmLink}'>confirm email</a>");
 
-            return Ok("Check your email for confirmation link");
-        }
+        return Ok("Check your email for confirmation link");
     }
 
     [HttpGet("confirm-email")]

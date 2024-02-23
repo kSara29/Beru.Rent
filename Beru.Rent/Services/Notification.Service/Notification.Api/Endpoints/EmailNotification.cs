@@ -17,6 +17,5 @@ public class EmailNotification(INotificationService<SendMessageRequestDto> notif
     public override async Task HandleAsync(SendMessageRequestDto message, CancellationToken ct)
     {
         await notificationService.NotifyAsync(message);
-        
     }
 }
