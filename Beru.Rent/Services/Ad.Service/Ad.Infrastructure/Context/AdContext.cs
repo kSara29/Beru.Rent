@@ -29,8 +29,26 @@ public class AdContext : DbContext
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
         
+        modelBuilder.Entity<Category>().HasData(
+            new Category{Id=Guid.NewGuid(), CreatedAt = DateTime.Now,Title = "Игрушки" },
+            new Category{Id=Guid.NewGuid(), CreatedAt = DateTime.Now,Title = "Авто"},
+            new Category{Id=Guid.NewGuid(), CreatedAt = DateTime.Now,Title = "Инструменты"},
+            new Category{Id=Guid.NewGuid(), CreatedAt = DateTime.Now,Title = "Техника"},
+            new Category{Id=Guid.NewGuid(), CreatedAt = DateTime.Now,Title = "Электроника"},
+            new Category{Id=Guid.NewGuid(), CreatedAt = DateTime.Now,Title = "Фотоаппаратура"},
+            new Category{Id=Guid.NewGuid(), CreatedAt = DateTime.Now,Title = "Одежда"},
+            new Category{Id=Guid.NewGuid(), CreatedAt = DateTime.Now,Title = "Недвижимость"},
+            new Category{Id=Guid.NewGuid(), CreatedAt = DateTime.Now,Title = "Земельный участок"},
+            new Category{Id=Guid.NewGuid(), CreatedAt = DateTime.Now,Title = "Бьюти-товары"}
+        );
+        
+        modelBuilder.Entity<TimeUnit>().HasData(
+            new TimeUnit { Id=Guid.NewGuid(), CreatedAt = DateTime.Now,Title = "Час", Duration = TimeSpan.FromHours(1) },
+            new TimeUnit { Id=Guid.NewGuid(), CreatedAt = DateTime.Now,Title = "Сутки", Duration = TimeSpan.FromDays(1) },
+            new TimeUnit { Id=Guid.NewGuid(), CreatedAt = DateTime.Now,Title = "Неделя", Duration = TimeSpan.FromDays(7) },
+            new TimeUnit { Id=Guid.NewGuid(), CreatedAt = DateTime.Now,Title = "Месяц", Duration = TimeSpan.FromDays(30) }
+        );
         
         base.OnModelCreating(modelBuilder);
     }
-    
-}
+    }
