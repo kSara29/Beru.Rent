@@ -82,6 +82,14 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/adData
   
+  mongodb:
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/catalogData
+  
   user.api:
     container_name: user.api
     environment:
@@ -121,6 +129,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "EventSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
+      - "ConnectionStrings:DefaultConnection=mongodb://mongodb:27017"
     depends_on:
       - mongodb
       - rabbitmq

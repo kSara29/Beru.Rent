@@ -4,6 +4,8 @@ using Chat.Dto.RequestDto;
 using Chat.Dto.ResponseModel;
 using Common;
 using MongoDB.Driver;
+using Newtonsoft.Json;
+using User.Dto.ResponseDto;
 
 namespace Chat.Infrastructure.Database;
 
@@ -94,11 +96,13 @@ public class ChatRepository: IChatRepository
     public async Task<ResponseModel<List<GetAllChatsResponse>>> GetAllChats(string userId)
     {
         var chats = await _chatCollection.Find(x => x.Participants.Contains(userId)).ToListAsync();
+        Console.WriteLine(chats);
         var chatsList = new List<GetAllChatsResponse>(); 
         
         foreach (var chat in chats)
         {
             var messageHistory = new List<MessageDto>();
+            var chatParticipients = new List<string>();
             foreach (var mes in chat.Messages)
             {
                 var mesDto = new MessageDto()
@@ -111,11 +115,37 @@ public class ChatRepository: IChatRepository
             
                 messageHistory.Add(mesDto);
             }
+
+            foreach (var participant in chat.Participants)
+            {
+                try
+                {
+                    using (HttpClient httpClient = new HttpClient())
+                    {
+                        HttpResponseMessage response = await httpClient.GetAsync($"https://localhost:7258/api/user/getById?Id={participant}");
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            Console.WriteLine("Успешное подключение к сервису.");
+                            string jsonResponse = await response.Content.ReadAsStringAsync();
+                           
+                            var user = JsonConvert.DeserializeObject<ResponseModel<UserDtoResponce>>(jsonResponse);
+                            chatParticipients.Add(user.Data.UserName);
+                        }
+                        else
+                            Console.WriteLine($"Ошибка: {response.StatusCode}");
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Не удалось подключиться к UserService");
+                }
+            }
             
             var chatDto = new GetAllChatsResponse()
             {
                 Id = chat.Id,
-                Participants = chat.Participants,
+                Participants = chatParticipients,
                 CreatedAt = chat.CreatedAt,
                 Messages = messageHistory
             };
