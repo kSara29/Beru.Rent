@@ -17,8 +17,6 @@ public class AccountController(
     SignInManager<Domain.Models.User> signInManager,
     EmailService emailSender,
     IUserValidator validator,
-    CreateUserValidation createUserValidation,
-    IResponseMapper mapper,
     IIdentityServerInteractionService interaction)
     : Controller
 {
@@ -72,7 +70,7 @@ public class AccountController(
                 var token = await userManager.GenerateEmailConfirmationTokenAsync(result);
                 var confirmLink = 
                     Url.Action("ConfirmEmail", "Account",
-                        new { userId = result.Id, token, returnUrl = model.ReturnUrl }, Request.Scheme);
+                        new { userId = result.Id, token, model.ReturnUrl }, Request.Scheme);
                 await emailSender.SendEmailAsync
                 (result.Email!, 
                     "Подтверждение адреса электронной почты", 
@@ -103,18 +101,10 @@ public class AccountController(
         var result = await userManager.ConfirmEmailAsync(user, token);
         if (result.Succeeded)
         {
-            var signInResult = await signInManager.PasswordSignInAsync(user, user.PasswordHash, false, false);
-            if (signInResult.Succeeded)
-            {
-                return Redirect(returnUrl!);
-            }
-            ModelState.AddModelError("UserName", "Something went wrong");
-            return Redirect(returnUrl!);
+            return RedirectToAction("Login", new { returnUrl });
         }
-        else
-        {
-            return BadRequest("Email confirmation failed");
-        }
+
+        return BadRequest("Email confirmation failed");
     }
     
 
