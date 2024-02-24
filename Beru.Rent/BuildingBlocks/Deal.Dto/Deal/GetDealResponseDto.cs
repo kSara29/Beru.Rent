@@ -16,4 +16,5 @@ public class GetDealResponseDto
     [property: JsonPropertyName("ownerId")]  public string OwnerId { get; set; }
     [property: JsonPropertyName("ownerName")]  public string? OwnerName { get; set; }
     [property: JsonPropertyName("tenantName")]  public string? TenantName { get; set; }
+    [property: JsonPropertyName("dealState")]  public string? DealState { get; set; }
 }
