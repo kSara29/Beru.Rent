@@ -181,7 +181,7 @@ public class AdRepository : IAdRepository
       
       #region Поисковик
 
-      if (!string.IsNullOrWhiteSpace(finder))
+      if (finder != "all")
       {
          query = query.Where(o => o.Title.ToLower().Contains(finder.Trim().ToLower()) || 
                                   o.Description.ToLower().Contains(finder.Trim().ToLower()));
