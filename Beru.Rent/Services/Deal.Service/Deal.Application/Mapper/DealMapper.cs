@@ -19,7 +19,8 @@ public static class DealMapper
             ChatId = deal.ChatId,
             OwnerId = deal.OwnerId,
             OwnerName = "NoOwnerName",
-            TenantName = "NoTenantName"
+            TenantName = "NoTenantName",
+            DealState = deal.DealState.ToString()
         };
     }
 
