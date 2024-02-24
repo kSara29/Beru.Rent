@@ -72,7 +72,7 @@ public class AccountController(
                     Url.Action("ConfirmEmail", "Account",
                         new { userId = result.Id, token }, Request.Scheme);
                 await emailSender.SendEmailAsync
-                (result.Email!, 
+                (result.Email!,
                     "Подтверждение адреса электронной почты", 
                     $"Подтвердите свой адрес электронной почты, перейдя по ссылке: " +
                     $"<a href='{confirmLink}'>confirm email</a>");
