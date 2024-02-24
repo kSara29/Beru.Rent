@@ -70,7 +70,7 @@ public class AccountController(
                 var token = await userManager.GenerateEmailConfirmationTokenAsync(result);
                 var confirmLink = 
                     Url.Action("ConfirmEmail", "Account",
-                        new { userId = result.Id, token, model.ReturnUrl }, Request.Scheme);
+                        new { userId = result.Id, token }, Request.Scheme);
                 await emailSender.SendEmailAsync
                 (result.Email!, 
                     "Подтверждение адреса электронной почты", 
@@ -85,7 +85,7 @@ public class AccountController(
     }
 
     [HttpGet("confirm-email")]
-    public async Task<IActionResult> ConfirmEmail(string userId, string token, string returnUrl)
+    public async Task<IActionResult> ConfirmEmail(string userId, string token)
     {
         if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
         {
@@ -101,7 +101,7 @@ public class AccountController(
         var result = await userManager.ConfirmEmailAsync(user, token);
         if (result.Succeeded)
         {
-            return RedirectToAction("Login", new { returnUrl });
+            return Redirect("https://localhost:3000");
         }
 
         return BadRequest("Email confirmation failed");
