@@ -77,10 +77,15 @@ public class AccountController(
                     $"Подтвердите свой адрес электронной почты, перейдя по ссылке: " +
                     $"<a href='{confirmLink}'>confirm email</a>");
 
-                return Ok("Check your email for confirmation link");
+                return RedirectToAction("Submit");
             }
         }
+        return View();
+    }
 
+    [HttpGet]
+    public async Task<IActionResult> Submit()
+    {
         return View();
     }
 

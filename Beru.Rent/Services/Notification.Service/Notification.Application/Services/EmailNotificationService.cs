@@ -19,7 +19,7 @@ public class EmailNotificationService(
         try
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("Администрация сайта", _options.From));
+            emailMessage.From.Add(new MailboxAddress("Администрация сайта Beru.rent", _options.From));
             emailMessage.To.Add(new MailboxAddress("", messageRequest.Email));
             emailMessage.Subject = messageRequest.Subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
