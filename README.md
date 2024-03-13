@@ -1,0 +1,1 @@
+для запуска контейнеров нужно запустить docker desktop, открыть терминал в окружении где находятся файлы docker-compose.yml и override и ввести команду  docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
